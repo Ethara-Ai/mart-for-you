@@ -61,7 +61,7 @@ function Toast({ toast, onClose }) {
       className="p-4 mb-3 rounded-lg shadow-lg flex items-center"
       style={{
         backgroundColor: getBgColor(),
-        color: '#FFFFFF'
+        color: '#FFFFFF',
       }}
     >
       <div className="mr-3">

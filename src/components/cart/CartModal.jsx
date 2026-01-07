@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiShoppingCart, FiX, FiCheck } from "react-icons/fi";
-import { useTheme } from "../../context/ThemeContext";
-import { useCart } from "../../context/CartContext";
-import CartItem from "./CartItem";
-import ShippingOptions from "./ShippingOptions";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiShoppingCart, FiX, FiCheck } from 'react-icons/fi';
+import { useTheme } from '../../context/ThemeContext';
+import { useCart } from '../../context/CartContext';
+import CartItem from './CartItem';
+import ShippingOptions from './ShippingOptions';
 
 /**
  * CartModal - Shopping cart modal/slide-over component
@@ -29,24 +29,25 @@ function CartModal({ isOpen, onClose }) {
     getTotal,
     handleCheckout,
     orderPlaced,
+    orderNumber,
   } = useCart();
 
   // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       // Save current scroll position and lock body
-      const scrollY = window.scrollY;
-      document.body.style.position = "fixed";
+      const { scrollY } = window;
+      document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = "100%";
-      document.body.style.overflow = "hidden";
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
 
       return () => {
         // Restore scroll position when modal closes
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.width = "";
-        document.body.style.overflow = "";
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
         window.scrollTo(0, scrollY);
       };
     }
@@ -55,13 +56,13 @@ function CartModal({ isOpen, onClose }) {
   // Handle escape key to close modal
   useEffect(() => {
     const handleEscKey = (e) => {
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
 
-    document.addEventListener("keydown", handleEscKey);
-    return () => document.removeEventListener("keydown", handleEscKey);
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
   }, [isOpen, onClose]);
 
   // Handle checkout button click
@@ -83,16 +84,10 @@ function CartModal({ isOpen, onClose }) {
 
   // Styles
   const textColor = darkMode ? COLORS.dark.text : COLORS.light.text;
-  const subtextColor = darkMode
-    ? "rgba(224, 224, 224, 0.7)"
-    : "rgba(51, 51, 51, 0.7)";
-  const borderColor = darkMode
-    ? "rgba(255, 255, 255, 0.1)"
-    : "rgba(0, 0, 0, 0.1)";
+  const subtextColor = darkMode ? 'rgba(224, 224, 224, 0.7)' : 'rgba(51, 51, 51, 0.7)';
+  const borderColor = darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
   const primaryColor = darkMode ? COLORS.dark.primary : COLORS.light.primary;
-  const bgColor = darkMode
-    ? COLORS.dark.modalBackground
-    : COLORS.light.modalBackground;
+  const bgColor = darkMode ? COLORS.dark.modalBackground : COLORS.light.modalBackground;
 
   return (
     <AnimatePresence>
@@ -103,7 +98,7 @@ function CartModal({ isOpen, onClose }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 backdrop-blur-sm bg-black/40 z-[100]"
+            className="fixed inset-0 backdrop-blur-xs bg-black/40 z-100"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -113,7 +108,7 @@ function CartModal({ isOpen, onClose }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[101] flex items-center justify-center p-4"
+            className="fixed inset-0 z-101 flex items-center justify-center p-4"
             onClick={handleBackdropClick}
           >
             {/* Cart Modal - Stop propagation to prevent closing when clicking inside */}
@@ -125,17 +120,15 @@ function CartModal({ isOpen, onClose }) {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="w-full max-w-2xl max-h-[85vh] shadow-xl overflow-y-auto rounded-lg"
               style={{
                 background: bgColor,
-                color: darkMode
-                  ? COLORS.dark.modalText
-                  : COLORS.light.modalText,
+                color: darkMode ? COLORS.dark.modalText : COLORS.light.modalText,
                 boxShadow: darkMode
-                  ? "0 25px 50px -12px rgba(0, 0, 0, 0.5)"
-                  : "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                scrollbarWidth: "thin",
+                  ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+                  : '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                scrollbarWidth: 'thin',
                 scrollbarColor: darkMode
                   ? `${COLORS.dark.scrollbarThumb} ${COLORS.dark.scrollbarTrack}`
                   : `${COLORS.light.scrollbarThumb} ${COLORS.light.scrollbarTrack}`,
@@ -151,16 +144,13 @@ function CartModal({ isOpen, onClose }) {
                     style={{
                       color: textColor,
                       fontFamily: "'Metropolis', sans-serif",
-                      letterSpacing: "-0.3px",
+                      letterSpacing: '-0.3px',
                     }}
                   >
                     Your Cart
                     {totalItems > 0 && (
-                      <span
-                        className="ml-2 text-sm font-normal"
-                        style={{ color: subtextColor }}
-                      >
-                        ({totalItems} {totalItems === 1 ? "item" : "items"})
+                      <span className="ml-2 text-sm font-normal" style={{ color: subtextColor }}>
+                        ({totalItems} {totalItems === 1 ? 'item' : 'items'})
                       </span>
                     )}
                   </h2>
@@ -186,19 +176,13 @@ function CartModal({ isOpen, onClose }) {
                       className="mx-auto h-24 w-24 flex items-center justify-center rounded-full mb-6"
                       style={{
                         backgroundColor: darkMode
-                          ? "rgba(120, 145, 120, 0.2)"
-                          : "rgba(8, 73, 16, 0.1)",
+                          ? 'rgba(120, 145, 120, 0.2)'
+                          : 'rgba(8, 73, 16, 0.1)',
                       }}
                     >
-                      <FiCheck
-                        className="h-12 w-12"
-                        style={{ color: primaryColor }}
-                      />
+                      <FiCheck className="h-12 w-12" style={{ color: primaryColor }} />
                     </div>
-                    <h3
-                      className="text-xl font-bold mb-2"
-                      style={{ color: textColor }}
-                    >
+                    <h3 className="text-xl font-bold mb-2" style={{ color: textColor }}>
                       Order Placed!
                     </h3>
                     <p className="mb-6" style={{ color: primaryColor }}>
@@ -209,7 +193,7 @@ function CartModal({ isOpen, onClose }) {
                         Order confirmation has been sent to your email.
                       </p>
                       <p className="text-sm" style={{ color: subtextColor }}>
-                        Order #: {Math.floor(Math.random() * 10000000)}
+                        Order #: {orderNumber}
                       </p>
                     </div>
                   </motion.div>
@@ -219,9 +203,7 @@ function CartModal({ isOpen, onClose }) {
                     <FiShoppingCart
                       className="mx-auto h-12 w-12"
                       style={{
-                        color: darkMode
-                          ? "rgba(255, 255, 255, 0.2)"
-                          : "rgba(0, 0, 0, 0.2)",
+                        color: darkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
                       }}
                     />
                     <p className="mt-4" style={{ color: subtextColor }}>
@@ -230,24 +212,22 @@ function CartModal({ isOpen, onClose }) {
                     <button
                       onClick={() => {
                         onClose();
-                        navigate("/home");
+                        navigate('/home');
                         // Scroll to hero section after navigation
                         setTimeout(() => {
-                          const heroSection = document.getElementById("hero-section");
+                          const heroSection = document.getElementById('hero-section');
                           if (heroSection) {
-                            heroSection.scrollIntoView({ behavior: "smooth" });
+                            heroSection.scrollIntoView({ behavior: 'smooth' });
                           } else {
-                            window.scrollTo({ top: 0, behavior: "smooth" });
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                           }
                         }, 100);
                       }}
                       className="mt-6 px-4 py-2 font-medium rounded-md transition-all cursor-pointer transform hover:scale-105 active:scale-95"
                       style={{
                         backgroundColor: primaryColor,
-                        color: darkMode
-                          ? COLORS.dark.modalBackground
-                          : COLORS.light.background,
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                       }}
                     >
                       Continue Shopping
@@ -275,18 +255,14 @@ function CartModal({ isOpen, onClose }) {
                         {/* Subtotal */}
                         <div className="flex justify-between text-sm">
                           <p style={{ color: textColor }}>Subtotal</p>
-                          <p style={{ color: textColor }}>
-                            ${cartTotal.toFixed(2)}
-                          </p>
+                          <p style={{ color: textColor }}>${cartTotal.toFixed(2)}</p>
                         </div>
 
                         {/* Shipping */}
                         <div className="flex justify-between text-sm">
                           <p style={{ color: textColor }}>Shipping</p>
                           <p style={{ color: textColor }}>
-                            {getShippingCost() === 0
-                              ? "Free"
-                              : `$${getShippingCost().toFixed(2)}`}
+                            {getShippingCost() === 0 ? 'Free' : `$${getShippingCost().toFixed(2)}`}
                           </p>
                         </div>
 
@@ -295,14 +271,12 @@ function CartModal({ isOpen, onClose }) {
                           className="flex justify-between text-base font-medium pt-2 border-t"
                           style={{
                             borderColor: darkMode
-                              ? "rgba(255, 255, 255, 0.2)"
-                              : "rgba(0, 0, 0, 0.1)",
+                              ? 'rgba(255, 255, 255, 0.2)'
+                              : 'rgba(0, 0, 0, 0.1)',
                           }}
                         >
                           <p style={{ color: textColor }}>Total</p>
-                          <p style={{ color: textColor }}>
-                            ${getTotal().toFixed(2)}
-                          </p>
+                          <p style={{ color: textColor }}>${getTotal().toFixed(2)}</p>
                         </div>
                       </div>
 
@@ -312,10 +286,8 @@ function CartModal({ isOpen, onClose }) {
                         className="w-full py-3 px-4 font-medium rounded-md transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98]"
                         style={{
                           backgroundColor: primaryColor,
-                          color: darkMode
-                            ? COLORS.dark.modalBackground
-                            : COLORS.light.background,
-                          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.15)",
+                          color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
                         }}
                       >
                         Checkout
@@ -326,14 +298,14 @@ function CartModal({ isOpen, onClose }) {
                         <button
                           onClick={() => {
                             onClose();
-                            navigate("/home");
+                            navigate('/home');
                             // Scroll to hero section after navigation
                             setTimeout(() => {
-                              const heroSection = document.getElementById("hero-section");
+                              const heroSection = document.getElementById('hero-section');
                               if (heroSection) {
-                                heroSection.scrollIntoView({ behavior: "smooth" });
+                                heroSection.scrollIntoView({ behavior: 'smooth' });
                               } else {
-                                window.scrollTo({ top: 0, behavior: "smooth" });
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
                               }
                             }, 100);
                           }}

@@ -97,7 +97,7 @@ function SearchBar({
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        className={`${inputWidth} ${inputPadding} rounded-full text-sm transition-all duration-200 outline-none border-2`}
+        className={`${inputWidth} ${inputPadding} rounded-full text-sm transition-all duration-200 outline-hidden border-2`}
         style={inputStyles}
         aria-label="Search"
       />

@@ -43,61 +43,47 @@ function ProductGrid({
             key={index}
             className="animate-pulse rounded-lg overflow-hidden"
             style={{
-              backgroundColor: darkMode
-                ? COLORS.dark.secondary
-                : COLORS.light.background,
+              backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.background,
             }}
           >
             {/* Image skeleton */}
             <div
               className="h-64 w-full"
               style={{
-                backgroundColor: darkMode
-                  ? 'rgba(255, 255, 255, 0.1)'
-                  : 'rgba(0, 0, 0, 0.1)',
+                backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
               }}
             />
             {/* Content skeleton */}
             <div className="p-4 space-y-3">
               <div
-                className="h-4 w-16 rounded"
+                className="h-4 w-16 rounded-sm"
                 style={{
-                  backgroundColor: darkMode
-                    ? 'rgba(255, 255, 255, 0.1)'
-                    : 'rgba(0, 0, 0, 0.1)',
+                  backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                 }}
               />
               <div
-                className="h-5 w-3/4 rounded"
+                className="h-5 w-3/4 rounded-sm"
                 style={{
-                  backgroundColor: darkMode
-                    ? 'rgba(255, 255, 255, 0.1)'
-                    : 'rgba(0, 0, 0, 0.1)',
+                  backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                 }}
               />
               <div
-                className="h-4 w-full rounded"
+                className="h-4 w-full rounded-sm"
                 style={{
-                  backgroundColor: darkMode
-                    ? 'rgba(255, 255, 255, 0.1)'
-                    : 'rgba(0, 0, 0, 0.1)',
+                  backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                 }}
               />
               <div className="flex justify-between items-center pt-2">
                 <div
-                  className="h-6 w-16 rounded"
+                  className="h-6 w-16 rounded-sm"
                   style={{
-                    backgroundColor: darkMode
-                      ? 'rgba(255, 255, 255, 0.1)'
-                      : 'rgba(0, 0, 0, 0.1)',
+                    backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                   }}
                 />
                 <div
                   className="h-9 w-24 rounded-md"
                   style={{
-                    backgroundColor: darkMode
-                      ? 'rgba(255, 255, 255, 0.1)'
-                      : 'rgba(0, 0, 0, 0.1)',
+                    backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                   }}
                 />
               </div>
@@ -115,9 +101,7 @@ function ProductGrid({
         <div
           className="mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-6"
           style={{
-            backgroundColor: darkMode
-              ? 'rgba(255, 255, 255, 0.05)'
-              : 'rgba(0, 0, 0, 0.05)',
+            backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
           }}
         >
           <svg
@@ -127,9 +111,7 @@ function ProductGrid({
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
             style={{
-              color: darkMode
-                ? 'rgba(255, 255, 255, 0.3)'
-                : 'rgba(0, 0, 0, 0.3)',
+              color: darkMode ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
             }}
           >
             <path
@@ -154,7 +136,7 @@ function ProductGrid({
             color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
           }}
         >
-          Try adjusting your search or filters to find what you're looking for.
+          Try adjusting your search or filters to find what you&apos;re looking for.
         </p>
       </div>
     );
@@ -165,11 +147,7 @@ function ProductGrid({
     <div className={`grid ${getGridColumns()} gap-8 ${className}`}>
       <AnimatePresence mode="popLayout">
         {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onAddToCart={onAddToCart}
-          />
+          <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
         ))}
       </AnimatePresence>
     </div>

@@ -26,25 +26,26 @@ function ProductsPage() {
   const [viewingOffers, setViewingOffers] = useState(false);
 
   // Filter products based on category, search, and offers
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      // Category filter
-      const categoryMatch =
-        activeCategory === 'all' || product.category === activeCategory;
+  const filteredProducts = useMemo(
+    () =>
+      products.filter((product) => {
+        // Category filter
+        const categoryMatch = activeCategory === 'all' || product.category === activeCategory;
 
-      // Offers filter
-      const offersMatch = !viewingOffers || product.onSale === true;
+        // Offers filter
+        const offersMatch = !viewingOffers || product.onSale === true;
 
-      // Search filter
-      const searchMatch =
-        !searchTerm ||
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase());
+        // Search filter
+        const searchMatch =
+          !searchTerm ||
+          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.category.toLowerCase().includes(searchTerm.toLowerCase());
 
-      return categoryMatch && searchMatch && offersMatch;
-    });
-  }, [activeCategory, searchTerm, viewingOffers]);
+        return categoryMatch && searchMatch && offersMatch;
+      }),
+    [activeCategory, searchTerm, viewingOffers],
+  );
 
   // Handle category change
   const handleCategoryChange = (category) => {
@@ -128,9 +129,7 @@ function ProductsPage() {
         id="products-section"
         className="grow py-12 min-h-screen"
         style={{
-          background: darkMode
-            ? COLORS.dark.backgroundGradient
-            : COLORS.light.backgroundGradient,
+          background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -164,13 +163,11 @@ function ProductsPage() {
             <p
               className="mt-2 text-sm"
               style={{
-                color: darkMode
-                  ? 'rgba(255, 255, 255, 0.6)'
-                  : 'rgba(0, 0, 0, 0.6)',
+                color: darkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
               }}
             >
-              {filteredProducts.length}{' '}
-              {filteredProducts.length === 1 ? 'product' : 'products'} found
+              {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}{' '}
+              found
             </p>
           </motion.div>
 
@@ -182,14 +179,8 @@ function ProductsPage() {
               className="mb-8 p-4 rounded-lg"
               style={{
                 background: `linear-gradient(to right, ${
-                  darkMode
-                    ? 'rgba(96, 165, 250, 0.2)'
-                    : 'rgba(59, 130, 246, 0.1)'
-                }, ${
-                  darkMode
-                    ? 'rgba(239, 68, 68, 0.2)'
-                    : 'rgba(239, 68, 68, 0.1)'
-                })`,
+                  darkMode ? 'rgba(96, 165, 250, 0.2)' : 'rgba(59, 130, 246, 0.1)'
+                }, ${darkMode ? 'rgba(239, 68, 68, 0.2)' : 'rgba(239, 68, 68, 0.1)'})`,
                 borderLeft: '4px solid rgba(239, 68, 68, 0.8)',
               }}
             >
@@ -222,12 +213,10 @@ function ProductsPage() {
                     <p
                       className="text-sm"
                       style={{
-                        color: darkMode
-                          ? 'rgba(224, 224, 224, 0.8)'
-                          : 'rgba(51, 51, 51, 0.8)',
+                        color: darkMode ? 'rgba(224, 224, 224, 0.8)' : 'rgba(51, 51, 51, 0.8)',
                       }}
                     >
-                      These deals won't last long! Up to 40% off selected items.
+                      These deals won&apos;t last long! Up to 40% off selected items.
                     </p>
                   </div>
                 </div>
@@ -251,7 +240,7 @@ function ProductsPage() {
                     color: darkMode ? COLORS.dark.text : COLORS.light.text,
                   }}
                 >
-                  "{searchTerm}"
+                  &quot;{searchTerm}&quot;
                 </span>
               </p>
               {filteredProducts.length === 0 && (
@@ -275,8 +264,8 @@ function ProductsPage() {
               searchTerm
                 ? 'No products found matching your search'
                 : viewingOffers
-                ? 'No offers available at the moment'
-                : 'No products available in this category'
+                  ? 'No offers available at the moment'
+                  : 'No products available in this category'
             }
           />
         </div>

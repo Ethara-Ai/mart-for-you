@@ -1,4 +1,4 @@
-# 🛒 Mart - For You
+# Mart - For You
 
 A modern, full-featured e-commerce web application built with React and Tailwind CSS. MART provides a seamless shopping experience with product browsing, filtering, cart management, and user profile features.
 
@@ -7,16 +7,32 @@ A modern, full-featured e-commerce web application built with React and Tailwind
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.17-38B2AC?style=flat-square&logo=tailwind-css)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-## ✨ Features
+## Table of Contents
 
-### 🛍️ Product Management
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Available Scripts](#available-scripts)
+- [Project Structure](#project-structure)
+- [Components Reference](#components-reference)
+- [Context Providers](#context-providers)
+- [Pages](#pages)
+- [Tech Stack](#tech-stack)
+- [Theming](#theming)
+- [Routes](#routes)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+### Product Management
 - Browse 32+ products across 8 categories
 - Advanced search functionality
 - Category-based filtering
 - Special offers and discounts section
 - Responsive product grid with animations
 
-### 🛒 Shopping Cart
+### Shopping Cart
 - Add/remove items with quantity controls
 - Real-time cart total calculation
 - Multiple shipping options (Free, Standard, Express)
@@ -24,13 +40,13 @@ A modern, full-featured e-commerce web application built with React and Tailwind
 - Persistent cart state
 - Quick cart modal and dedicated cart page
 
-### 👤 User Profile
+### User Profile
 - View and edit personal information
 - Comprehensive form validation
 - Profile dropdown with quick actions
 - Address management
 
-### 🎨 UI/UX
+### User Interface
 - Dark/Light mode with system preference detection
 - Smooth animations powered by Framer Motion
 - Toast notifications for user feedback
@@ -39,7 +55,7 @@ A modern, full-featured e-commerce web application built with React and Tailwind
 - Video hero backgrounds
 - Sticky navigation bar
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -68,7 +84,7 @@ A modern, full-featured e-commerce web application built with React and Tailwind
    
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 📦 Available Scripts
+## Available Scripts
 
 | Command | Description |
 |---------|-------------|
@@ -80,7 +96,194 @@ A modern, full-featured e-commerce web application built with React and Tailwind
 | `npm run format` | Format code with Prettier |
 | `npm run format:check` | Check code formatting |
 
-## 🌐 Deployment
+## Project Structure
+
+```
+react-app/
+├── public/                 # Static assets
+│   ├── robots.txt         # SEO crawler rules
+│   ├── sitemap.xml        # XML sitemap
+│   └── vite.svg           # Favicon
+├── src/
+│   ├── components/        # Reusable UI components
+│   │   ├── cart/         # Cart-related components
+│   │   ├── common/       # Shared components
+│   │   ├── home/         # Homepage components
+│   │   ├── layout/       # Layout components
+│   │   ├── product/      # Product components
+│   │   └── profile/      # Profile components
+│   ├── context/          # React Context providers
+│   ├── data/             # Static data (products, colors)
+│   ├── hooks/            # Custom React hooks
+│   ├── pages/            # Page components
+│   ├── App.jsx           # Main application component
+│   ├── main.jsx          # Application entry point
+│   └── index.css         # Global styles
+├── .gitignore            # Git ignore rules
+├── .prettierrc           # Prettier configuration
+├── eslint.config.js      # ESLint configuration
+├── index.html            # HTML template
+├── package.json          # Project dependencies
+├── postcss.config.js     # PostCSS configuration
+├── tailwind.config.js    # Tailwind CSS configuration
+├── vite.config.js        # Vite configuration
+├── CHANGELOG.md          # Version history
+├── CONTRIBUTING.md       # Contribution guidelines
+├── LICENSE               # MIT License
+└── README.md             # Project documentation
+```
+
+## Components Reference
+
+### Cart Components
+
+Located in `src/components/cart/`
+
+| Component | File | Description |
+|-----------|------|-------------|
+| `CartItem` | `CartItem.jsx` | Renders individual cart items with quantity controls, price display, and remove functionality. Supports increment/decrement actions. |
+| `CartModal` | `CartModal.jsx` | A modal overlay displaying a quick view of the shopping cart. Allows users to review items without navigating away from the current page. |
+| `ShippingOptions` | `ShippingOptions.jsx` | Displays available shipping methods (Free, Standard, Express) with associated costs and delivery timeframes. |
+
+### Common Components
+
+Located in `src/components/common/`
+
+| Component | File | Description |
+|-----------|------|-------------|
+| `ErrorBoundary` | `ErrorBoundary.jsx` | React error boundary component that catches JavaScript errors in child components and displays a fallback UI. |
+| `Loading` | `Loading.jsx` | A loading spinner/indicator component displayed during asynchronous operations or data fetching. |
+| `SearchBar` | `SearchBar.jsx` | A reusable search input component with debounced input handling for filtering products. |
+| `Toast` | `Toast.jsx` | Individual toast notification component supporting success, error, warning, and info variants. |
+| `ToastContainer` | `ToastContainer.jsx` | Container component that manages the positioning and stacking of multiple toast notifications. |
+
+### Home Components
+
+Located in `src/components/home/`
+
+| Component | File | Description |
+|-----------|------|-------------|
+| `Hero` | `Hero.jsx` | Hero section component featuring video backgrounds, animated text, and call-to-action buttons for the homepage. |
+
+### Layout Components
+
+Located in `src/components/layout/`
+
+| Component | File | Description |
+|-----------|------|-------------|
+| `Header` | `Header.jsx` | Main application header containing the logo, navigation, search bar, cart icon, and user profile dropdown. |
+| `Footer` | `Footer.jsx` | Application footer with links, contact information, and copyright notice. |
+| `Logo` | `Logo.jsx` | Brand logo component used throughout the application with consistent styling. |
+| `Navigation` | `Navigation.jsx` | Main navigation component with responsive menu items and mobile hamburger menu support. |
+
+### Product Components
+
+Located in `src/components/product/`
+
+| Component | File | Description |
+|-----------|------|-------------|
+| `ProductCard` | `ProductCard.jsx` | Card component displaying product information including image, name, price, discount badge, and add-to-cart button. |
+| `ProductGrid` | `ProductGrid.jsx` | Responsive grid layout component for displaying multiple ProductCard components with animation effects. |
+
+### Profile Components
+
+Located in `src/components/profile/`
+
+| Component | File | Description |
+|-----------|------|-------------|
+| `ProfileForm` | `ProfileForm.jsx` | Form component for viewing and editing user profile information with validation and error handling. |
+
+## Context Providers
+
+Located in `src/context/`
+
+| Context | File | Description |
+|---------|------|-------------|
+| `AppProvider` | `AppProvider.jsx` | Root provider component that wraps all other context providers for centralized state management. |
+| `CartContext` | `CartContext.jsx` | Manages shopping cart state including items, quantities, totals, and cart operations (add, remove, update). |
+| `ProfileContext` | `ProfileContext.jsx` | Handles user profile data and provides methods for updating user information. |
+| `ThemeContext` | `ThemeContext.jsx` | Controls theme switching between light and dark modes with system preference detection. |
+| `ToastContext` | `ToastContext.jsx` | Manages toast notification state and provides methods for showing/dismissing notifications. |
+
+## Pages
+
+Located in `src/pages/`
+
+| Page | File | Description |
+|------|------|-------------|
+| `LandingPage` | `LandingPage.jsx` | Animated welcome page with branding and entry animation. |
+| `HomePage` | `HomePage.jsx` | Main homepage featuring the hero section, featured products, and category highlights. |
+| `ProductsPage` | `ProductsPage.jsx` | Full product catalog with search, category filtering, and sorting capabilities. |
+| `OffersPage` | `OffersPage.jsx` | Dedicated page displaying products currently on sale or with special discounts. |
+| `CartPage` | `CartPage.jsx` | Complete shopping cart view with item management, shipping selection, and order summary. |
+| `ProfilePage` | `ProfilePage.jsx` | User profile management page with editable personal information. |
+| `NotFoundPage` | `NotFoundPage.jsx` | 404 error page displayed when users navigate to non-existent routes. |
+
+## Tech Stack
+
+### Core
+- **[React 18](https://react.dev/)** - UI library with hooks and concurrent features
+- **[Vite](https://vitejs.dev/)** - Next-generation frontend build tool
+- **[React Router DOM](https://reactrouter.com/)** - Client-side routing
+
+### Styling
+- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[PostCSS](https://postcss.org/)** - CSS transformations
+- **[Autoprefixer](https://autoprefixer.github.io/)** - Automatic vendor prefixes
+
+### Animations and Icons
+- **[Framer Motion](https://www.framer.com/motion/)** - Production-ready animations
+- **[React Icons](https://react-icons.github.io/react-icons/)** - Popular icon packs
+- **[Lucide React](https://lucide.dev/)** - Beautiful consistent icons
+
+## Theming
+
+The application supports both light and dark modes with a carefully crafted color palette:
+
+### Light Mode
+
+| Element | Color |
+|---------|-------|
+| Primary | `#2563EB` (Blue) |
+| Secondary | `#DBEAFE` (Light Blue) |
+| Background | `#FFFFFF` (White) |
+| Text | `#333333` (Dark Gray) |
+
+### Dark Mode
+
+| Element | Color |
+|---------|-------|
+| Primary | `#60A5FA` (Light Blue) |
+| Secondary | `#1E293B` (Dark Slate) |
+| Background | `#121213` (Near Black) |
+| Text | `#E0E0E0` (Light Gray) |
+
+## Routes
+
+| Route | Page | Description |
+|-------|------|-------------|
+| `/` | Landing | Animated welcome page with branding |
+| `/home` | Home | Hero section with featured products |
+| `/products` | Products | Full product catalog with filters |
+| `/offers` | Offers | Products on sale |
+| `/cart` | Cart | Shopping cart and checkout |
+| `/profile` | Profile | User profile management |
+| `/*` | 404 | Not found page |
+
+## Product Categories
+
+The application includes products across the following categories:
+
+- Electronics
+- Fashion
+- Home
+- Beauty
+- Sports
+- Food
+- Books
+- Toys
+
+## Deployment
 
 ### Deploy to GitHub Pages
 
@@ -113,126 +316,16 @@ A modern, full-featured e-commerce web application built with React and Tailwind
    ```
 
 5. **Enable GitHub Pages** in your repository:
-   - Go to Settings → Pages
+   - Go to Settings > Pages
    - Source: Deploy from a branch
    - Branch: `gh-pages` / `root`
    - Save
 
 Your app will be live at `https://yourusername.github.io/your-repo-name/`
 
-### Deploy to Vercel
+## Contributing
 
-1. Push your code to GitHub
-2. Import your repository on [Vercel](https://vercel.com)
-3. Vercel will auto-detect Vite and deploy
-
-### Deploy to Netlify
-
-1. Push your code to GitHub
-2. Import your repository on [Netlify](https://netlify.com)
-3. Build command: `npm run build`
-4. Publish directory: `dist`
-
-## 🏗️ Project Structure
-
-```
-react-app/
-├── public/                 # Static assets
-│   ├── robots.txt         # SEO crawler rules
-│   ├── sitemap.xml        # XML sitemap
-│   └── vite.svg           # Favicon
-├── src/
-│   ├── components/        # Reusable UI components
-│   │   ├── cart/         # Cart-related components
-│   │   ├── common/       # Shared components (ErrorBoundary, Loading, etc.)
-│   │   ├── home/         # Homepage components
-│   │   ├── layout/       # Layout components (Header, Footer, etc.)
-│   │   ├── product/      # Product components
-│   │   └── profile/      # Profile components
-│   ├── context/          # React Context providers
-│   ├── data/             # Static data (products, colors)
-│   ├── hooks/            # Custom React hooks
-│   ├── pages/            # Page components
-│   ├── App.jsx           # Main application component
-│   ├── main.jsx          # Application entry point
-│   └── index.css         # Global styles
-├── .gitignore            # Git ignore rules
-├── .prettierrc           # Prettier configuration
-├── eslint.config.js      # ESLint configuration
-├── index.html            # HTML template
-├── package.json          # Project dependencies
-├── postcss.config.js     # PostCSS configuration
-├── tailwind.config.js    # Tailwind CSS configuration
-├── vite.config.js        # Vite configuration
-├── CHANGELOG.md          # Version history
-├── CONTRIBUTING.md       # Contribution guidelines
-├── LICENSE               # MIT License
-└── README.md             # Project documentation
-```
-
-## 🛠️ Tech Stack
-
-### Core
-- **[React 18](https://react.dev/)** - UI library with hooks and concurrent features
-- **[Vite](https://vitejs.dev/)** - Next-generation frontend build tool
-- **[React Router DOM](https://reactrouter.com/)** - Client-side routing
-
-### Styling
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[PostCSS](https://postcss.org/)** - CSS transformations
-- **[Autoprefixer](https://autoprefixer.github.io/)** - Automatic vendor prefixes
-
-### Animations & Icons
-- **[Framer Motion](https://www.framer.com/motion/)** - Production-ready animations
-- **[React Icons](https://react-icons.github.io/react-icons/)** - Popular icon packs
-- **[Lucide React](https://lucide.dev/)** - Beautiful consistent icons
-
-## 🎨 Theming
-
-The application supports both light and dark modes with a carefully crafted color palette:
-
-### Light Mode
-| Element | Color |
-|---------|-------|
-| Primary | `#2563EB` (Blue) |
-| Secondary | `#DBEAFE` (Light Blue) |
-| Background | `#FFFFFF` (White) |
-| Text | `#333333` (Dark Gray) |
-
-### Dark Mode
-| Element | Color |
-|---------|-------|
-| Primary | `#60A5FA` (Light Blue) |
-| Secondary | `#1E293B` (Dark Slate) |
-| Background | `#121213` (Near Black) |
-| Text | `#E0E0E0` (Light Gray) |
-
-## 📱 Pages & Routes
-
-| Route | Page | Description |
-|-------|------|-------------|
-| `/` | Landing | Animated welcome page with branding |
-| `/home` | Home | Hero section with featured products |
-| `/products` | Products | Full product catalog with filters |
-| `/offers` | Offers | Products on sale |
-| `/cart` | Cart | Shopping cart and checkout |
-| `/profile` | Profile | User profile management |
-| `/*` | 404 | Not found page |
-
-## 📝 Product Categories
-
-- 🔌 Electronics
-- 👗 Fashion
-- 🏠 Home
-- 💄 Beauty
-- ⚽ Sports
-- 🍕 Food
-- 📚 Books
-- 🧸 Toys
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
+Contributions are welcome. Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -240,17 +333,17 @@ Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTIN
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Product images from [Unsplash](https://unsplash.com/)
 - Video backgrounds from [Pexels](https://www.pexels.com/)
 - Icons from [React Icons](https://react-icons.github.io/react-icons/) and [Lucide](https://lucide.dev/)
 
-## 📞 Support
+## Support
 
 If you have any questions or need help, please:
 - Open an [issue](https://github.com/yourusername/mart-for-you/issues)
@@ -258,6 +351,4 @@ If you have any questions or need help, please:
 
 ---
 
-<p align="center">
-  Made with ❤️ by the Mart - For You Team
-</p>
+Developed by the Mart - For You Team

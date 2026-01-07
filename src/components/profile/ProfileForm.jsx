@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import { useProfile } from "../../context/ProfileContext";
+import { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
+import { useProfile } from '../../context/ProfileContext';
 
 /**
  * ProfileForm - User profile editing form component
@@ -16,7 +16,7 @@ import { useProfile } from "../../context/ProfileContext";
  * @param {boolean} props.compact - Whether to use compact layout
  * @param {string} props.className - Additional CSS classes
  */
-function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
+function ProfileForm({ onSave, onCancel, compact = false, className = '' }) {
   const { darkMode, COLORS } = useTheme();
   const { userProfile, updateField, saveProfile, cancelEditing } = useProfile();
 
@@ -40,56 +40,56 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
   // Validation rules
   const validators = {
     firstName: (value) => {
-      if (!value || value.trim() === "") {
-        return "First name is required";
+      if (!value || value.trim() === '') {
+        return 'First name is required';
       }
       if (value.trim().length < 2) {
-        return "First name must be at least 2 characters";
+        return 'First name must be at least 2 characters';
       }
       if (value.length > fieldLimits.firstName) {
         return `First name must be ${fieldLimits.firstName} characters or less`;
       }
       if (!/^[a-zA-Z\s'-]+$/.test(value)) {
-        return "First name can only contain letters, spaces, hyphens, and apostrophes";
+        return 'First name can only contain letters, spaces, hyphens, and apostrophes';
       }
-      return "";
+      return '';
     },
     lastName: (value) => {
-      if (!value || value.trim() === "") {
-        return "Last name is required";
+      if (!value || value.trim() === '') {
+        return 'Last name is required';
       }
       if (value.trim().length < 2) {
-        return "Last name must be at least 2 characters";
+        return 'Last name must be at least 2 characters';
       }
       if (value.length > fieldLimits.lastName) {
         return `Last name must be ${fieldLimits.lastName} characters or less`;
       }
       if (!/^[a-zA-Z\s'-]+$/.test(value)) {
-        return "Last name can only contain letters, spaces, hyphens, and apostrophes";
+        return 'Last name can only contain letters, spaces, hyphens, and apostrophes';
       }
-      return "";
+      return '';
     },
     email: (value) => {
-      if (!value || value.trim() === "") {
-        return "Email is required";
+      if (!value || value.trim() === '') {
+        return 'Email is required';
       }
       if (value.length > fieldLimits.email) {
         return `Email must be ${fieldLimits.email} characters or less`;
       }
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
-        return "Please enter a valid email address";
+        return 'Please enter a valid email address';
       }
-      return "";
+      return '';
     },
     address: (value) => {
       if (value && value.trim().length > 0 && value.trim().length < 5) {
-        return "Address must be at least 5 characters";
+        return 'Address must be at least 5 characters';
       }
       if (value && value.length > fieldLimits.address) {
         return `Address must be ${fieldLimits.address} characters or less`;
       }
-      return "";
+      return '';
     },
     city: (value) => {
       if (value && value.trim().length > 0) {
@@ -97,13 +97,13 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
           return `City must be ${fieldLimits.city} characters or less`;
         }
         if (!/^[a-zA-Z\s'-]+$/.test(value)) {
-          return "City can only contain letters";
+          return 'City can only contain letters';
         }
         if (value.trim().length < 2) {
-          return "City must be at least 2 characters";
+          return 'City must be at least 2 characters';
         }
       }
-      return "";
+      return '';
     },
     state: (value) => {
       if (value && value.trim().length > 0) {
@@ -111,13 +111,13 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
           return `State must be ${fieldLimits.state} characters or less`;
         }
         if (!/^[a-zA-Z\s'-]+$/.test(value)) {
-          return "State can only contain letters";
+          return 'State can only contain letters';
         }
         if (value.trim().length < 2) {
-          return "State must be at least 2 characters";
+          return 'State must be at least 2 characters';
         }
       }
-      return "";
+      return '';
     },
     zip: (value) => {
       if (value && value.trim().length > 0) {
@@ -127,10 +127,10 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
         // Supports numeric ZIP/PIN codes only
         const zipRegex = /^[0-9]{5,10}$/;
         if (!zipRegex.test(value)) {
-          return "ZIP code must be 5-10 digits";
+          return 'ZIP code must be 5-10 digits';
         }
       }
-      return "";
+      return '';
     },
     country: (value) => {
       if (value && value.trim().length > 0) {
@@ -138,25 +138,25 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
           return `Country must be ${fieldLimits.country} characters or less`;
         }
         if (!/^[a-zA-Z\s'-]+$/.test(value)) {
-          return "Country can only contain letters";
+          return 'Country can only contain letters';
         }
         if (value.trim().length < 2) {
-          return "Country must be at least 2 characters";
+          return 'Country must be at least 2 characters';
         }
       }
-      return "";
+      return '';
     },
     phone: (value) => {
       if (value && value.trim().length > 0) {
         // Only allow digits
         if (!/^\d+$/.test(value)) {
-          return "Phone number must contain only digits";
+          return 'Phone number must contain only digits';
         }
         if (value.length !== 10) {
-          return "Phone number must be exactly 10 digits";
+          return 'Phone number must be exactly 10 digits';
         }
       }
-      return "";
+      return '';
     },
   };
 
@@ -166,7 +166,7 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
     if (validator) {
       return validator(value);
     }
-    return "";
+    return '';
   };
 
   // Validate all fields
@@ -223,7 +223,7 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
 
   // Handle input change with validation
   const handleChange = (fieldName) => (e) => {
-    const value = e.target.value;
+    const {value} = e.target;
     updateField(fieldName, value);
 
     // Validate on change if field has been touched
@@ -257,19 +257,19 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
     : COLORS.light.background;
   const primaryColor = darkMode ? COLORS.dark.primary : COLORS.light.primary;
   const borderColor = darkMode
-    ? "rgba(255, 255, 255, 0.2)"
-    : "rgba(0, 0, 0, 0.2)";
-  const errorColor = "#ef4444";
+    ? 'rgba(255, 255, 255, 0.2)'
+    : 'rgba(0, 0, 0, 0.2)';
+  const errorColor = '#ef4444';
   const errorBgColor = darkMode
-    ? "rgba(239, 68, 68, 0.1)"
-    : "rgba(239, 68, 68, 0.05)";
+    ? 'rgba(239, 68, 68, 0.1)'
+    : 'rgba(239, 68, 68, 0.05)';
 
   // Input field configuration
   const getInputClassName = (fieldName) => {
     const hasError = touched[fieldName] && errors[fieldName];
-    return `mt-1 block w-full px-3 py-2 text-sm rounded-md border focus:ring-2 focus:outline-none shadow-sm transition-colors duration-200 ease-in-out ${
-      compact ? "px-2 py-1.5 text-xs" : "px-3 py-2 text-sm"
-    } ${hasError ? "border-red-500 focus:ring-red-500" : ""}`;
+    return `mt-1 block w-full px-3 py-2 text-sm rounded-md border focus:ring-2 focus:outline-hidden shadow-xs transition-colors duration-200 ease-in-out ${
+      compact ? 'px-2 py-1.5 text-xs' : 'px-3 py-2 text-sm'
+    } ${hasError ? 'border-red-500 focus:ring-red-500' : ''}`;
   };
 
   const getInputStyle = (fieldName) => {
@@ -281,9 +281,9 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
     };
   };
 
-  const labelClassName = `block font-medium ${compact ? "text-xs" : "text-sm"}`;
+  const labelClassName = `block font-medium ${compact ? 'text-xs' : 'text-sm'}`;
 
-  const errorClassName = `mt-1 text-xs ${compact ? "text-[10px]" : "text-xs"}`;
+  const errorClassName = `mt-1 text-xs ${compact ? 'text-[10px]' : 'text-xs'}`;
 
   // Render error message
   const renderError = (fieldName) => {
@@ -299,7 +299,7 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
 
   return (
     <form onSubmit={handleSubmit} className={className} noValidate>
-      <div className={`space-y-${compact ? "3" : "4"}`}>
+      <div className={`space-y-${compact ? '3' : '4'}`}>
         {/* Name Row */}
         <div className="grid grid-cols-2 gap-3">
           {/* First Name */}
@@ -316,19 +316,19 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
               name="firstName"
               id="firstName"
               value={userProfile.firstName}
-              onChange={handleChange("firstName")}
-              onBlur={handleBlur("firstName")}
+              onChange={handleChange('firstName')}
+              onBlur={handleBlur('firstName')}
               maxLength={fieldLimits.firstName}
-              className={getInputClassName("firstName")}
-              style={getInputStyle("firstName")}
+              className={getInputClassName('firstName')}
+              style={getInputStyle('firstName')}
               aria-invalid={
-                touched.firstName && errors.firstName ? "true" : "false"
+                touched.firstName && errors.firstName ? 'true' : 'false'
               }
               aria-describedby={
-                errors.firstName ? "firstName-error" : undefined
+                errors.firstName ? 'firstName-error' : undefined
               }
             />
-            {renderError("firstName")}
+            {renderError('firstName')}
           </div>
 
           {/* Last Name */}
@@ -345,17 +345,17 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
               name="lastName"
               id="lastName"
               value={userProfile.lastName}
-              onChange={handleChange("lastName")}
-              onBlur={handleBlur("lastName")}
+              onChange={handleChange('lastName')}
+              onBlur={handleBlur('lastName')}
               maxLength={fieldLimits.lastName}
-              className={getInputClassName("lastName")}
-              style={getInputStyle("lastName")}
+              className={getInputClassName('lastName')}
+              style={getInputStyle('lastName')}
               aria-invalid={
-                touched.lastName && errors.lastName ? "true" : "false"
+                touched.lastName && errors.lastName ? 'true' : 'false'
               }
-              aria-describedby={errors.lastName ? "lastName-error" : undefined}
+              aria-describedby={errors.lastName ? 'lastName-error' : undefined}
             />
-            {renderError("lastName")}
+            {renderError('lastName')}
           </div>
         </div>
 
@@ -373,15 +373,15 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
             name="email"
             id="email"
             value={userProfile.email}
-            onChange={handleChange("email")}
-            onBlur={handleBlur("email")}
+            onChange={handleChange('email')}
+            onBlur={handleBlur('email')}
             maxLength={fieldLimits.email}
-            className={getInputClassName("email")}
-            style={getInputStyle("email")}
-            aria-invalid={touched.email && errors.email ? "true" : "false"}
-            aria-describedby={errors.email ? "email-error" : undefined}
+            className={getInputClassName('email')}
+            style={getInputStyle('email')}
+            aria-invalid={touched.email && errors.email ? 'true' : 'false'}
+            aria-describedby={errors.email ? 'email-error' : undefined}
           />
-          {renderError("email")}
+          {renderError('email')}
         </div>
 
         {/* Address */}
@@ -398,15 +398,15 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
             name="address"
             id="address"
             value={userProfile.address}
-            onChange={handleChange("address")}
-            onBlur={handleBlur("address")}
+            onChange={handleChange('address')}
+            onBlur={handleBlur('address')}
             maxLength={fieldLimits.address}
-            className={getInputClassName("address")}
-            style={getInputStyle("address")}
-            aria-invalid={touched.address && errors.address ? "true" : "false"}
-            aria-describedby={errors.address ? "address-error" : undefined}
+            className={getInputClassName('address')}
+            style={getInputStyle('address')}
+            aria-invalid={touched.address && errors.address ? 'true' : 'false'}
+            aria-describedby={errors.address ? 'address-error' : undefined}
           />
-          {renderError("address")}
+          {renderError('address')}
         </div>
 
         {/* City and State Row */}
@@ -425,15 +425,15 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
               name="city"
               id="city"
               value={userProfile.city}
-              onChange={handleChange("city")}
-              onBlur={handleBlur("city")}
+              onChange={handleChange('city')}
+              onBlur={handleBlur('city')}
               maxLength={fieldLimits.city}
-              className={getInputClassName("city")}
-              style={getInputStyle("city")}
-              aria-invalid={touched.city && errors.city ? "true" : "false"}
-              aria-describedby={errors.city ? "city-error" : undefined}
+              className={getInputClassName('city')}
+              style={getInputStyle('city')}
+              aria-invalid={touched.city && errors.city ? 'true' : 'false'}
+              aria-describedby={errors.city ? 'city-error' : undefined}
             />
-            {renderError("city")}
+            {renderError('city')}
           </div>
 
           {/* State */}
@@ -450,15 +450,15 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
               name="state"
               id="state"
               value={userProfile.state}
-              onChange={handleChange("state")}
-              onBlur={handleBlur("state")}
+              onChange={handleChange('state')}
+              onBlur={handleBlur('state')}
               maxLength={fieldLimits.state}
-              className={getInputClassName("state")}
-              style={getInputStyle("state")}
-              aria-invalid={touched.state && errors.state ? "true" : "false"}
-              aria-describedby={errors.state ? "state-error" : undefined}
+              className={getInputClassName('state')}
+              style={getInputStyle('state')}
+              aria-invalid={touched.state && errors.state ? 'true' : 'false'}
+              aria-describedby={errors.state ? 'state-error' : undefined}
             />
-            {renderError("state")}
+            {renderError('state')}
           </div>
         </div>
 
@@ -478,17 +478,17 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
               name="zip"
               id="zip"
               value={userProfile.zip}
-              onChange={handleChange("zip")}
-              onBlur={handleBlur("zip")}
+              onChange={handleChange('zip')}
+              onBlur={handleBlur('zip')}
               maxLength={fieldLimits.zip}
               inputMode="numeric"
               pattern="[0-9]*"
-              className={getInputClassName("zip")}
-              style={getInputStyle("zip")}
-              aria-invalid={touched.zip && errors.zip ? "true" : "false"}
-              aria-describedby={errors.zip ? "zip-error" : undefined}
+              className={getInputClassName('zip')}
+              style={getInputStyle('zip')}
+              aria-invalid={touched.zip && errors.zip ? 'true' : 'false'}
+              aria-describedby={errors.zip ? 'zip-error' : undefined}
             />
-            {renderError("zip")}
+            {renderError('zip')}
           </div>
 
           {/* Country */}
@@ -505,17 +505,17 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
               name="country"
               id="country"
               value={userProfile.country}
-              onChange={handleChange("country")}
-              onBlur={handleBlur("country")}
+              onChange={handleChange('country')}
+              onBlur={handleBlur('country')}
               maxLength={fieldLimits.country}
-              className={getInputClassName("country")}
-              style={getInputStyle("country")}
+              className={getInputClassName('country')}
+              style={getInputStyle('country')}
               aria-invalid={
-                touched.country && errors.country ? "true" : "false"
+                touched.country && errors.country ? 'true' : 'false'
               }
-              aria-describedby={errors.country ? "country-error" : undefined}
+              aria-describedby={errors.country ? 'country-error' : undefined}
             />
-            {renderError("country")}
+            {renderError('country')}
           </div>
         </div>
 
@@ -533,35 +533,35 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
             name="phone"
             id="phone"
             value={userProfile.phone}
-            onChange={handleChange("phone")}
-            onBlur={handleBlur("phone")}
+            onChange={handleChange('phone')}
+            onBlur={handleBlur('phone')}
             maxLength={fieldLimits.phone}
             inputMode="numeric"
             pattern="[0-9]*"
-            className={getInputClassName("phone")}
-            style={getInputStyle("phone")}
+            className={getInputClassName('phone')}
+            style={getInputStyle('phone')}
             placeholder="9876543210"
-            aria-invalid={touched.phone && errors.phone ? "true" : "false"}
-            aria-describedby={errors.phone ? "phone-error" : undefined}
+            aria-invalid={touched.phone && errors.phone ? 'true' : 'false'}
+            aria-describedby={errors.phone ? 'phone-error' : undefined}
           />
-          {renderError("phone")}
+          {renderError('phone')}
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className={`mt-${compact ? "4" : "6"} flex space-x-3`}>
+      <div className={`mt-${compact ? '4' : '6'} flex space-x-3`}>
         {/* Save Button */}
         <button
           type="submit"
           className={`flex-1 py-2 px-4 font-medium rounded-md transition-all cursor-pointer transform hover:scale-105 active:scale-95 ${
-            compact ? "text-sm py-1.5 px-3" : "text-sm"
+            compact ? 'text-sm py-1.5 px-3' : 'text-sm'
           }`}
           style={{
             backgroundColor: primaryColor,
             color: darkMode
               ? COLORS.dark.modalBackground
               : COLORS.light.background,
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           }}
         >
           Save Changes
@@ -572,13 +572,13 @@ function ProfileForm({ onSave, onCancel, compact = false, className = "" }) {
           type="button"
           onClick={handleCancel}
           className={`flex-1 py-2 px-4 font-medium rounded-md transition-all cursor-pointer transform hover:scale-105 active:scale-95 ${
-            compact ? "text-sm py-1.5 px-3" : "text-sm"
+            compact ? 'text-sm py-1.5 px-3' : 'text-sm'
           }`}
           style={{
-            backgroundColor: "transparent",
+            backgroundColor: 'transparent',
             color: primaryColor,
             border: `1px solid ${primaryColor}`,
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
           }}
         >
           Cancel

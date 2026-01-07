@@ -84,7 +84,7 @@ function Hero({
 
         {/* Overlay */}
         <div
-          className="absolute inset-0 backdrop-blur-sm"
+          className="absolute inset-0 backdrop-blur-xs"
           style={{ backgroundColor: overlayColor }}
         />
       </div>

@@ -133,10 +133,7 @@ class ErrorBoundary extends Component {
                 backgroundColor: 'rgba(239, 68, 68, 0.2)',
               }}
             >
-              <FiAlertTriangle
-                className="w-10 h-10"
-                style={{ color: '#EF4444' }}
-              />
+              <FiAlertTriangle className="w-10 h-10" style={{ color: '#EF4444' }} />
             </div>
 
             {/* Error Title */}
@@ -157,8 +154,8 @@ class ErrorBoundary extends Component {
                 color: 'rgba(224, 224, 224, 0.7)',
               }}
             >
-              We're sorry, but something unexpected happened. Please try again or return to the home
-              page.
+              We&apos;re sorry, but something unexpected happened. Please try again or return to the
+              home page.
             </p>
 
             {/* Error Details (Development Only) */}
@@ -169,10 +166,7 @@ class ErrorBoundary extends Component {
                   backgroundColor: 'rgba(0, 0, 0, 0.3)',
                 }}
               >
-                <p
-                  className="text-sm font-mono mb-2"
-                  style={{ color: '#EF4444' }}
-                >
+                <p className="text-sm font-mono mb-2" style={{ color: '#EF4444' }}>
                   {error.toString()}
                 </p>
                 {errorInfo?.componentStack && (

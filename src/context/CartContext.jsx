@@ -9,17 +9,16 @@ export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [selectedShipping, setSelectedShipping] = useState('standard');
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderNumber, setOrderNumber] = useState(null);
 
   // Add item to cart
   const addToCart = useCallback((product) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((item) => item.id === product.id);
 
       if (existingItem) {
-        return prevItems.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+        return prevItems.map((item) =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
         );
       }
 
@@ -29,17 +28,15 @@ export function CartProvider({ children }) {
 
   // Remove item from cart
   const removeFromCart = useCallback((id) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   }, []);
 
   // Update item quantity
   const updateQuantity = useCallback((id, newQuantity) => {
     if (newQuantity < 1) return;
 
-    setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
+    setCartItems((prevItems) =>
+      prevItems.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item)),
     );
   }, []);
 
@@ -49,32 +46,35 @@ export function CartProvider({ children }) {
   }, []);
 
   // Calculate total items in cart
-  const totalItems = useMemo(() => {
-    return cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  }, [cartItems]);
+  const totalItems = useMemo(
+    () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
+    [cartItems],
+  );
 
   // Calculate cart subtotal
-  const cartTotal = useMemo(() => {
-    return cartItems.reduce((sum, item) => {
-      const price = item.onSale ? item.salePrice : item.price;
-      return sum + (price * item.quantity);
-    }, 0);
-  }, [cartItems]);
+  const cartTotal = useMemo(
+    () =>
+      cartItems.reduce((sum, item) => {
+        const price = item.onSale ? item.salePrice : item.price;
+        return sum + price * item.quantity;
+      }, 0),
+    [cartItems],
+  );
 
   // Get shipping cost
   const getShippingCost = useCallback(() => {
-    const option = shippingOptions.find(opt => opt.id === selectedShipping);
+    const option = shippingOptions.find((opt) => opt.id === selectedShipping);
     return option ? option.price : 0;
   }, [selectedShipping]);
 
   // Calculate total with shipping
-  const getTotal = useCallback(() => {
-    return cartTotal + getShippingCost();
-  }, [cartTotal, getShippingCost]);
+  const getTotal = useCallback(() => cartTotal + getShippingCost(), [cartTotal, getShippingCost]);
 
   // Handle checkout
   const handleCheckout = useCallback(() => {
-    console.log('Order placed', cartItems);
+    // Generate order number at checkout time (not during render)
+    const newOrderNumber = Math.floor(Math.random() * 10000000);
+    setOrderNumber(newOrderNumber);
     setOrderPlaced(true);
 
     // Simulate order processing
@@ -82,21 +82,26 @@ export function CartProvider({ children }) {
       setTimeout(() => {
         setCartItems([]);
         setOrderPlaced(false);
-        resolve({ success: true, orderId: Math.floor(Math.random() * 10000000) });
+        setOrderNumber(null);
+        resolve({ success: true, orderId: newOrderNumber });
       }, 3000);
     });
-  }, [cartItems]);
+  }, []);
 
   // Check if item is in cart
-  const isInCart = useCallback((productId) => {
-    return cartItems.some(item => item.id === productId);
-  }, [cartItems]);
+  const isInCart = useCallback(
+    (productId) => cartItems.some((item) => item.id === productId),
+    [cartItems],
+  );
 
   // Get item quantity in cart
-  const getItemQuantity = useCallback((productId) => {
-    const item = cartItems.find(item => item.id === productId);
-    return item ? item.quantity : 0;
-  }, [cartItems]);
+  const getItemQuantity = useCallback(
+    (productId) => {
+      const item = cartItems.find((item) => item.id === productId);
+      return item ? item.quantity : 0;
+    },
+    [cartItems],
+  );
 
   // Context value
   const value = {
@@ -105,6 +110,7 @@ export function CartProvider({ children }) {
     setSelectedShipping,
     orderPlaced,
     setOrderPlaced,
+    orderNumber,
     addToCart,
     removeFromCart,
     updateQuantity,
@@ -119,11 +125,7 @@ export function CartProvider({ children }) {
     shippingOptions,
   };
 
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
 // Custom hook to use cart context

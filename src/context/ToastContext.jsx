@@ -29,17 +29,11 @@ export function ToastProvider({ children }) {
   }, []);
 
   // Convenience methods for different toast types
-  const showSuccess = useCallback((message) => {
-    return addToast(message, 'success');
-  }, [addToast]);
+  const showSuccess = useCallback((message) => addToast(message, 'success'), [addToast]);
 
-  const showError = useCallback((message) => {
-    return addToast(message, 'error');
-  }, [addToast]);
+  const showError = useCallback((message) => addToast(message, 'error'), [addToast]);
 
-  const showInfo = useCallback((message) => {
-    return addToast(message, 'info');
-  }, [addToast]);
+  const showInfo = useCallback((message) => addToast(message, 'info'), [addToast]);
 
   // Context value
   const value = {

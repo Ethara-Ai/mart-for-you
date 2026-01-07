@@ -83,14 +83,14 @@ function ShippingOptions({ className = '', compact = false, onSelect }) {
                 type="radio"
                 checked={isSelected}
                 onChange={() => handleChange(option.id)}
-                className="h-4 w-4 cursor-pointer flex-shrink-0"
+                className="h-4 w-4 cursor-pointer shrink-0"
                 style={{
-                  accentColor: accentColor,
+                  accentColor,
                 }}
               />
 
               {/* Option Details */}
-              <div className="ml-3 flex-grow">
+              <div className="ml-3 grow">
                 <div className="flex justify-between items-start">
                   {/* Name and Delivery Time */}
                   <div>
@@ -110,7 +110,7 @@ function ShippingOptions({ className = '', compact = false, onSelect }) {
 
                   {/* Price */}
                   <span
-                    className={`font-medium flex-shrink-0 ml-2 ${compact ? 'text-xs' : 'text-sm'}`}
+                    className={`font-medium shrink-0 ml-2 ${compact ? 'text-xs' : 'text-sm'}`}
                     style={{ color: textColor }}
                   >
                     {option.price === 0 ? (
@@ -142,7 +142,7 @@ function ShippingOptions({ className = '', compact = false, onSelect }) {
           <p style={{ color: subtextColor }}>
             {(() => {
               const selected = shippingOptions.find(
-                (opt) => opt.id === selectedShipping
+                (opt) => opt.id === selectedShipping,
               );
               if (selected) {
                 return `Estimated delivery: ${selected.estimatedDelivery}`;

@@ -42,9 +42,7 @@ function NotFoundPage() {
     <main
       className="min-h-screen flex items-center justify-center py-12 px-4"
       style={{
-        background: darkMode
-          ? COLORS.dark.backgroundGradient
-          : COLORS.light.backgroundGradient,
+        background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
       }}
     >
       <motion.div
@@ -72,15 +70,10 @@ function NotFoundPage() {
           variants={itemVariants}
           className="mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-6"
           style={{
-            backgroundColor: darkMode
-              ? 'rgba(96, 165, 250, 0.1)'
-              : 'rgba(37, 99, 235, 0.1)',
+            backgroundColor: darkMode ? 'rgba(96, 165, 250, 0.1)' : 'rgba(37, 99, 235, 0.1)',
           }}
         >
-          <FiShoppingBag
-            className="w-12 h-12"
-            style={{ color: primaryColor }}
-          />
+          <FiShoppingBag className="w-12 h-12" style={{ color: primaryColor }} />
         </motion.div>
 
         {/* Title */}
@@ -96,13 +89,9 @@ function NotFoundPage() {
         </motion.h1>
 
         {/* Description */}
-        <motion.p
-          variants={itemVariants}
-          className="text-lg mb-8"
-          style={{ color: subtextColor }}
-        >
-          Oops! The page you're looking for doesn't exist or has been moved.
-          Let's get you back on track.
+        <motion.p variants={itemVariants} className="text-lg mb-8" style={{ color: subtextColor }}>
+          Oops! The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s
+          get you back on track.
         </motion.p>
 
         {/* Action Buttons */}
@@ -144,9 +133,7 @@ function NotFoundPage() {
           variants={itemVariants}
           className="mt-8 pt-8 border-t"
           style={{
-            borderColor: darkMode
-              ? 'rgba(255, 255, 255, 0.1)'
-              : 'rgba(0, 0, 0, 0.1)',
+            borderColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
           }}
         >
           <p className="text-sm mb-4" style={{ color: subtextColor }}>

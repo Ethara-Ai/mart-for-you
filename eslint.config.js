@@ -5,25 +5,36 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import react from 'eslint-plugin-react';
 
 export default [
-  // Ignore patterns
+  // Global ignore patterns
   {
-    ignores: [
-      'dist/**',
-      'build/**',
-      'node_modules/**',
-      'coverage/**',
-      '*.config.js',
-      '*.config.cjs',
-      '*.config.mjs',
-    ],
+    ignores: ['dist/**', 'build/**', 'node_modules/**', 'coverage/**'],
   },
 
   // Base JavaScript configuration
   js.configs.recommended,
 
+  // Configuration for config files at root (minimal rules, Node.js environment)
+  {
+    files: ['*.config.js', '*.config.cjs', '*.config.mjs'],
+    languageOptions: {
+      ecmaVersion: 2024,
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+      },
+    },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'off',
+    },
+    rules: {
+      'no-unused-vars': 'off',
+      'no-console': 'off',
+    },
+  },
+
   // Main configuration for source files
   {
-    files: ['**/*.{js,jsx}'],
+    files: ['src/**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2024,
       sourceType: 'module',
@@ -57,7 +68,10 @@ export default [
       // React Refresh
       'react-refresh/only-export-components': [
         'warn',
-        { allowConstantExport: true },
+        {
+          allowConstantExport: true,
+          allowExportNames: ['useCart', 'useProfile', 'useTheme', 'useToast'],
+        },
       ],
 
       // React specific overrides
@@ -86,8 +100,8 @@ export default [
       'no-template-curly-in-string': 'warn',
 
       // Best practices
-      'curly': ['error', 'multi-line'],
-      'eqeqeq': ['error', 'smart'],
+      curly: ['error', 'multi-line'],
+      eqeqeq: ['error', 'smart'],
       'no-eval': 'error',
       'no-implied-eval': 'error',
       'no-return-await': 'warn',
@@ -101,8 +115,8 @@ export default [
       'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 1 }],
       'no-trailing-spaces': 'warn',
       'comma-dangle': ['warn', 'always-multiline'],
-      'semi': ['warn', 'always'],
-      'quotes': ['warn', 'single', { avoidEscape: true }],
+      semi: ['warn', 'always'],
+      quotes: ['warn', 'single', { avoidEscape: true }],
 
       // ES6+
       'arrow-body-style': ['warn', 'as-needed'],

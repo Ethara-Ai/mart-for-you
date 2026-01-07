@@ -40,7 +40,7 @@ export default defineConfig(({ command, mode }) => {
 
     // Development server configuration
     server: {
-      port: 3000,
+      port: 5173,
       open: true,
       cors: true,
       strictPort: true,
@@ -48,7 +48,7 @@ export default defineConfig(({ command, mode }) => {
 
     // Preview server (for production build testing)
     preview: {
-      port: 3001,
+      port: 5173,
       open: true,
       cors: true,
     },

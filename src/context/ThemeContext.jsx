@@ -4,20 +4,23 @@ import { COLORS } from '../data/colors';
 // Create the Theme Context
 const ThemeContext = createContext(null);
 
+// Helper function to get initial dark mode value
+function getInitialDarkMode() {
+  // Check localStorage first
+  const savedDarkMode = localStorage.getItem('darkMode');
+  if (savedDarkMode !== null) {
+    return savedDarkMode === 'true';
+  }
+  // Fall back to system preference
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  return false;
+}
+
 // Theme Provider Component
 export function ThemeProvider({ children }) {
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Check for system dark mode preference on mount
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem('darkMode');
-    if (savedDarkMode !== null) {
-      setDarkMode(savedDarkMode === 'true');
-    } else {
-      const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setDarkMode(prefersDarkMode);
-    }
-  }, []);
+  const [darkMode, setDarkMode] = useState(getInitialDarkMode);
 
   // Update document classes and localStorage when dark mode changes
   useEffect(() => {
@@ -33,13 +36,11 @@ export function ThemeProvider({ children }) {
 
   // Toggle dark mode
   const toggleDarkMode = () => {
-    setDarkMode(prev => !prev);
+    setDarkMode((prev) => !prev);
   };
 
   // Get current theme colors
-  const getColors = () => {
-    return darkMode ? COLORS.dark : COLORS.light;
-  };
+  const getColors = () => (darkMode ? COLORS.dark : COLORS.light);
 
   // Context value
   const value = {
@@ -50,11 +51,7 @@ export function ThemeProvider({ children }) {
     COLORS,
   };
 
-  return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 // Custom hook to use theme context

@@ -60,7 +60,7 @@ By participating in this project, you agree to maintain a respectful and inclusi
    npm run dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+4. Open [http://localhost:5017](http://localhost:5017) in your browser
 
 ## How to Contribute
 

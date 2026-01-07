@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   FiArrowLeft,
   FiEdit,
@@ -10,11 +10,61 @@ import {
   FiMapPin,
   FiSave,
   FiX,
-} from "react-icons/fi";
-import { useTheme } from "../context/ThemeContext";
-import { useProfile } from "../context/ProfileContext";
-import { useToast } from "../context/ToastContext";
-import { ProfileForm } from "../components/profile";
+} from 'react-icons/fi';
+import { useTheme } from '../context/ThemeContext';
+import { useProfile } from '../context/ProfileContext';
+import { useToast } from '../context/ToastContext';
+import { ProfileForm } from '../components/profile';
+
+/**
+ * InfoCard - Displays a labeled info field with an icon
+ */
+function InfoCard({
+  icon: Icon,
+  label,
+  value,
+  maxLines = 2,
+  darkMode,
+  primaryColor,
+  subtextColor,
+  textColor,
+}) {
+  return (
+    <div
+      className="flex items-start gap-3 p-4 rounded-lg overflow-hidden"
+      style={{
+        backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.02)',
+      }}
+    >
+      <div
+        className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+        style={{
+          backgroundColor: darkMode ? 'rgba(96, 165, 250, 0.2)' : 'rgba(37, 99, 235, 0.1)',
+        }}
+      >
+        <Icon className="w-5 h-5" style={{ color: primaryColor }} />
+      </div>
+      <div className="flex-1 min-w-0 overflow-hidden">
+        <p className="text-xs font-medium mb-1" style={{ color: subtextColor }}>
+          {label}
+        </p>
+        <p
+          className="text-sm font-medium wrap-break-word overflow-hidden"
+          style={{
+            color: textColor,
+            display: '-webkit-box',
+            WebkitLineClamp: maxLines,
+            WebkitBoxOrient: 'vertical',
+            wordBreak: 'break-word',
+          }}
+          title={value || 'Not provided'}
+        >
+          {value || 'Not provided'}
+        </p>
+      </div>
+    </div>
+  );
+}
 
 /**
  * ProfilePage - User profile management page component
@@ -23,12 +73,10 @@ import { ProfileForm } from "../components/profile";
  * personal details, address, and contact information.
  */
 function ProfilePage() {
-  const navigate = useNavigate();
   const { darkMode, COLORS } = useTheme();
   const { showSuccess } = useToast();
   const {
     userProfile,
-    isProfileEditing,
     startEditing,
     saveProfile,
     cancelEditing,
@@ -48,7 +96,7 @@ function ProfilePage() {
   const handleSave = () => {
     saveProfile();
     setIsEditing(false);
-    showSuccess("Profile updated successfully");
+    showSuccess('Profile updated successfully');
   };
 
   // Handle cancel
@@ -59,63 +107,16 @@ function ProfilePage() {
 
   // Styles
   const textColor = darkMode ? COLORS.dark.text : COLORS.light.text;
-  const subtextColor = darkMode
-    ? "rgba(224, 224, 224, 0.7)"
-    : "rgba(51, 51, 51, 0.7)";
-  const borderColor = darkMode
-    ? "rgba(255, 255, 255, 0.1)"
-    : "rgba(0, 0, 0, 0.1)";
+  const subtextColor = darkMode ? 'rgba(224, 224, 224, 0.7)' : 'rgba(51, 51, 51, 0.7)';
+  const borderColor = darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
   const primaryColor = darkMode ? COLORS.dark.primary : COLORS.light.primary;
   const cardBg = darkMode ? COLORS.dark.secondary : COLORS.light.background;
-
-  // Info card component with text truncation
-  const InfoCard = ({ icon: Icon, label, value, maxLines = 2 }) => (
-    <div
-      className="flex items-start gap-3 p-4 rounded-lg overflow-hidden"
-      style={{
-        backgroundColor: darkMode
-          ? "rgba(255, 255, 255, 0.05)"
-          : "rgba(0, 0, 0, 0.02)",
-      }}
-    >
-      <div
-        className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-        style={{
-          backgroundColor: darkMode
-            ? "rgba(96, 165, 250, 0.2)"
-            : "rgba(37, 99, 235, 0.1)",
-        }}
-      >
-        <Icon className="w-5 h-5" style={{ color: primaryColor }} />
-      </div>
-      <div className="flex-1 min-w-0 overflow-hidden">
-        <p className="text-xs font-medium mb-1" style={{ color: subtextColor }}>
-          {label}
-        </p>
-        <p
-          className="text-sm font-medium break-words overflow-hidden"
-          style={{
-            color: textColor,
-            display: "-webkit-box",
-            WebkitLineClamp: maxLines,
-            WebkitBoxOrient: "vertical",
-            wordBreak: "break-word",
-          }}
-          title={value || "Not provided"}
-        >
-          {value || "Not provided"}
-        </p>
-      </div>
-    </div>
-  );
 
   return (
     <main
       className="min-h-screen py-8"
       style={{
-        background: darkMode
-          ? COLORS.dark.backgroundGradient
-          : COLORS.light.backgroundGradient,
+        background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
       }}
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -159,9 +160,7 @@ function ProfilePage() {
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all hover:opacity-80"
                 style={{
                   backgroundColor: primaryColor,
-                  color: darkMode
-                    ? COLORS.dark.modalBackground
-                    : COLORS.light.background,
+                  color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
                 }}
               >
                 <FiEdit className="h-4 w-4" />
@@ -202,7 +201,7 @@ function ProfilePage() {
                 <div
                   className="absolute bottom-1 right-1 w-5 h-5 rounded-full border-2"
                   style={{
-                    backgroundColor: "rgb(34, 197, 94)",
+                    backgroundColor: 'rgb(34, 197, 94)',
                     borderColor: cardBg,
                   }}
                 />
@@ -227,13 +226,10 @@ function ProfilePage() {
               </p>
 
               {/* Quick Stats */}
-              <div className="pt-4 border-t flex-grow" style={{ borderColor }}>
+              <div className="pt-4 border-t grow" style={{ borderColor }}>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p
-                      className="text-2xl font-bold"
-                      style={{ color: primaryColor }}
-                    >
+                    <p className="text-2xl font-bold" style={{ color: primaryColor }}>
                       12
                     </p>
                     <p className="text-xs" style={{ color: subtextColor }}>
@@ -241,10 +237,7 @@ function ProfilePage() {
                     </p>
                   </div>
                   <div>
-                    <p
-                      className="text-2xl font-bold"
-                      style={{ color: primaryColor }}
-                    >
+                    <p className="text-2xl font-bold" style={{ color: primaryColor }}>
                       4
                     </p>
                     <p className="text-xs" style={{ color: subtextColor }}>
@@ -278,10 +271,7 @@ function ProfilePage() {
                     className="flex items-center justify-between mb-6 pb-4 border-b"
                     style={{ borderColor }}
                   >
-                    <h2
-                      className="text-lg font-bold"
-                      style={{ color: textColor }}
-                    >
+                    <h2 className="text-lg font-bold" style={{ color: textColor }}>
                       Edit Profile
                     </h2>
                     <div className="flex items-center gap-2">
@@ -291,8 +281,8 @@ function ProfilePage() {
                         style={{
                           color: subtextColor,
                           backgroundColor: darkMode
-                            ? "rgba(255, 255, 255, 0.05)"
-                            : "rgba(0, 0, 0, 0.05)",
+                            ? 'rgba(255, 255, 255, 0.05)'
+                            : 'rgba(0, 0, 0, 0.05)',
                         }}
                       >
                         <FiX className="h-4 w-4" />
@@ -303,9 +293,7 @@ function ProfilePage() {
                         className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all hover:opacity-80"
                         style={{
                           backgroundColor: primaryColor,
-                          color: darkMode
-                            ? COLORS.dark.modalBackground
-                            : COLORS.light.background,
+                          color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
                         }}
                       >
                         <FiSave className="h-4 w-4" />
@@ -334,91 +322,92 @@ function ProfilePage() {
                       icon={FiUser}
                       label="Full Name"
                       value={getFullName()}
+                      darkMode={darkMode}
+                      primaryColor={primaryColor}
+                      subtextColor={subtextColor}
+                      textColor={textColor}
                     />
                     <InfoCard
                       icon={FiMail}
                       label="Email Address"
                       value={userProfile.email}
+                      darkMode={darkMode}
+                      primaryColor={primaryColor}
+                      subtextColor={subtextColor}
+                      textColor={textColor}
                     />
                     <InfoCard
                       icon={FiPhone}
                       label="Phone Number"
                       value={userProfile.phone}
+                      darkMode={darkMode}
+                      primaryColor={primaryColor}
+                      subtextColor={subtextColor}
+                      textColor={textColor}
                     />
                     <InfoCard
                       icon={FiMapPin}
                       label="Address"
                       value={getFormattedAddress()}
+                      darkMode={darkMode}
+                      primaryColor={primaryColor}
+                      subtextColor={subtextColor}
+                      textColor={textColor}
                     />
                   </div>
 
                   {/* Additional Details */}
                   <div className="mt-6 pt-6 border-t" style={{ borderColor }}>
-                    <h3
-                      className="text-sm font-bold mb-4"
-                      style={{ color: textColor }}
-                    >
+                    <h3 className="text-sm font-bold mb-4" style={{ color: textColor }}>
                       Address Details
                     </h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="min-w-0">
-                        <p
-                          className="text-xs mb-1"
-                          style={{ color: subtextColor }}
-                        >
+                        <p className="text-xs mb-1" style={{ color: subtextColor }}>
                           City
                         </p>
                         <p
                           className="text-sm font-medium truncate"
                           style={{ color: textColor }}
-                          title={userProfile.city || "-"}
+                          title={userProfile.city || '-'}
                         >
-                          {userProfile.city || "-"}
+                          {userProfile.city || '-'}
                         </p>
                       </div>
                       <div className="min-w-0">
-                        <p
-                          className="text-xs mb-1"
-                          style={{ color: subtextColor }}
-                        >
+                        <p className="text-xs mb-1" style={{ color: subtextColor }}>
                           State
                         </p>
                         <p
                           className="text-sm font-medium truncate"
                           style={{ color: textColor }}
-                          title={userProfile.state || "-"}
+                          title={userProfile.state || '-'}
                         >
-                          {userProfile.state || "-"}
+                          {userProfile.state || '-'}
                         </p>
                       </div>
                       <div className="min-w-0">
-                        <p
-                          className="text-xs mb-1"
-                          style={{ color: subtextColor }}
-                        >
+                        <p className="text-xs mb-1" style={{ color: subtextColor }}>
                           ZIP Code
                         </p>
                         <p
                           className="text-sm font-medium truncate"
                           style={{ color: textColor }}
-                          title={userProfile.zip || "-"}
+                          title={userProfile.zip || '-'}
                         >
-                          {userProfile.zip || "-"}
+                          {userProfile.zip || '-'}
                         </p>
                       </div>
                       <div className="min-w-0">
-                        <p
-                          className="text-xs mb-1"
-                          style={{ color: subtextColor }}
-                        >
+                        <p className="text-xs mb-1" style={{ color: subtextColor }}>
                           Country
                         </p>
                         <p
                           className="text-sm font-medium truncate"
                           style={{ color: textColor }}
-                          title={userProfile.country || "-"}
+                          title={userProfile.country || '-'}
                         >
-                          {userProfile.country || "-"}
+                          {userProfile.country || '-'}
                         </p>
                       </div>
                     </div>

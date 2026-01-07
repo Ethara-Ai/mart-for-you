@@ -23,7 +23,7 @@ export const COLORS = {
     modalText: '#E0E0E0',
     scrollbarThumb: 'rgba(96, 165, 250, 0.5)',
     scrollbarTrack: 'rgba(30, 41, 59, 0.3)',
-  }
+  },
 };
 
 export default COLORS;

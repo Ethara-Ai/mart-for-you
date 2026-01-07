@@ -66,6 +66,7 @@
   "eslint.options": {
     "overrideConfigFile": "eslint.config.js"
   },
+  "eslint.flags": ["--no-warn-ignored"],
 
   // Prettier Settings
   "prettier.enable": true,

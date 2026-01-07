@@ -19,8 +19,7 @@ function HomePage() {
   const [viewingOffers, setViewingOffers] = useState(false);
 
   // Filter products based on category, search, and offers
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
+  const filteredProducts = useMemo(() => products.filter((product) => {
       // Category filter
       const categoryMatch =
         activeCategory === 'all' || product.category === activeCategory;
@@ -36,8 +35,7 @@ function HomePage() {
         product.category.toLowerCase().includes(searchTerm.toLowerCase());
 
       return categoryMatch && searchMatch && offersMatch;
-    });
-  }, [activeCategory, searchTerm, viewingOffers]);
+    }), [activeCategory, searchTerm, viewingOffers]);
 
   // Handle category change
   const handleCategoryChange = (category) => {

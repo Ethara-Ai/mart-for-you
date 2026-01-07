@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useTheme } from "../context/ThemeContext";
-import { FiShoppingBag, FiArrowRight, FiSun, FiMoon } from "react-icons/fi";
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
+import { FiShoppingBag, FiArrowRight, FiSun, FiMoon } from 'react-icons/fi';
 
 /**
  * LandingPage - Initial landing page component
@@ -15,7 +15,7 @@ function LandingPage() {
 
   // Handle enter button click
   const handleEnter = () => {
-    navigate("/home");
+    navigate('/home');
   };
 
   // Animation variants
@@ -35,7 +35,7 @@ function LandingPage() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: 'easeOut' },
     },
   };
 
@@ -44,7 +44,7 @@ function LandingPage() {
     visible: {
       scale: 1,
       rotate: 0,
-      transition: { type: "spring", stiffness: 200, damping: 15, delay: 0.2 },
+      transition: { type: 'spring', stiffness: 200, damping: 15, delay: 0.2 },
     },
   };
 
@@ -72,9 +72,9 @@ function LandingPage() {
           style={{
             backgroundColor: secondaryColor,
             color: primaryColor,
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
           }}
-          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {darkMode ? <FiSun className="h-5 w-5" /> : <FiMoon className="h-5 w-5" />}
         </motion.button>
@@ -96,11 +96,11 @@ function LandingPage() {
             className="w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center"
             style={{
               background: darkMode
-                ? "linear-gradient(135deg, #1E293B 0%, #0F172A 100%)"
-                : "linear-gradient(135deg, #DBEAFE 0%, #FFFFFF 100%)",
+                ? 'linear-gradient(135deg, #1E293B 0%, #0F172A 100%)'
+                : 'linear-gradient(135deg, #DBEAFE 0%, #FFFFFF 100%)',
               boxShadow: darkMode
-                ? "0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
-                : "0 20px 40px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+                ? '0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                : '0 20px 40px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
             }}
           >
             <FiShoppingBag
@@ -117,7 +117,7 @@ function LandingPage() {
           style={{
             color: textColor,
             fontFamily: "'Metropolis', sans-serif",
-            letterSpacing: "-2px",
+            letterSpacing: '-2px',
           }}
         >
           MART
@@ -141,7 +141,7 @@ function LandingPage() {
           variants={itemVariants}
           className="text-sm sm:text-base md:text-lg mb-10 text-center max-w-md px-4"
           style={{
-            color: darkMode ? "rgba(224, 224, 224, 0.7)" : "rgba(51, 51, 51, 0.7)",
+            color: darkMode ? 'rgba(224, 224, 224, 0.7)' : 'rgba(51, 51, 51, 0.7)',
             fontFamily: "'Metropolis', sans-serif",
           }}
         >
@@ -155,18 +155,18 @@ function LandingPage() {
           className="group flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-base sm:text-lg transition-all cursor-pointer hover:scale-105 active:scale-95"
           style={{
             background: darkMode
-              ? "linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%)"
-              : "linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)",
-            color: "#FFFFFF",
+              ? 'linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%)'
+              : 'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)',
+            color: '#FFFFFF',
             boxShadow: darkMode
-              ? "0 10px 30px rgba(96, 165, 250, 0.3)"
-              : "0 10px 30px rgba(37, 99, 235, 0.3)",
+              ? '0 10px 30px rgba(96, 165, 250, 0.3)'
+              : '0 10px 30px rgba(37, 99, 235, 0.3)',
             fontFamily: "'Metropolis', sans-serif",
           }}
           whileHover={{
             boxShadow: darkMode
-              ? "0 15px 40px rgba(96, 165, 250, 0.4)"
-              : "0 15px 40px rgba(37, 99, 235, 0.4)",
+              ? '0 15px 40px rgba(96, 165, 250, 0.4)'
+              : '0 15px 40px rgba(37, 99, 235, 0.4)',
           }}
         >
           Start Shopping
@@ -184,7 +184,7 @@ function LandingPage() {
         <p
           className="text-xs sm:text-sm"
           style={{
-            color: darkMode ? "rgba(224, 224, 224, 0.5)" : "rgba(51, 51, 51, 0.5)",
+            color: darkMode ? 'rgba(224, 224, 224, 0.5)' : 'rgba(51, 51, 51, 0.5)',
             fontFamily: "'Metropolis', sans-serif",
           }}
         >
@@ -200,7 +200,7 @@ function LandingPage() {
         className="absolute top-10 left-10 w-32 h-32 sm:w-48 sm:h-48 rounded-full pointer-events-none"
         style={{
           background: primaryColor,
-          filter: "blur(60px)",
+          filter: 'blur(60px)',
         }}
       />
       <motion.div
@@ -210,7 +210,7 @@ function LandingPage() {
         className="absolute bottom-20 right-10 w-40 h-40 sm:w-56 sm:h-56 rounded-full pointer-events-none"
         style={{
           background: primaryColor,
-          filter: "blur(80px)",
+          filter: 'blur(80px)',
         }}
       />
       <motion.div
@@ -220,7 +220,7 @@ function LandingPage() {
         className="absolute top-1/2 left-1/4 w-24 h-24 sm:w-32 sm:h-32 rounded-full pointer-events-none"
         style={{
           background: primaryColor,
-          filter: "blur(50px)",
+          filter: 'blur(50px)',
         }}
       />
     </div>

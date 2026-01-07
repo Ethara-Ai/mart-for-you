@@ -1,10 +1,10 @@
-import { useNavigate, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiShoppingCart, FiMoon, FiSun, FiEdit } from "react-icons/fi";
-import { useTheme } from "../../context/ThemeContext";
-import { useCart } from "../../context/CartContext";
-import { useProfile } from "../../context/ProfileContext";
-import Logo from "./Logo";
+import { useNavigate, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiShoppingCart, FiMoon, FiSun, FiEdit } from 'react-icons/fi';
+import { useTheme } from '../../context/ThemeContext';
+import { useCart } from '../../context/CartContext';
+import { useProfile } from '../../context/ProfileContext';
+import Logo from './Logo';
 
 /**
  * Header - Main application header component
@@ -24,29 +24,26 @@ function Header({ onCartClick }) {
     isProfileCardOpen,
     toggleProfileCard,
     closeProfileCard,
-    startEditing,
     getFullName,
     getFormattedAddress,
   } = useProfile();
 
   // Handle logo click - navigate to home
   const handleLogoClick = () => {
-    navigate("/home");
+    navigate('/home');
   };
 
   // Handle edit profile click
   const handleEditProfile = () => {
     closeProfileCard();
-    navigate("/profile");
+    navigate('/profile');
   };
 
   return (
     <header
-      className="shadow-sm sticky top-0 z-[60]"
+      className="shadow-xs sticky top-0 z-60"
       style={{
-        background: darkMode
-          ? COLORS.dark.backgroundGradient
-          : COLORS.light.backgroundGradient,
+        background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,23 +60,13 @@ function Header({ onCartClick }) {
               onClick={toggleDarkMode}
               className="w-10 h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95"
               style={{
-                backgroundColor: darkMode
-                  ? COLORS.dark.secondary
-                  : COLORS.light.secondary,
-                color: darkMode
-                  ? COLORS.light.background
-                  : COLORS.light.primary,
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
+                color: darkMode ? COLORS.light.background : COLORS.light.primary,
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
               }}
-              aria-label={
-                darkMode ? "Switch to light mode" : "Switch to dark mode"
-              }
+              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              {darkMode ? (
-                <FiSun className="h-5 w-5" />
-              ) : (
-                <FiMoon className="h-5 w-5" />
-              )}
+              {darkMode ? <FiSun className="h-5 w-5" /> : <FiMoon className="h-5 w-5" />}
             </button>
 
             {/* Profile Photo Button */}
@@ -89,10 +76,8 @@ function Header({ onCartClick }) {
                 onClick={toggleProfileCard}
                 className="w-10 h-10 rounded-full overflow-hidden transition-transform cursor-pointer transform hover:scale-105 active:scale-95 border-2"
                 style={{
-                  borderColor: darkMode
-                    ? COLORS.dark.primary
-                    : COLORS.light.primary,
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  borderColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                 }}
                 aria-label="View profile"
                 aria-expanded={isProfileCardOpen}
@@ -113,14 +98,14 @@ function Header({ onCartClick }) {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 top-full mt-2 w-72 rounded-lg shadow-lg z-[100]"
+                    className="absolute right-0 top-full mt-2 w-72 rounded-lg shadow-lg z-100"
                     style={{
                       backgroundColor: darkMode
                         ? COLORS.dark.modalBackground
                         : COLORS.light.modalBackground,
                       boxShadow: darkMode
-                        ? "0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)"
-                        : "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                        ? '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
+                        : '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
                     }}
                   >
                     <div className="p-4">
@@ -136,9 +121,7 @@ function Header({ onCartClick }) {
                           <h3
                             className="font-medium text-base truncate"
                             style={{
-                              color: darkMode
-                                ? COLORS.dark.text
-                                : COLORS.light.text,
+                              color: darkMode ? COLORS.dark.text : COLORS.light.text,
                             }}
                           >
                             {getFullName()}
@@ -146,9 +129,7 @@ function Header({ onCartClick }) {
                           <p
                             className="text-sm truncate"
                             style={{
-                              color: darkMode
-                                ? COLORS.dark.primary
-                                : COLORS.light.primary,
+                              color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                             }}
                           >
                             {userProfile.email}
@@ -157,11 +138,9 @@ function Header({ onCartClick }) {
                         <button
                           id="edit-profile-button"
                           onClick={handleEditProfile}
-                          className="p-2 rounded-full hover:bg-opacity-10 hover:bg-gray-500 cursor-pointer flex-shrink-0"
+                          className="p-2 rounded-full hover:bg-opacity-10 hover:bg-gray-500 cursor-pointer shrink-0"
                           style={{
-                            color: darkMode
-                              ? COLORS.dark.primary
-                              : COLORS.light.primary,
+                            color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                           }}
                           aria-label="Edit profile"
                         >
@@ -172,18 +151,14 @@ function Header({ onCartClick }) {
                       <div
                         className="space-y-2 text-sm border-t pt-3"
                         style={{
-                          borderColor: darkMode
-                            ? "rgba(255, 255, 255, 0.1)"
-                            : "rgba(0, 0, 0, 0.1)",
+                          borderColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                         }}
                       >
                         <div>
                           <span
                             className="font-medium block"
                             style={{
-                              color: darkMode
-                                ? COLORS.dark.text
-                                : COLORS.light.text,
+                              color: darkMode ? COLORS.dark.text : COLORS.light.text,
                             }}
                           >
                             Address:
@@ -191,8 +166,8 @@ function Header({ onCartClick }) {
                           <span
                             style={{
                               color: darkMode
-                                ? "rgba(224, 224, 224, 0.7)"
-                                : "rgba(51, 51, 51, 0.7)",
+                                ? 'rgba(224, 224, 224, 0.7)'
+                                : 'rgba(51, 51, 51, 0.7)',
                             }}
                           >
                             {getFormattedAddress()}
@@ -202,9 +177,7 @@ function Header({ onCartClick }) {
                           <span
                             className="font-medium block"
                             style={{
-                              color: darkMode
-                                ? COLORS.dark.text
-                                : COLORS.light.text,
+                              color: darkMode ? COLORS.dark.text : COLORS.light.text,
                             }}
                           >
                             Phone:
@@ -212,8 +185,8 @@ function Header({ onCartClick }) {
                           <span
                             style={{
                               color: darkMode
-                                ? "rgba(224, 224, 224, 0.7)"
-                                : "rgba(51, 51, 51, 0.7)",
+                                ? 'rgba(224, 224, 224, 0.7)'
+                                : 'rgba(51, 51, 51, 0.7)',
                             }}
                           >
                             {userProfile.phone}
@@ -225,9 +198,7 @@ function Header({ onCartClick }) {
                       <div
                         className="mt-3 pt-3 border-t"
                         style={{
-                          borderColor: darkMode
-                            ? "rgba(255, 255, 255, 0.1)"
-                            : "rgba(0, 0, 0, 0.1)",
+                          borderColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                         }}
                       >
                         <Link
@@ -235,9 +206,7 @@ function Header({ onCartClick }) {
                           onClick={closeProfileCard}
                           className="block text-center text-sm font-medium py-2 rounded-md transition-colors hover:opacity-80"
                           style={{
-                            color: darkMode
-                              ? COLORS.dark.primary
-                              : COLORS.light.primary,
+                            color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                           }}
                         >
                           View Full Profile
@@ -255,11 +224,9 @@ function Header({ onCartClick }) {
               onClick={onCartClick}
               className="relative w-10 h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95"
               style={{
-                backgroundColor: darkMode
-                  ? COLORS.dark.secondary
-                  : COLORS.light.secondary,
+                backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
                 color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
               }}
               aria-label={`View shopping cart with ${totalItems} items`}
             >
@@ -268,15 +235,11 @@ function Header({ onCartClick }) {
                 <span
                   className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full"
                   style={{
-                    backgroundColor: darkMode
-                      ? COLORS.dark.primary
-                      : COLORS.light.primary,
-                    color: darkMode
-                      ? COLORS.dark.modalBackground
-                      : COLORS.light.background,
+                    backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                    color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
                   }}
                 >
-                  {totalItems > 99 ? "99+" : totalItems}
+                  {totalItems > 99 ? '99+' : totalItems}
                 </span>
               )}
             </button>

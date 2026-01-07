@@ -53,7 +53,7 @@ function AppLayout() {
   // Handle click outside to close profile card
   useEffect(() => {
     const handleClickOutside = (e) => {
-      const target = e.target;
+      const {target} = e;
       if (
         isProfileCardOpen &&
         !target.closest('#profile-card') &&

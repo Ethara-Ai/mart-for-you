@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiShoppingCart, FiCheck, FiArrowLeft, FiTrash2 } from "react-icons/fi";
-import { useTheme } from "../context/ThemeContext";
-import { useCart } from "../context/CartContext";
-import { useToast } from "../context/ToastContext";
-import { CartItem, ShippingOptions } from "../components/cart";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiShoppingCart, FiCheck, FiArrowLeft, FiTrash2 } from 'react-icons/fi';
+import { useTheme } from '../context/ThemeContext';
+import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
+import { CartItem, ShippingOptions } from '../components/cart';
 
 /**
  * CartPage - Full page shopping cart component
@@ -27,6 +27,7 @@ function CartPage() {
     handleCheckout,
     clearCart,
     orderPlaced,
+    orderNumber,
   } = useCart();
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -38,10 +39,10 @@ function CartPage() {
       await handleCheckout();
       // Navigate to home after order is processed
       setTimeout(() => {
-        navigate("/home");
+        navigate('/home');
       }, 3500);
     } catch (error) {
-      console.error("Checkout error:", error);
+      console.error('Checkout error:', error);
     }
     setIsProcessing(false);
   };
@@ -49,17 +50,13 @@ function CartPage() {
   // Handle clear cart
   const handleClearCart = () => {
     clearCart();
-    showSuccess("Cart cleared");
+    showSuccess('Cart cleared');
   };
 
   // Styles
   const textColor = darkMode ? COLORS.dark.text : COLORS.light.text;
-  const subtextColor = darkMode
-    ? "rgba(224, 224, 224, 0.7)"
-    : "rgba(51, 51, 51, 0.7)";
-  const borderColor = darkMode
-    ? "rgba(255, 255, 255, 0.1)"
-    : "rgba(0, 0, 0, 0.1)";
+  const subtextColor = darkMode ? 'rgba(224, 224, 224, 0.7)' : 'rgba(51, 51, 51, 0.7)';
+  const borderColor = darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
   const primaryColor = darkMode ? COLORS.dark.primary : COLORS.light.primary;
   const cardBg = darkMode ? COLORS.dark.secondary : COLORS.light.background;
 
@@ -67,9 +64,7 @@ function CartPage() {
     <main
       className="min-h-screen py-8"
       style={{
-        background: darkMode
-          ? COLORS.dark.backgroundGradient
-          : COLORS.light.backgroundGradient,
+        background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
       }}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,13 +78,13 @@ function CartPage() {
           {/* Back Link */}
           <button
             onClick={() => {
-              navigate("/home");
+              navigate('/home');
               setTimeout(() => {
-                const heroSection = document.getElementById("hero-section");
+                const heroSection = document.getElementById('hero-section');
                 if (heroSection) {
-                  heroSection.scrollIntoView({ behavior: "smooth" });
+                  heroSection.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
               }, 100);
             }}
@@ -113,8 +108,7 @@ function CartPage() {
               </h1>
               {totalItems > 0 && (
                 <p className="mt-1 text-sm" style={{ color: subtextColor }}>
-                  {totalItems} {totalItems === 1 ? "item" : "items"} in your
-                  cart
+                  {totalItems} {totalItems === 1 ? 'item' : 'items'} in your cart
                 </p>
               )}
             </div>
@@ -125,8 +119,8 @@ function CartPage() {
                 onClick={handleClearCart}
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all hover:opacity-80"
                 style={{
-                  color: "rgb(239, 68, 68)",
-                  backgroundColor: "rgba(239, 68, 68, 0.1)",
+                  color: 'rgb(239, 68, 68)',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
                 }}
               >
                 <FiTrash2 className="h-4 w-4" />
@@ -148,20 +142,12 @@ function CartPage() {
             <div
               className="mx-auto h-24 w-24 flex items-center justify-center rounded-full mb-6"
               style={{
-                backgroundColor: darkMode
-                  ? "rgba(34, 197, 94, 0.2)"
-                  : "rgba(34, 197, 94, 0.1)",
+                backgroundColor: darkMode ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)',
               }}
             >
-              <FiCheck
-                className="h-12 w-12"
-                style={{ color: "rgb(34, 197, 94)" }}
-              />
+              <FiCheck className="h-12 w-12" style={{ color: 'rgb(34, 197, 94)' }} />
             </div>
-            <h2
-              className="text-2xl font-bold mb-2"
-              style={{ color: textColor }}
-            >
+            <h2 className="text-2xl font-bold mb-2" style={{ color: textColor }}>
               Order Placed Successfully!
             </h2>
             <p className="mb-6 text-lg" style={{ color: primaryColor }}>
@@ -172,7 +158,7 @@ function CartPage() {
                 Order confirmation has been sent to your email.
               </p>
               <p className="text-sm font-medium" style={{ color: textColor }}>
-                Order #: {Math.floor(Math.random() * 10000000)}
+                Order #: {orderNumber}
               </p>
             </div>
             <Link
@@ -180,9 +166,7 @@ function CartPage() {
               className="inline-block px-6 py-3 font-medium rounded-md transition-all hover:opacity-90"
               style={{
                 backgroundColor: primaryColor,
-                color: darkMode
-                  ? COLORS.dark.modalBackground
-                  : COLORS.light.background,
+                color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
               }}
             >
               Return to Home
@@ -199,26 +183,22 @@ function CartPage() {
             <FiShoppingCart
               className="mx-auto h-16 w-16 mb-6"
               style={{
-                color: darkMode
-                  ? "rgba(255, 255, 255, 0.2)"
-                  : "rgba(0, 0, 0, 0.2)",
+                color: darkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
               }}
             />
             <h2 className="text-xl font-bold mb-2" style={{ color: textColor }}>
               Your cart is empty
             </h2>
             <p className="mb-8" style={{ color: subtextColor }}>
-              Looks like you haven't added any items to your cart yet.
+              Looks like you haven&apos;t added any items to your cart yet.
             </p>
             <Link
               to="/products"
               className="inline-block px-6 py-3 font-medium rounded-md transition-all hover:scale-105 active:scale-95"
               style={{
                 backgroundColor: primaryColor,
-                color: darkMode
-                  ? COLORS.dark.modalBackground
-                  : COLORS.light.background,
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
               }}
             >
               Start Shopping
@@ -234,10 +214,7 @@ function CartPage() {
               transition={{ duration: 0.3 }}
               className="lg:col-span-2"
             >
-              <div
-                className="rounded-lg p-6"
-                style={{ backgroundColor: cardBg }}
-              >
+              <div className="rounded-lg p-6" style={{ backgroundColor: cardBg }}>
                 <h2
                   className="text-lg font-bold mb-4 pb-4 border-b"
                   style={{
@@ -266,10 +243,7 @@ function CartPage() {
               transition={{ duration: 0.3, delay: 0.1 }}
               className="lg:col-span-1"
             >
-              <div
-                className="rounded-lg p-6 sticky top-24"
-                style={{ backgroundColor: cardBg }}
-              >
+              <div className="rounded-lg p-6 sticky top-24" style={{ backgroundColor: cardBg }}>
                 <h2
                   className="text-lg font-bold mb-4 pb-4 border-b"
                   style={{
@@ -284,18 +258,11 @@ function CartPage() {
                 <ShippingOptions className="mb-6" />
 
                 {/* Summary Lines */}
-                <div
-                  className="space-y-3 py-4 border-t"
-                  style={{ borderColor }}
-                >
+                <div className="space-y-3 py-4 border-t" style={{ borderColor }}>
                   {/* Subtotal */}
                   <div className="flex justify-between text-sm">
-                    <span style={{ color: subtextColor }}>
-                      Subtotal ({totalItems} items)
-                    </span>
-                    <span style={{ color: textColor }}>
-                      ${cartTotal.toFixed(2)}
-                    </span>
+                    <span style={{ color: subtextColor }}>Subtotal ({totalItems} items)</span>
+                    <span style={{ color: textColor }}>${cartTotal.toFixed(2)}</span>
                   </div>
 
                   {/* Shipping */}
@@ -303,42 +270,26 @@ function CartPage() {
                     <span style={{ color: subtextColor }}>Shipping</span>
                     <span
                       style={{
-                        color:
-                          getShippingCost() === 0
-                            ? "rgb(34, 197, 94)"
-                            : textColor,
+                        color: getShippingCost() === 0 ? 'rgb(34, 197, 94)' : textColor,
                       }}
                     >
-                      {getShippingCost() === 0
-                        ? "Free"
-                        : `$${getShippingCost().toFixed(2)}`}
+                      {getShippingCost() === 0 ? 'Free' : `$${getShippingCost().toFixed(2)}`}
                     </span>
                   </div>
 
                   {/* Tax (estimated) */}
                   <div className="flex justify-between text-sm">
                     <span style={{ color: subtextColor }}>Estimated Tax</span>
-                    <span style={{ color: textColor }}>
-                      ${(cartTotal * 0.08).toFixed(2)}
-                    </span>
+                    <span style={{ color: textColor }}>${(cartTotal * 0.08).toFixed(2)}</span>
                   </div>
                 </div>
 
                 {/* Total */}
-                <div
-                  className="flex justify-between py-4 border-t"
-                  style={{ borderColor }}
-                >
-                  <span
-                    className="text-lg font-bold"
-                    style={{ color: textColor }}
-                  >
+                <div className="flex justify-between py-4 border-t" style={{ borderColor }}>
+                  <span className="text-lg font-bold" style={{ color: textColor }}>
                     Total
                   </span>
-                  <span
-                    className="text-lg font-bold"
-                    style={{ color: textColor }}
-                  >
+                  <span className="text-lg font-bold" style={{ color: textColor }}>
                     ${(getTotal() + cartTotal * 0.08).toFixed(2)}
                   </span>
                 </div>
@@ -350,13 +301,11 @@ function CartPage() {
                   className="w-full py-3 px-4 font-medium rounded-md transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{
                     backgroundColor: primaryColor,
-                    color: darkMode
-                      ? COLORS.dark.modalBackground
-                      : COLORS.light.background,
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.15)",
+                    color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
                   }}
                 >
-                  {isProcessing ? "Processing..." : "Proceed to Checkout"}
+                  {isProcessing ? 'Processing...' : 'Proceed to Checkout'}
                 </button>
 
                 {/* Secure Checkout Notice */}
@@ -385,13 +334,13 @@ function CartPage() {
                 <div className="mt-4 text-center">
                   <button
                     onClick={() => {
-                      navigate("/home");
+                      navigate('/home');
                       setTimeout(() => {
-                        const heroSection = document.getElementById("hero-section");
+                        const heroSection = document.getElementById('hero-section');
                         if (heroSection) {
-                          heroSection.scrollIntoView({ behavior: "smooth" });
+                          heroSection.scrollIntoView({ behavior: 'smooth' });
                         } else {
-                          window.scrollTo({ top: 0, behavior: "smooth" });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }
                       }, 100);
                     }}

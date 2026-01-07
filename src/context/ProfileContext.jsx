@@ -5,16 +5,17 @@ const ProfileContext = createContext(null);
 
 // Default user profile
 const defaultProfile = {
-  firstName: "Vanshika",
-  lastName: "Juneja",
-  email: "vanshika@example.com",
-  address: "123 DLF Green Street",
-  city: "Delhi",
-  state: "Delhi",
-  zip: "110001",
-  country: "India",
-  phone: "9876543210",
-  avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  firstName: 'Vanshika',
+  lastName: 'Juneja',
+  email: 'vanshika@example.com',
+  address: '123 DLF Green Street',
+  city: 'Delhi',
+  state: 'Delhi',
+  zip: '110001',
+  country: 'India',
+  phone: '9876543210',
+  avatar:
+    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 };
 
 // Profile Provider Component
@@ -27,7 +28,7 @@ export function ProfileProvider({ children }) {
 
   // Update a single field in the profile
   const updateField = useCallback((fieldName, value) => {
-    setUserProfile(prev => ({
+    setUserProfile((prev) => ({
       ...prev,
       [fieldName]: value,
     }));
@@ -35,7 +36,7 @@ export function ProfileProvider({ children }) {
 
   // Update multiple fields at once
   const updateProfile = useCallback((updates) => {
-    setUserProfile(prev => ({
+    setUserProfile((prev) => ({
       ...prev,
       ...updates,
     }));
@@ -55,7 +56,6 @@ export function ProfileProvider({ children }) {
     setIsProfileEditing(false);
     setIsProfileOpen(false);
     // Here you would typically make an API call to save the profile
-    console.log('Profile saved:', userProfile);
     return { success: true };
   }, [userProfile]);
 
@@ -74,7 +74,7 @@ export function ProfileProvider({ children }) {
 
   // Toggle profile card visibility
   const toggleProfileCard = useCallback(() => {
-    setIsProfileCardOpen(prev => !prev);
+    setIsProfileCardOpen((prev) => !prev);
   }, []);
 
   // Open profile modal
@@ -95,9 +95,10 @@ export function ProfileProvider({ children }) {
   }, []);
 
   // Get full name
-  const getFullName = useCallback(() => {
-    return `${userProfile.firstName} ${userProfile.lastName}`.trim();
-  }, [userProfile.firstName, userProfile.lastName]);
+  const getFullName = useCallback(
+    () => `${userProfile.firstName} ${userProfile.lastName}`.trim(),
+    [userProfile.firstName, userProfile.lastName],
+  );
 
   // Get formatted address
   const getFormattedAddress = useCallback(() => {
@@ -130,11 +131,7 @@ export function ProfileProvider({ children }) {
     getFormattedAddress,
   };
 
-  return (
-    <ProfileContext.Provider value={value}>
-      {children}
-    </ProfileContext.Provider>
-  );
+  return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;
 }
 
 // Custom hook to use profile context

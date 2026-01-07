@@ -41,9 +41,6 @@ function ProductCard({ product, onAddToCart }) {
     }
   };
 
-  // Get the display price
-  const displayPrice = product.onSale ? product.salePrice : product.price;
-
   return (
     <motion.div
       layout
@@ -57,11 +54,8 @@ function ProductCard({ product, onAddToCart }) {
       whileHover={{ y: -8, transition: { duration: 0.2 } }}
       className="overflow-hidden group cursor-pointer"
       style={{
-        backgroundColor: darkMode
-          ? COLORS.dark.secondary
-          : COLORS.light.background,
-        boxShadow:
-          '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.background,
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         borderRadius: '8px',
         transform: 'translateZ(0)',
         transition: 'transform 0.2s, box-shadow 0.2s',
@@ -81,12 +75,8 @@ function ProductCard({ product, onAddToCart }) {
           <div
             className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
             style={{
-              backgroundColor: darkMode
-                ? COLORS.dark.primary
-                : COLORS.light.primary,
-              color: darkMode
-                ? COLORS.dark.modalBackground
-                : COLORS.light.background,
+              backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+              color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
             }}
           >
             {getItemQuantity(product.id)}
@@ -101,12 +91,8 @@ function ProductCard({ product, onAddToCart }) {
           <span
             className="inline-block px-2 py-1 text-xs font-medium rounded-full capitalize"
             style={{
-              backgroundColor: darkMode
-                ? COLORS.dark.primary
-                : COLORS.light.secondary,
-              color: darkMode
-                ? COLORS.dark.background
-                : COLORS.light.primary,
+              backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.secondary,
+              color: darkMode ? COLORS.dark.background : COLORS.light.primary,
             }}
           >
             {product.category}
@@ -166,9 +152,7 @@ function ProductCard({ product, onAddToCart }) {
                 <span
                   className="text-xs line-through"
                   style={{
-                    color: darkMode
-                      ? 'rgba(255, 255, 255, 0.5)'
-                      : 'rgba(0, 0, 0, 0.5)',
+                    color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
                   }}
                 >
                   ${product.price.toFixed(2)}
@@ -191,12 +175,8 @@ function ProductCard({ product, onAddToCart }) {
             onClick={handleAddToCart}
             className="flex items-center justify-center px-4 py-2 font-medium rounded-md transition-all cursor-pointer transform hover:scale-105 active:scale-95"
             style={{
-              backgroundColor: darkMode
-                ? COLORS.dark.primary
-                : COLORS.light.primary,
-              color: darkMode
-                ? COLORS.dark.modalBackground
-                : COLORS.light.background,
+              backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+              color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
               boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
             }}
             aria-label={`Add ${product.name} to cart`}

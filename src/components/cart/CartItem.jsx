@@ -85,7 +85,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
       style={{ borderColor }}
     >
       {/* Product Image */}
-      <div className={`${imageSize} flex-shrink-0 rounded-md overflow-hidden`}>
+      <div className={`${imageSize} shrink-0 rounded-md overflow-hidden`}>
         <img
           src={item.image}
           alt={item.name}
@@ -95,7 +95,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
       </div>
 
       {/* Product Info */}
-      <div className={`ml-4 flex-grow min-w-0 ${compact ? 'ml-3' : 'ml-4'}`}>
+      <div className={`ml-4 grow min-w-0 ${compact ? 'ml-3' : 'ml-4'}`}>
         {/* Product Name */}
         <h3
           className={`font-medium truncate ${compact ? 'text-xs' : 'text-sm'}`}
