@@ -1,1 +1,0 @@
-Create a page and name it "Mart- For You". It should have products of different categories, and users should be able to filter the products and add the same to the cart to proceed to checkout. There is an option to view the user's profile and edit it. Return the full code for the platform in a multi-page JavaScript file by using React and Tailwind CSS.
