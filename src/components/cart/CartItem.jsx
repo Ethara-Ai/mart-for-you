@@ -61,15 +61,9 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
 
   // Styles
   const textColor = darkMode ? COLORS.dark.text : COLORS.light.text;
-  const subtextColor = darkMode
-    ? 'rgba(224, 224, 224, 0.7)'
-    : 'rgba(51, 51, 51, 0.7)';
-  const borderColor = darkMode
-    ? 'rgba(255, 255, 255, 0.1)'
-    : 'rgba(0, 0, 0, 0.1)';
-  const buttonColor = darkMode
-    ? 'rgba(224, 224, 224, 0.7)'
-    : 'rgba(51, 51, 51, 0.7)';
+  const subtextColor = darkMode ? 'rgba(224, 224, 224, 0.7)' : 'rgba(51, 51, 51, 0.7)';
+  const borderColor = darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+  const buttonColor = darkMode ? 'rgba(224, 224, 224, 0.7)' : 'rgba(51, 51, 51, 0.7)';
 
   // Image size based on compact mode
   const imageSize = compact ? 'h-12 w-12' : 'h-16 w-16';
@@ -110,16 +104,12 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
           <p
             className={compact ? 'text-xs' : 'text-sm'}
             style={{ color: subtextColor }}
-          >
-            ${actualPrice.toFixed(2)}
-          </p>
+          >{`$${actualPrice.toFixed(2)}`}</p>
           {item.onSale && (
             <span
               className="text-xs line-through"
               style={{
-                color: darkMode
-                  ? 'rgba(255, 255, 255, 0.4)'
-                  : 'rgba(0, 0, 0, 0.4)',
+                color: darkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)',
               }}
             >
               ${item.price.toFixed(2)}
@@ -142,7 +132,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
           </button>
 
           <span
-            className={`mx-2 min-w-[20px] text-center ${compact ? 'text-xs' : 'text-sm'}`}
+            className={`mx-2 min-w-5 text-center ${compact ? 'text-xs' : 'text-sm'}`}
             style={{ color: textColor }}
           >
             {item.quantity}
@@ -178,9 +168,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
             compact ? 'text-xs' : 'text-xs'
           }`}
           style={{
-            color: darkMode
-              ? 'rgba(220, 38, 38, 0.8)'
-              : 'rgba(220, 38, 38, 1)',
+            color: darkMode ? 'rgba(220, 38, 38, 0.8)' : 'rgba(220, 38, 38, 1)',
           }}
           aria-label={`Remove ${item.name} from cart`}
         >

@@ -82,13 +82,13 @@ A modern, full-featured e-commerce web application built with React and Tailwind
 
 4. **Open your browser**
    
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [http://localhost:5173](http://localhost:5173)
 
 ## Available Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start development server on port 3000 |
+| `npm run dev` | Start development server on port 5173 |
 | `npm run build` | Build for production |
 | `npm run preview` | Preview production build locally |
 | `npm run lint` | Run ESLint for code linting |
