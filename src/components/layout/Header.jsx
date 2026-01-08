@@ -83,15 +83,15 @@ function Header({
         }}
       >
         <div className="max-w-7xl mx-auto px-2 sm:px-4">
-          {/* Mobile Layout: [Profile + Logo] on left, [Search + Cart] on right */}
-          <div className="flex md:hidden justify-between h-14 sm:h-16 items-center">
+          {/* Mobile/Tablet Layout: [Profile + Logo] on left, [Search + Cart] on right */}
+          <div className="flex lg:hidden justify-between h-14 sm:h-16 items-center">
             {/* Left Group: Profile + Logo */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              {/* Profile Photo Button (Mobile - Opens Sidebar) */}
+            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
+              {/* Profile Photo Button (Mobile/Tablet - Opens Sidebar) */}
               <button
                 id="mobile-profile-button"
                 onClick={handleMobileProfileClick}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden transition-transform cursor-pointer transform hover:scale-105 active:scale-95 border-2 shrink-0"
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full overflow-hidden transition-transform cursor-pointer transform hover:scale-105 active:scale-95 border-2 shrink-0"
                 style={{
                   borderColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -105,23 +105,27 @@ function Header({
                 />
               </button>
 
-              {/* Logo (Mobile) - xs size for very small screens, sm for larger mobile */}
+              {/* Logo (Mobile/Tablet) - xs size for very small screens, sm for larger mobile, md for tablet */}
               <div className="flex items-center shrink-0">
                 {/* Extra small logo for screens < 360px */}
                 <div className="block min-[360px]:hidden">
                   <Logo onClick={handleLogoClick} size="xs" animate={false} />
                 </div>
-                {/* Small logo for screens >= 360px */}
-                <div className="hidden min-[360px]:block">
+                {/* Small logo for screens >= 360px and < 768px */}
+                <div className="hidden min-[360px]:block md:hidden">
                   <Logo onClick={handleLogoClick} size="sm" animate={false} />
+                </div>
+                {/* Medium logo for tablet (768px+) */}
+                <div className="hidden md:block">
+                  <Logo onClick={handleLogoClick} size="md" animate={false} />
                 </div>
               </div>
             </div>
 
             {/* Right Group: Search + Cart */}
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              {/* Search Bar (Mobile) - responsive width */}
-              <div className="w-[100px] min-[360px]:w-[120px] sm:w-[140px]">
+            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
+              {/* Search Bar (Mobile/Tablet) - responsive width */}
+              <div className="w-[100px] min-[360px]:w-[120px] sm:w-[140px] md:w-[200px]">
                 <SearchBar
                   value={searchTerm}
                   onChange={onSearchChange}
@@ -132,11 +136,11 @@ function Header({
                 />
               </div>
 
-              {/* Cart Button (Mobile) */}
+              {/* Cart Button (Mobile/Tablet) */}
               <button
                 id="mobile-cart-button"
                 onClick={onCartClick}
-                className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
+                className="relative w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
                 style={{
                   backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
                   color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
@@ -144,10 +148,10 @@ function Header({
                 }}
                 aria-label={`View shopping cart with ${totalItems} items`}
               >
-                <FiShoppingCart className="h-4 w-4" />
+                <FiShoppingCart className="h-4 w-4 md:h-5 md:w-5" />
                 {totalItems > 0 && (
                   <span
-                    className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 text-xs font-bold rounded-full"
+                    className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 md:w-5 md:h-5 text-xs font-bold rounded-full"
                     style={{
                       backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                       color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
@@ -160,8 +164,8 @@ function Header({
             </div>
           </div>
 
-          {/* Desktop/Tablet Layout (unchanged) */}
-          <div className="hidden md:flex justify-between h-16 items-center gap-4">
+          {/* Desktop Layout (1024px+) */}
+          <div className="hidden lg:flex justify-between h-16 items-center gap-4">
             {/* Logo - More prominent on desktop */}
             <div className="flex items-center flex-shrink-0">
               <Logo onClick={handleLogoClick} size="md" animate={false} />

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiMenu, FiShoppingCart } from 'react-icons/fi';
+import { FiShoppingCart } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useCart } from '../../context/CartContext';
 import { useSearch } from '../../context';
@@ -33,7 +33,6 @@ function Navigation({
   const { darkMode, COLORS } = useTheme();
   const { totalItems } = useCart();
   const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const navRef = useRef(null);
   const placeholderRef = useRef(null);
@@ -66,7 +65,6 @@ function Navigation({
     if (location.pathname !== '/home' && location.pathname !== '/products') {
       navigate('/products');
     }
-    setMobileMenuOpen(false);
   };
 
   // Handle offers click
@@ -81,12 +79,6 @@ function Navigation({
     if (location.pathname !== '/home' && location.pathname !== '/products') {
       navigate('/products');
     }
-    setMobileMenuOpen(false);
-  };
-
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen((prev) => !prev);
   };
 
   // Grey color for inactive items
@@ -103,16 +95,16 @@ function Navigation({
 
   return (
     <>
-      {/* Placeholder to maintain layout space when nav is fixed (hidden on mobile) */}
+      {/* Placeholder to maintain layout space when nav is fixed (hidden on mobile/tablet) */}
       <div
         ref={placeholderRef}
-        className={`hidden md:block ${isSticky ? 'h-16 sm:h-14' : 'h-0'}`}
+        className={`hidden lg:block ${isSticky ? 'h-16 sm:h-14' : 'h-0'}`}
       />
 
-      {/* Navigation hidden on mobile (categories now in sidebar), visible on tablet and desktop */}
+      {/* Navigation hidden on mobile/tablet (categories now in sidebar), visible on desktop only */}
       <nav
         ref={navRef}
-        className={`hidden md:block py-3 sm:py-4 z-50 left-0 right-0 transition-all duration-300 ${isSticky ? 'fixed top-0 shadow-md' : 'relative'}`}
+        className={`hidden lg:block py-3 sm:py-4 z-50 left-0 right-0 transition-all duration-300 ${isSticky ? 'fixed top-0 shadow-md' : 'relative'}`}
         style={{
           background: isSticky
             ? darkMode
@@ -123,28 +115,8 @@ function Navigation({
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-4">
           <div className="flex justify-between items-center gap-2 sm:gap-4">
-            {/* Mobile Menu Button - Hidden on mobile (categories now in sidebar), visible on tablet */}
-            <div className="hidden md:block lg:hidden">
-              <button
-                onClick={toggleMobileMenu}
-                className="p-2 rounded-md cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
-                style={{
-                  color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                  backgroundColor: darkMode ? 'rgba(30, 41, 59, 0.3)' : 'rgba(219, 234, 254, 0.3)',
-                }}
-                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-                aria-expanded={mobileMenuOpen}
-              >
-                {mobileMenuOpen ? (
-                  <FiX className="h-5 w-5 sm:h-6 sm:w-6" />
-                ) : (
-                  <FiMenu className="h-5 w-5 sm:h-6 sm:w-6" />
-                )}
-              </button>
-            </div>
-
-            {/* Desktop/Tablet Category Navigation */}
-            <div className="hidden lg:flex space-x-1 xl:space-x-3 shrink-0">
+            {/* Desktop Category Navigation */}
+            <div className="flex space-x-1 xl:space-x-3 shrink-0">
               {categories.map((category) => (
                 <motion.button
                   key={category}
@@ -174,37 +146,6 @@ function Navigation({
               >
                 Offers
               </motion.button>
-            </div>
-
-            {/* Tablet View - Compact Categories */}
-            <div className="hidden md:flex lg:hidden space-x-2 shrink-0">
-              {/* Show only first 4 categories on tablet */}
-              {categories.slice(0, 4).map((category) => (
-                <motion.button
-                  key={category}
-                  type="button"
-                  onClick={(e) => handleCategoryClick(e, category)}
-                  className={`px-2 py-1.5 text-xs font-medium capitalize cursor-pointer transition-all whitespace-nowrap ${
-                    activeCategory === category && !viewingOffers ? 'border-b-2' : ''
-                  }`}
-                  style={getButtonStyles(activeCategory === category && !viewingOffers)}
-                  whileHover={{ y: -2 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {category}
-                </motion.button>
-              ))}
-
-              {/* More button for tablet */}
-              <button
-                onClick={toggleMobileMenu}
-                className="px-2 py-1.5 text-xs font-medium cursor-pointer transition-all whitespace-nowrap"
-                style={{
-                  color: inactiveColor,
-                }}
-              >
-                More...
-              </button>
             </div>
 
             {/* Search Bar and Cart Button - Right Side (Only when sticky) */}
@@ -259,72 +200,6 @@ function Navigation({
             </AnimatePresence>
           </div>
         </div>
-
-        {/* Mobile/Tablet Navigation Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2, ease: 'easeInOut' }}
-              className="lg:hidden border-t mt-3"
-              style={{
-                backgroundColor: darkMode ? COLORS.dark.navbackground : COLORS.light.background,
-                borderColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
-              }}
-            >
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 max-h-[60vh] overflow-y-auto">
-                {categories.map((category, index) => {
-                  const isActive = activeCategory === category && !viewingOffers;
-                  return (
-                    <motion.button
-                      key={category}
-                      type="button"
-                      onClick={(e) => handleCategoryClick(e, category)}
-                      initial={{ x: -5, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 0.2, delay: index * 0.05 }}
-                      className="block px-3 py-2.5 sm:py-2 rounded-md text-sm sm:text-base font-medium w-full text-left capitalize cursor-pointer transition-all"
-                      style={{
-                        backgroundColor: isActive
-                          ? darkMode
-                            ? 'rgba(96, 165, 250, 0.15)'
-                            : 'rgba(59, 130, 246, 0.1)'
-                          : 'transparent',
-                        color: isActive ? activeColor : inactiveColor,
-                        fontFamily: "'Metropolis', sans-serif",
-                      }}
-                    >
-                      {category}
-                    </motion.button>
-                  );
-                })}
-
-                {/* Mobile Offers Menu Option */}
-                <motion.button
-                  type="button"
-                  onClick={(e) => handleOffersClick(e)}
-                  initial={{ x: -5, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.2, delay: categories.length * 0.05 }}
-                  className="block px-3 py-2.5 sm:py-2 rounded-md text-sm sm:text-base font-medium w-full text-left cursor-pointer transition-all"
-                  style={{
-                    backgroundColor: viewingOffers
-                      ? darkMode
-                        ? 'rgba(96, 165, 250, 0.15)'
-                        : 'rgba(59, 130, 246, 0.1)'
-                      : 'transparent',
-                    color: viewingOffers ? activeColor : inactiveColor,
-                    fontFamily: "'Metropolis', sans-serif",
-                  }}
-                >
-                  🔥 Offers
-                </motion.button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
     </>
   );
