@@ -89,16 +89,15 @@ export function CartProvider({ children }) {
     const newOrderNumber = Math.floor(Math.random() * 10000000);
     setOrderNumber(newOrderNumber);
     setOrderPlaced(true);
+    // Clear cart items immediately after placing order
+    setCartItems([]);
+    return { success: true, orderId: newOrderNumber };
+  }, []);
 
-    // Simulate order processing
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        setCartItems([]);
-        setOrderPlaced(false);
-        setOrderNumber(null);
-        resolve({ success: true, orderId: newOrderNumber });
-      }, 3000);
-    });
+  // Reset order state (called when user clicks Continue after order confirmation)
+  const resetOrder = useCallback(() => {
+    setOrderPlaced(false);
+    setOrderNumber(null);
   }, []);
 
   // Check if item is in cart
@@ -133,6 +132,7 @@ export function CartProvider({ children }) {
     getShippingCost,
     getTotal,
     handleCheckout,
+    resetOrder,
     isInCart,
     getItemQuantity,
     shippingOptions,

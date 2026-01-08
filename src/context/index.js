@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { SearchContext, SearchProvider } from './SearchContext';
+import { SearchContext } from './searchContextValue';
+import { SearchProvider } from './SearchContext';
 
 // Context exports - only export providers and hooks (not context objects) to avoid Fast Refresh warnings
 export { ThemeProvider, useTheme } from './ThemeContext';

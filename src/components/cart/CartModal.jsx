@@ -28,6 +28,7 @@ function CartModal({ isOpen, onClose }) {
     getShippingCost,
     getTotal,
     handleCheckout,
+    resetOrder,
     orderPlaced,
     orderNumber,
   } = useCart();
@@ -80,12 +81,14 @@ function CartModal({ isOpen, onClose }) {
   }, [isOpen, onClose]);
 
   // Handle checkout button click
-  const onCheckout = async () => {
-    await handleCheckout();
-    // Close drawer after order is processed
-    setTimeout(() => {
-      onClose();
-    }, 3500);
+  const onCheckout = () => {
+    handleCheckout();
+  };
+
+  // Handle continue button click (after order confirmation)
+  const handleContinue = () => {
+    resetOrder();
+    onClose();
   };
 
   // Styles
@@ -215,6 +218,19 @@ function CartModal({ isOpen, onClose }) {
                       Order #: {orderNumber}
                     </p>
                   </div>
+                  {/* Continue Button */}
+                  <button
+                    onClick={handleContinue}
+                    className="inline-flex items-center gap-2 px-8 py-3 font-semibold rounded-lg transition-all cursor-pointer transform hover:scale-105 active:scale-95"
+                    style={{
+                      backgroundColor: primaryColor,
+                      color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                    }}
+                  >
+                    Continue Shopping
+                    <FiArrowRight className="h-4 w-4" />
+                  </button>
                 </motion.div>
               ) : cartItems.length === 0 ? (
                 /* Empty Cart */
