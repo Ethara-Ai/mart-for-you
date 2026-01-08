@@ -5,7 +5,8 @@ export const products = [
     id: 1,
     name: 'Wireless Earbuds',
     price: 49.99,
-    image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=500&auto=format&fit=crop&q=60',
     description: 'High-quality sound with noise cancellation.',
     category: 'electronics',
     onSale: true,
@@ -18,7 +19,8 @@ export const products = [
     id: 2,
     name: 'Smart Watch',
     price: 129.99,
-    image: 'https://images.unsplash.com/photo-1617043786394-f977fa12eddf?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1617043786394-f977fa12eddf?w=500&auto=format&fit=crop&q=60',
     description: 'Track health metrics and receive notifications.',
     category: 'electronics',
     weight: '45g',
@@ -29,7 +31,8 @@ export const products = [
     id: 3,
     name: 'Bluetooth Speaker',
     price: 79.99,
-    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&auto=format&fit=crop&q=60',
     description: 'Portable speaker with rich bass and clear sound.',
     category: 'electronics',
     weight: '350g',
@@ -40,7 +43,8 @@ export const products = [
     id: 4,
     name: '4K Action Camera',
     price: 199.99,
-    image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=500&auto=format&fit=crop&q=60',
     description: 'Capture your adventures in stunning 4K resolution.',
     category: 'electronics',
     weight: '120g',
@@ -51,7 +55,8 @@ export const products = [
     id: 5,
     name: 'Wireless Keyboard',
     price: 69.99,
-    image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop&q=60',
     description: 'Slim wireless keyboard with backlit keys.',
     category: 'electronics',
     onSale: true,
@@ -64,7 +69,8 @@ export const products = [
     id: 6,
     name: 'Gaming Mouse',
     price: 59.99,
-    image: 'https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&auto=format&fit=crop&q=60',
     description: 'Ergonomic gaming mouse with RGB lighting.',
     category: 'electronics',
     weight: '85g',
@@ -75,7 +81,8 @@ export const products = [
     id: 7,
     name: 'USB-C Hub',
     price: 45.99,
-    image: 'https://plus.unsplash.com/premium_photo-1761043248662-42f371ad31b4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXNiJTIwYyUyMGh1YnxlbnwwfHwwfHx8MA%3D%3D',
+    image:
+      'https://plus.unsplash.com/premium_photo-1761043248662-42f371ad31b4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXNiJTIwYyUyMGh1YnxlbnwwfHwwfHx8MA%3D%3D',
     description: '7-in-1 USB-C hub with HDMI and card reader.',
     category: 'electronics',
     weight: '60g',
@@ -86,7 +93,8 @@ export const products = [
     id: 8,
     name: 'Noise Cancelling Headphones',
     price: 249.99,
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60',
     description: 'Premium over-ear headphones with ANC technology.',
     category: 'electronics',
     onSale: true,
@@ -99,7 +107,8 @@ export const products = [
     id: 9,
     name: 'Portable Power Bank',
     price: 39.99,
-    image: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&auto=format&fit=crop&q=60',
     description: '20000mAh power bank with fast charging.',
     category: 'electronics',
     weight: '350g',
@@ -110,7 +119,8 @@ export const products = [
     id: 10,
     name: 'Webcam HD',
     price: 79.99,
-    image: 'https://images.unsplash.com/photo-1657357092389-49b1b254c1ac?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHdlYmNhbSUyMGhkfGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1657357092389-49b1b254c1ac?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHdlYmNhbSUyMGhkfGVufDB8fDB8fHww',
     description: '1080p webcam with built-in microphone.',
     category: 'electronics',
     weight: '120g',
@@ -121,7 +131,8 @@ export const products = [
     id: 11,
     name: 'Tablet Stand',
     price: 29.99,
-    image: 'https://images.unsplash.com/photo-1762195954150-5db56b1d3a19?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRhYmxldCUyMHN0YW5kfGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1762195954150-5db56b1d3a19?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRhYmxldCUyMHN0YW5kfGVufDB8fDB8fHww',
     description: 'Adjustable aluminum tablet and phone stand.',
     category: 'electronics',
     weight: '200g',
@@ -132,7 +143,8 @@ export const products = [
     id: 12,
     name: 'Smart LED Bulb',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?w=500&auto=format&fit=crop&q=60',
     description: 'WiFi-enabled smart bulb with 16 million colors.',
     category: 'electronics',
     onSale: true,
@@ -147,7 +159,8 @@ export const products = [
     id: 13,
     name: 'Classic White Sneakers',
     price: 59.99,
-    image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=500&auto=format&fit=crop&q=60',
     description: 'Versatile white sneakers for any outfit.',
     category: 'fashion',
     weight: '350g per shoe',
@@ -158,7 +171,8 @@ export const products = [
     id: 14,
     name: 'Denim Jacket',
     price: 89.99,
-    image: 'https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=500&auto=format&fit=crop&q=60',
     description: 'Classic denim jacket for all seasons.',
     category: 'fashion',
     onSale: true,
@@ -171,7 +185,8 @@ export const products = [
     id: 15,
     name: 'Leather Crossbody Bag',
     price: 69.99,
-    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&auto=format&fit=crop&q=60',
     description: 'Stylish crossbody bag with multiple compartments.',
     category: 'fashion',
     weight: '400g',
@@ -182,7 +197,8 @@ export const products = [
     id: 16,
     name: 'Aviator Sunglasses',
     price: 29.99,
-    image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=60',
     description: 'Classic aviator style with UV protection.',
     category: 'fashion',
     weight: '30g',
@@ -193,7 +209,8 @@ export const products = [
     id: 17,
     name: 'Wool Scarf',
     price: 34.99,
-    image: 'https://images.unsplash.com/photo-1599948126830-89f10444e491?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d29vbCUyMHNjYXJmfGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1599948126830-89f10444e491?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d29vbCUyMHNjYXJmfGVufDB8fDB8fHww',
     description: 'Soft wool scarf for cold weather.',
     category: 'fashion',
     weight: '150g',
@@ -204,7 +221,8 @@ export const products = [
     id: 18,
     name: 'Canvas Backpack',
     price: 49.99,
-    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60',
     description: 'Durable canvas backpack with laptop compartment.',
     category: 'fashion',
     onSale: true,
@@ -217,7 +235,8 @@ export const products = [
     id: 19,
     name: 'Leather Belt',
     price: 39.99,
-    image: 'https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=500&auto=format&fit=crop&q=60',
     description: 'Genuine leather belt with silver buckle.',
     category: 'fashion',
     weight: '120g',
@@ -228,7 +247,8 @@ export const products = [
     id: 20,
     name: 'Baseball Cap',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&auto=format&fit=crop&q=60',
     description: 'Classic cotton baseball cap.',
     category: 'fashion',
     weight: '80g',
@@ -239,7 +259,8 @@ export const products = [
     id: 21,
     name: 'Silk Tie',
     price: 44.99,
-    image: 'https://images.unsplash.com/photo-1589756823695-278bc923f962?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1589756823695-278bc923f962?w=500&auto=format&fit=crop&q=60',
     description: 'Elegant silk tie for formal occasions.',
     category: 'fashion',
     weight: '50g',
@@ -250,7 +271,8 @@ export const products = [
     id: 22,
     name: 'Leather Wallet',
     price: 54.99,
-    image: 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&auto=format&fit=crop&q=60',
     description: 'Slim leather wallet with RFID protection.',
     category: 'fashion',
     onSale: true,
@@ -263,7 +285,8 @@ export const products = [
     id: 23,
     name: 'Running Shoes',
     price: 119.99,
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60',
     description: 'Lightweight running shoes with cushioning.',
     category: 'fashion',
     weight: '280g per shoe',
@@ -274,7 +297,8 @@ export const products = [
     id: 24,
     name: 'Winter Beanie',
     price: 19.99,
-    image: 'https://images.unsplash.com/photo-1510598969022-c4c6c5d05769?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1510598969022-c4c6c5d05769?w=500&auto=format&fit=crop&q=60',
     description: 'Warm knitted beanie for winter.',
     category: 'fashion',
     weight: '60g',
@@ -287,7 +311,8 @@ export const products = [
     id: 25,
     name: 'Coffee Maker',
     price: 89.99,
-    image: 'https://images.unsplash.com/photo-1757038490099-440e6cf45cf7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNvZmZmZWUlMjBtYWtlcnxlbnwwfHwwfHx8MA%3D%3D',
+    image:
+      'https://images.unsplash.com/photo-1757038490099-440e6cf45cf7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNvZmZmZWUlMjBtYWtlcnxlbnwwfHwwfHx8MA%3D%3D',
     description: 'Programmable coffee maker for perfect brews.',
     category: 'home',
     weight: '2.5kg',
@@ -298,7 +323,8 @@ export const products = [
     id: 26,
     name: 'Throw Blanket',
     price: 34.99,
-    image: 'https://images.unsplash.com/photo-1580301762395-21ce84d00bc6?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1580301762395-21ce84d00bc6?w=500&auto=format&fit=crop&q=60',
     description: 'Soft and cozy blanket for your living room.',
     category: 'home',
     weight: '800g',
@@ -309,7 +335,8 @@ export const products = [
     id: 27,
     name: 'Scented Candle Set',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500&auto=format&fit=crop&q=60',
     description: 'Set of 3 scented candles for relaxation.',
     category: 'home',
     onSale: true,
@@ -322,7 +349,8 @@ export const products = [
     id: 28,
     name: 'Modern Wall Clock',
     price: 42.99,
-    image: 'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=500&auto=format&fit=crop&q=60',
     description: 'Sleek wall clock for contemporary homes.',
     category: 'home',
     weight: '500g',
@@ -333,7 +361,8 @@ export const products = [
     id: 29,
     name: 'Indoor Plant Pot',
     price: 19.99,
-    image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500&auto=format&fit=crop&q=60',
     description: 'Ceramic plant pot with drainage hole.',
     category: 'home',
     weight: '600g',
@@ -344,7 +373,8 @@ export const products = [
     id: 30,
     name: 'Table Lamp',
     price: 54.99,
-    image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop&q=60',
     description: 'Modern table lamp with adjustable brightness.',
     category: 'home',
     onSale: true,
@@ -357,7 +387,8 @@ export const products = [
     id: 31,
     name: 'Decorative Vase',
     price: 29.99,
-    image: 'https://plus.unsplash.com/premium_photo-1676654935534-e8cfff4c40df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVjb3JhdGl2ZSUyMHZhc2V8ZW58MHx8MHx8fDA%3D',
+    image:
+      'https://plus.unsplash.com/premium_photo-1676654935534-e8cfff4c40df?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVjb3JhdGl2ZSUyMHZhc2V8ZW58MHx8MHx8fDA%3D',
     description: 'Elegant ceramic vase for flowers.',
     category: 'home',
     weight: '400g',
@@ -368,7 +399,8 @@ export const products = [
     id: 32,
     name: 'Kitchen Knife Set',
     price: 79.99,
-    image: 'https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1593618998160-e34014e67546?w=500&auto=format&fit=crop&q=60',
     description: '5-piece stainless steel knife set with block.',
     category: 'home',
     weight: '2kg',
@@ -379,7 +411,8 @@ export const products = [
     id: 33,
     name: 'Cotton Towel Set',
     price: 39.99,
-    image: 'https://plus.unsplash.com/premium_photo-1684445034670-b36aca25c25a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y290dG9uJTIwdG93ZWwlMjBzZXR8ZW58MHx8MHx8fDA%3D',
+    image:
+      'https://plus.unsplash.com/premium_photo-1684445034670-b36aca25c25a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y290dG9uJTIwdG93ZWwlMjBzZXR8ZW58MHx8MHx8fDA%3D',
     description: 'Set of 6 premium cotton towels.',
     category: 'home',
     weight: '1.5kg',
@@ -390,7 +423,8 @@ export const products = [
     id: 34,
     name: 'Picture Frame Set',
     price: 34.99,
-    image: 'https://images.unsplash.com/photo-1550535424-fd4382da050c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fHBpY3R1cmUlMjBmcmFtZSUyMHNldHxlbnwwfHwwfHx8MA%3D%3D',
+    image:
+      'https://images.unsplash.com/photo-1550535424-fd4382da050c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzB8fHBpY3R1cmUlMjBmcmFtZSUyMHNldHxlbnwwfHwwfHx8MA%3D%3D',
     description: 'Set of 5 wooden picture frames.',
     category: 'home',
     onSale: true,
@@ -403,7 +437,8 @@ export const products = [
     id: 35,
     name: 'Blender',
     price: 69.99,
-    image: 'https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=500&auto=format&fit=crop&q=60',
     description: 'High-speed blender for smoothies and soups.',
     category: 'home',
     weight: '3kg',
@@ -414,7 +449,8 @@ export const products = [
     id: 36,
     name: 'Bedside Organizer',
     price: 22.99,
-    image: 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=500&auto=format&fit=crop&q=60',
     description: 'Multi-pocket bedside storage organizer.',
     category: 'home',
     weight: '200g',
@@ -427,7 +463,8 @@ export const products = [
     id: 37,
     name: 'Skincare Set',
     price: 59.99,
-    image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop&q=60',
     description: 'Complete skincare routine in one package.',
     category: 'beauty',
     weight: '500g',
@@ -438,7 +475,8 @@ export const products = [
     id: 38,
     name: 'Hair Styling Tools',
     price: 129.99,
-    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&auto=format&fit=crop&q=60',
     description: 'Professional styling kit for salon-quality results.',
     category: 'beauty',
     onSale: true,
@@ -451,7 +489,8 @@ export const products = [
     id: 39,
     name: 'Makeup Palette',
     price: 39.99,
-    image: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=500&auto=format&fit=crop&q=60',
     description: 'Versatile eyeshadow palette with 18 colors.',
     category: 'beauty',
     weight: '150g',
@@ -462,7 +501,8 @@ export const products = [
     id: 40,
     name: 'Perfume Collection',
     price: 84.99,
-    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&auto=format&fit=crop&q=60',
     description: 'Set of 3 signature scents for any occasion.',
     category: 'beauty',
     weight: '300g',
@@ -473,7 +513,8 @@ export const products = [
     id: 41,
     name: 'Facial Cleanser',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop&q=60',
     description: 'Gentle foam cleanser for all skin types.',
     category: 'beauty',
     weight: '200ml',
@@ -484,7 +525,8 @@ export const products = [
     id: 42,
     name: 'Lip Gloss Set',
     price: 19.99,
-    image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=500&auto=format&fit=crop&q=60',
     description: 'Set of 6 moisturizing lip glosses.',
     category: 'beauty',
     onSale: true,
@@ -497,7 +539,8 @@ export const products = [
     id: 43,
     name: 'Face Mask Pack',
     price: 29.99,
-    image: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=500&auto=format&fit=crop&q=60',
     description: 'Pack of 10 hydrating sheet masks.',
     category: 'beauty',
     weight: '250g',
@@ -508,7 +551,8 @@ export const products = [
     id: 44,
     name: 'Makeup Brushes',
     price: 34.99,
-    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=500&auto=format&fit=crop&q=60',
     description: '12-piece professional makeup brush set.',
     category: 'beauty',
     weight: '200g',
@@ -519,7 +563,8 @@ export const products = [
     id: 45,
     name: 'Body Lotion',
     price: 18.99,
-    image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=500&auto=format&fit=crop&q=60',
     description: 'Nourishing body lotion with shea butter.',
     category: 'beauty',
     weight: '400ml',
@@ -530,7 +575,8 @@ export const products = [
     id: 46,
     name: 'Nail Polish Set',
     price: 22.99,
-    image: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&auto=format&fit=crop&q=60',
     description: 'Set of 8 trendy nail polish colors.',
     category: 'beauty',
     onSale: true,
@@ -543,7 +589,8 @@ export const products = [
     id: 47,
     name: 'Hair Serum',
     price: 27.99,
-    image: 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=500&auto=format&fit=crop&q=60',
     description: 'Anti-frizz hair serum for smooth, shiny hair.',
     category: 'beauty',
     weight: '100ml',
@@ -554,7 +601,8 @@ export const products = [
     id: 48,
     name: 'Sunscreen SPF 50',
     price: 21.99,
-    image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop&q=60',
     description: 'Lightweight sunscreen with broad spectrum protection.',
     category: 'beauty',
     weight: '150ml',
@@ -567,7 +615,8 @@ export const products = [
     id: 49,
     name: 'Yoga Mat',
     price: 34.99,
-    image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500&auto=format&fit=crop&q=60',
     description: 'Non-slip yoga mat for your workout routine.',
     category: 'sports',
     onSale: true,
@@ -580,7 +629,8 @@ export const products = [
     id: 50,
     name: 'Fitness Tracker',
     price: 99.99,
-    image: 'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=500&auto=format&fit=crop&q=60',
     description: 'Monitor your activity and health metrics.',
     category: 'sports',
     weight: '25g',
@@ -591,7 +641,8 @@ export const products = [
     id: 51,
     name: 'Resistance Bands',
     price: 19.99,
-    image: 'https://images.unsplash.com/photo-1517130038641-a774d04afb3c?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1517130038641-a774d04afb3c?w=500&auto=format&fit=crop&q=60',
     description: 'Set of 5 bands for strength training.',
     category: 'sports',
     weight: '300g',
@@ -602,7 +653,8 @@ export const products = [
     id: 52,
     name: 'Water Bottle',
     price: 16.99,
-    image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&auto=format&fit=crop&q=60',
     description: 'Insulated bottle to keep your drinks cold.',
     category: 'sports',
     weight: '350g',
@@ -613,7 +665,8 @@ export const products = [
     id: 53,
     name: 'Dumbbells Set',
     price: 79.99,
-    image: 'https://images.unsplash.com/photo-1586401100295-7a8096fd231a?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1586401100295-7a8096fd231a?w=500&auto=format&fit=crop&q=60',
     description: 'Adjustable dumbbell set from 5-25 lbs.',
     category: 'sports',
     weight: '12kg',
@@ -624,7 +677,8 @@ export const products = [
     id: 54,
     name: 'Jump Rope',
     price: 14.99,
-    image: 'https://images.unsplash.com/photo-1651315283994-03ec73dc21f1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8anVtcCUyMHJvcGV8ZW58MHx8MHx8fDA%3D',
+    image:
+      'https://images.unsplash.com/photo-1651315283994-03ec73dc21f1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8anVtcCUyMHJvcGV8ZW58MHx8MHx8fDA%3D',
     description: 'Speed jump rope for cardio workouts.',
     category: 'sports',
     onSale: true,
@@ -637,7 +691,8 @@ export const products = [
     id: 55,
     name: 'Gym Bag',
     price: 44.99,
-    image: 'https://images.unsplash.com/photo-1692506530242-c12d6c3ae2e2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z3ltJTIwYmFnfGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1692506530242-c12d6c3ae2e2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z3ltJTIwYmFnfGVufDB8fDB8fHww',
     description: 'Spacious gym bag with shoe compartment.',
     category: 'sports',
     weight: '600g',
@@ -648,7 +703,8 @@ export const products = [
     id: 56,
     name: 'Foam Roller',
     price: 29.99,
-    image: 'https://images.unsplash.com/photo-1617883861744-13b534e3b928?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dGVubmlzJTIwcmFja2V0fGVufDB8fDB8fHww',
+    image:
+      'https://plus.unsplash.com/premium_photo-1672039973233-778e8f60118f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjR8fGZvYW0lMjByb2xsZXJ8ZW58MHx8MHx8fDA%3D',
     description: 'High-density foam roller for muscle recovery.',
     category: 'sports',
     weight: '500g',
@@ -659,7 +715,8 @@ export const products = [
     id: 57,
     name: 'Sports Headband',
     price: 12.99,
-    image: 'https://images.unsplash.com/photo-1671210004146-70569f951169?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDN8fHNwb3J0cyUyMGhlYWRiYW5kfGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1671210004146-70569f951169?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDN8fHNwb3J0cyUyMGhlYWRiYW5kfGVufDB8fDB8fHww',
     description: 'Moisture-wicking headband for workouts.',
     category: 'sports',
     weight: '30g',
@@ -670,7 +727,8 @@ export const products = [
     id: 58,
     name: 'Tennis Racket',
     price: 89.99,
-    image: 'https://images.unsplash.com/photo-1617883861744-13b534e3b928?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dGVubmlzJTIwcmFja2V0fGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1617883861744-13b534e3b928?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dGVubmlzJTIwcmFja2V0fGVufDB8fDB8fHww',
     description: 'Lightweight tennis racket for beginners.',
     category: 'sports',
     onSale: true,
@@ -683,7 +741,8 @@ export const products = [
     id: 59,
     name: 'Yoga Blocks',
     price: 18.99,
-    image: 'https://images.unsplash.com/photo-1646239646963-b0b9be56d6b5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8eW9nYSUyMGJsb2Nrc3xlbnwwfHwwfHx8MA%3D%3D',
+    image:
+      'https://images.unsplash.com/photo-1646239646963-b0b9be56d6b5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8eW9nYSUyMGJsb2Nrc3xlbnwwfHwwfHx8MA%3D%3D',
     description: 'Set of 2 cork yoga blocks.',
     category: 'sports',
     weight: '400g',
@@ -694,7 +753,8 @@ export const products = [
     id: 60,
     name: 'Cycling Gloves',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1760177379284-b68471fdd217?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fGN5Y2xpbmclMjBnbG92ZXN8ZW58MHx8MHx8fDA%3D',
+    image:
+      'https://images.unsplash.com/photo-1760177379284-b68471fdd217?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fGN5Y2xpbmclMjBnbG92ZXN8ZW58MHx8MHx8fDA%3D',
     description: 'Padded cycling gloves for comfort.',
     category: 'sports',
     weight: '80g',
@@ -707,7 +767,8 @@ export const products = [
     id: 61,
     name: 'Gourmet Coffee',
     price: 15.99,
-    image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500&auto=format&fit=crop&q=60',
     description: 'Premium medium roast from sustainable farms.',
     category: 'food',
     weight: '500g',
@@ -718,7 +779,8 @@ export const products = [
     id: 62,
     name: 'Artisan Chocolate Box',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=500&auto=format&fit=crop&q=60',
     description: 'Assorted handcrafted chocolates in a gift box.',
     category: 'food',
     onSale: true,
@@ -731,7 +793,8 @@ export const products = [
     id: 63,
     name: 'Organic Tea Collection',
     price: 22.99,
-    image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&auto=format&fit=crop&q=60',
     description: 'Set of 5 premium loose leaf teas.',
     category: 'food',
     weight: '200g',
@@ -742,7 +805,8 @@ export const products = [
     id: 64,
     name: 'Spice Gift Set',
     price: 29.99,
-    image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=60',
     description: 'Collection of gourmet spices from around the world.',
     category: 'food',
     weight: '400g',
@@ -753,7 +817,8 @@ export const products = [
     id: 65,
     name: 'Olive Oil Premium',
     price: 18.99,
-    image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=60',
     description: 'Extra virgin olive oil from Italy.',
     category: 'food',
     weight: '500ml',
@@ -764,7 +829,8 @@ export const products = [
     id: 66,
     name: 'Honey Jar Set',
     price: 27.99,
-    image: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=500&auto=format&fit=crop&q=60',
     description: 'Set of 3 artisan honey varieties.',
     category: 'food',
     onSale: true,
@@ -777,7 +843,8 @@ export const products = [
     id: 67,
     name: 'Granola Mix',
     price: 12.99,
-    image: 'https://images.unsplash.com/photo-1760177379284-b68471fdd217?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fGN5Y2xpbmclMjBnbG92ZXN8ZW58MHx8MHx8fDA%3D',
+    image:
+      'https://images.unsplash.com/photo-1658245730855-abc66ac0b519?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3Jhbm9sYSUyMG1peHxlbnwwfHwwfHx8MA%3D%3D',
     description: 'Crunchy granola with nuts and dried fruits.',
     category: 'food',
     weight: '400g',
@@ -788,7 +855,8 @@ export const products = [
     id: 68,
     name: 'Pasta Variety Pack',
     price: 16.99,
-    image: 'https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=500&auto=format&fit=crop&q=60',
     description: 'Italian pasta in 4 different shapes.',
     category: 'food',
     weight: '1kg',
@@ -799,7 +867,8 @@ export const products = [
     id: 69,
     name: 'Nut Butter Sampler',
     price: 19.99,
-    image: 'https://plus.unsplash.com/premium_photo-1701210419372-29c3bc0008f2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bnV0JTIwYnV0dGVyfGVufDB8fDB8fHww',
+    image:
+      'https://plus.unsplash.com/premium_photo-1701210419372-29c3bc0008f2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bnV0JTIwYnV0dGVyfGVufDB8fDB8fHww',
     description: 'Almond, cashew, and peanut butter trio.',
     category: 'food',
     weight: '600g',
@@ -810,7 +879,8 @@ export const products = [
     id: 70,
     name: 'Dried Fruit Mix',
     price: 14.99,
-    image: 'https://plus.unsplash.com/premium_photo-1668677227454-213252229b73?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZHJpZWQlMjBmcnVpdCUyMG1peHxlbnwwfHwwfHx8MA%3D%3D',
+    image:
+      'https://plus.unsplash.com/premium_photo-1668677227454-213252229b73?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZHJpZWQlMjBmcnVpdCUyMG1peHxlbnwwfHwwfHx8MA%3D%3D',
     description: 'Premium mix of dried fruits and berries.',
     category: 'food',
     onSale: true,
@@ -823,7 +893,8 @@ export const products = [
     id: 71,
     name: 'Matcha Powder',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=500&auto=format&fit=crop&q=60',
     description: 'Ceremonial grade matcha green tea powder.',
     category: 'food',
     weight: '100g',
@@ -834,7 +905,8 @@ export const products = [
     id: 72,
     name: 'Hot Sauce Collection',
     price: 21.99,
-    image: 'https://images.unsplash.com/photo-1757800499225-220ba7ee4e53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90JTIwc2F1Y2UlMjBjb2xsZWN0aW9ufGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1757800499225-220ba7ee4e53?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90JTIwc2F1Y2UlMjBjb2xsZWN0aW9ufGVufDB8fDB8fHww',
     description: 'Set of 4 artisan hot sauces.',
     category: 'food',
     weight: '400g',
@@ -847,7 +919,8 @@ export const products = [
     id: 73,
     name: 'Bestselling Novel',
     price: 14.99,
-    image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&auto=format&fit=crop&q=60',
     description: "The latest page-turner everyone's talking about.",
     category: 'books',
     weight: '350g',
@@ -858,7 +931,8 @@ export const products = [
     id: 74,
     name: 'Cookbook',
     price: 27.99,
-    image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1589998059171-988d887df646?w=500&auto=format&fit=crop&q=60',
     description: '100 recipes for quick and healthy meals.',
     category: 'books',
     weight: '600g',
@@ -869,7 +943,8 @@ export const products = [
     id: 75,
     name: 'Self-Help Book',
     price: 17.99,
-    image: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500&auto=format&fit=crop&q=60',
     description: 'Practical advice for personal growth.',
     category: 'books',
     onSale: true,
@@ -882,7 +957,8 @@ export const products = [
     id: 76,
     name: 'Journal Set',
     price: 22.99,
-    image: 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=500&auto=format&fit=crop&q=60',
     description: 'Set of 3 journals for planning and reflection.',
     category: 'books',
     weight: '450g',
@@ -893,7 +969,8 @@ export const products = [
     id: 77,
     name: 'Photography Book',
     price: 39.99,
-    image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&auto=format&fit=crop&q=60',
     description: 'Stunning photography coffee table book.',
     category: 'books',
     weight: '1.2kg',
@@ -904,7 +981,8 @@ export const products = [
     id: 78,
     name: 'History Book',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=500&auto=format&fit=crop&q=60',
     description: 'Fascinating historical narratives.',
     category: 'books',
     onSale: true,
@@ -917,7 +995,8 @@ export const products = [
     id: 79,
     name: 'Science Fiction',
     price: 16.99,
-    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500&auto=format&fit=crop&q=60',
     description: 'Award-winning sci-fi adventure novel.',
     category: 'books',
     weight: '400g',
@@ -928,7 +1007,8 @@ export const products = [
     id: 80,
     name: 'Business Guide',
     price: 29.99,
-    image: 'https://images.unsplash.com/photo-1553484771-371a605b060b?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1553484771-371a605b060b?w=500&auto=format&fit=crop&q=60',
     description: 'Essential guide for entrepreneurs.',
     category: 'books',
     weight: '450g',
@@ -939,7 +1019,8 @@ export const products = [
     id: 81,
     name: 'Art Book',
     price: 44.99,
-    image: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=500&auto=format&fit=crop&q=60',
     description: 'Collection of modern art masterpieces.',
     category: 'books',
     weight: '1.5kg',
@@ -950,7 +1031,8 @@ export const products = [
     id: 82,
     name: 'Poetry Collection',
     price: 18.99,
-    image: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500&auto=format&fit=crop&q=60',
     description: 'Beautiful anthology of contemporary poetry.',
     category: 'books',
     onSale: true,
@@ -963,7 +1045,8 @@ export const products = [
     id: 83,
     name: 'Travel Guide',
     price: 21.99,
-    image: 'https://images.unsplash.com/photo-1544640808-32ca72ac7f37?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1544640808-32ca72ac7f37?w=500&auto=format&fit=crop&q=60',
     description: 'Complete guide to top travel destinations.',
     category: 'books',
     weight: '400g',
@@ -974,7 +1057,8 @@ export const products = [
     id: 84,
     name: 'Fitness Book',
     price: 19.99,
-    image: 'https://plus.unsplash.com/premium_photo-1661379166116-01b8b5081653?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGZpdG5lc3MlMjBib29rfGVufDB8fDB8fHww',
+    image:
+      'https://plus.unsplash.com/premium_photo-1661379166116-01b8b5081653?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fGZpdG5lc3MlMjBib29rfGVufDB8fDB8fHww',
     description: 'Comprehensive workout and nutrition guide.',
     category: 'books',
     weight: '350g',
@@ -987,7 +1071,8 @@ export const products = [
     id: 85,
     name: 'Building Blocks',
     price: 29.99,
-    image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=500&auto=format&fit=crop&q=60',
     description: 'Creative building set for ages 3+.',
     category: 'toys',
     weight: '800g',
@@ -998,7 +1083,8 @@ export const products = [
     id: 86,
     name: 'Plush Animal',
     price: 19.99,
-    image: 'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1559454403-b8fb88521f11?w=500&auto=format&fit=crop&q=60',
     description: 'Soft and huggable stuffed animal.',
     category: 'toys',
     weight: '200g',
@@ -1009,7 +1095,8 @@ export const products = [
     id: 87,
     name: 'Board Game',
     price: 34.99,
-    image: 'https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=500&auto=format&fit=crop&q=60',
     description: 'Family game night favorite for 2-6 players.',
     category: 'toys',
     onSale: true,
@@ -1022,7 +1109,8 @@ export const products = [
     id: 88,
     name: 'Art Supply Kit',
     price: 24.99,
-    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=500&auto=format&fit=crop&q=60',
     description: 'Complete art kit for young creatives.',
     category: 'toys',
     weight: '600g',
@@ -1033,7 +1121,8 @@ export const products = [
     id: 89,
     name: 'Remote Control Car',
     price: 44.99,
-    image: 'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=500&auto=format&fit=crop&q=60',
     description: 'Fast RC car with rechargeable battery.',
     category: 'toys',
     weight: '500g',
@@ -1044,7 +1133,8 @@ export const products = [
     id: 90,
     name: 'Puzzle 1000 Pieces',
     price: 17.99,
-    image: 'https://images.unsplash.com/photo-1710276965349-5f61f9c96aeb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHV6emxlJTIwMTAwJTIwcGllY2VzfGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1710276965349-5f61f9c96aeb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHV6emxlJTIwMTAwJTIwcGllY2VzfGVufDB8fDB8fHww',
     description: 'Challenging jigsaw puzzle for adults.',
     category: 'toys',
     onSale: true,
@@ -1057,7 +1147,8 @@ export const products = [
     id: 91,
     name: 'Play-Doh Set',
     price: 14.99,
-    image: 'https://images.unsplash.com/photo-1560859251-d563a49c5e4a?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1560859251-d563a49c5e4a?w=500&auto=format&fit=crop&q=60',
     description: 'Colorful play dough with molds.',
     category: 'toys',
     weight: '400g',
@@ -1068,7 +1159,8 @@ export const products = [
     id: 92,
     name: 'Dollhouse',
     price: 79.99,
-    image: 'https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=500&auto=format&fit=crop&q=60',
     description: 'Wooden dollhouse with furniture.',
     category: 'toys',
     weight: '3kg',
@@ -1079,7 +1171,8 @@ export const products = [
     id: 93,
     name: 'Science Kit',
     price: 32.99,
-    image: 'https://images.unsplash.com/photo-1710276965349-5f61f9c96aeb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHV6emxlJTIwMTAwJTIwcGllY2VzfGVufDB8fDB8fHww',
+    image:
+      'https://images.unsplash.com/photo-1710276965349-5f61f9c96aeb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHV6emxlJTIwMTAwJTIwcGllY2VzfGVufDB8fDB8fHww',
     description: 'Educational science experiments for kids.',
     category: 'toys',
     onSale: true,
@@ -1092,7 +1185,8 @@ export const products = [
     id: 94,
     name: 'Train Set',
     price: 54.99,
-    image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://plus.unsplash.com/premium_photo-1723708910982-9b16181c373b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHRyYWluJTIwc2V0fGVufDB8fDB8fHww',
     description: 'Classic wooden train set with tracks.',
     category: 'toys',
     weight: '1.2kg',
@@ -1103,7 +1197,8 @@ export const products = [
     id: 95,
     name: 'Toy Robot',
     price: 39.99,
-    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://plus.unsplash.com/premium_photo-1682124422909-13f3a1d0124e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8dG95JTIwcm9ib3R8ZW58MHx8MHx8fDA%3D',
     description: 'Interactive robot with voice commands.',
     category: 'toys',
     weight: '400g',
@@ -1114,7 +1209,8 @@ export const products = [
     id: 96,
     name: 'Card Games Bundle',
     price: 21.99,
-    image: 'https://images.unsplash.com/photo-1541278107931-e006523892df?w=500&auto=format&fit=crop&q=60',
+    image:
+      'https://images.unsplash.com/photo-1541278107931-e006523892df?w=500&auto=format&fit=crop&q=60',
     description: 'Collection of classic card games.',
     category: 'toys',
     weight: '300g',
@@ -1146,6 +1242,6 @@ export const shippingOptions = [
 ];
 
 // Categories derived from products
-export const categories = ['all', ...Array.from(new Set(products.map(p => p.category)))];
+export const categories = ['all', ...Array.from(new Set(products.map((p) => p.category)))];
 
 export default products;

@@ -174,7 +174,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
       </div>
 
       {/* Item Total and Remove */}
-      <div className={`ml-4 flex flex-col items-end ${compact ? 'ml-2' : 'ml-4'}`}>
+      <div className={`ml-4 flex flex-col items-start ${compact ? 'ml-2' : 'ml-4'}`}>
         {/* Item Total Price */}
         <p
           className={`font-medium ${compact ? 'text-xs' : 'text-sm'}`}

@@ -104,9 +104,7 @@ function ProductCard({ product, onAddToCart }) {
         style={{
           backgroundColor: darkMode ? COLORS.dark.secondary : '#ffffff',
           borderColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)',
-          boxShadow: darkMode
-            ? '0 2px 8px rgba(0, 0, 0, 0.3)'
-            : '0 2px 8px rgba(0, 0, 0, 0.06)',
+          boxShadow: darkMode ? '0 2px 8px rgba(0, 0, 0, 0.3)' : '0 2px 8px rgba(0, 0, 0, 0.06)',
         }}
       >
         {/* Product Image Container */}
@@ -154,32 +152,34 @@ function ProductCard({ product, onAddToCart }) {
 
         {/* Product Details */}
         <div className="p-3">
-          {/* Product Name */}
-          <h3
-            className="text-sm font-medium line-clamp-2 leading-tight mb-1"
-            style={{
-              color: darkMode ? COLORS.dark.text : COLORS.light.text,
-              fontFamily: "'Metropolis', sans-serif",
-              minHeight: '2.5rem',
-            }}
-          >
-            {product.name}
-          </h3>
+          {/* Product Name and Weight Container - Fixed height for consistent card sizing */}
+          <div style={{ minHeight: '3rem' }}>
+            {/* Product Name */}
+            <h3
+              className="text-sm font-medium line-clamp-2 leading-tight"
+              style={{
+                color: darkMode ? COLORS.dark.text : COLORS.light.text,
+                fontFamily: "'Metropolis', sans-serif",
+              }}
+            >
+              {product.name}
+            </h3>
 
-          {/* Weight/Quantity Info */}
-          <p
-            className="text-xs mb-3"
-            style={{
-              color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.45)',
-            }}
-          >
-            {product.weight || `${product.description?.substring(0, 20)}...`}
-          </p>
+            {/* Weight/Quantity Info */}
+            <p
+              className="text-xs mt-1"
+              style={{
+                color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.45)',
+              }}
+            >
+              {product.weight || `${product.description?.substring(0, 20)}...`}
+            </p>
+          </div>
 
           {/* Price and Add Button Row */}
-          <div className="flex items-center justify-between">
-            {/* Price Display */}
-            <div className="flex flex-col">
+          <div className="flex items-center justify-between mt-1">
+            {/* Price Display - Fixed height for consistent alignment */}
+            <div className="flex flex-col" style={{ minHeight: '2.75rem' }}>
               <span
                 className="font-semibold text-base"
                 style={{
@@ -188,16 +188,15 @@ function ProductCard({ product, onAddToCart }) {
               >
                 ${displayPrice?.toFixed(2)}
               </span>
-              {product.onSale && (
-                <span
-                  className="text-xs line-through"
-                  style={{
-                    color: darkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)',
-                  }}
-                >
-                  ${product.price.toFixed(2)}
-                </span>
-              )}
+              {/* Always reserve space for strikethrough price */}
+              <span
+                className={`text-xs ${product.onSale ? 'line-through' : 'invisible'}`}
+                style={{
+                  color: darkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.4)',
+                }}
+              >
+                {product.onSale ? `$${product.price.toFixed(2)}` : '$0.00'}
+              </span>
             </div>
 
             {/* Add Button or Quantity Selector */}
