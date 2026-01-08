@@ -1,16 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  FiArrowLeft,
-  FiEdit,
-  FiUser,
-  FiMail,
-  FiPhone,
-  FiMapPin,
-  FiSave,
-  FiX,
-} from 'react-icons/fi';
+import { FiArrowLeft, FiEdit, FiUser, FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 import { useProfile } from '../context/ProfileContext';
 import { useToast } from '../context/ToastContext';
@@ -130,7 +121,7 @@ function ProfilePage() {
           {/* Back Link */}
           <Link
             to="/home"
-            className="inline-flex items-center text-sm font-medium mb-4 hover:opacity-80 transition-opacity"
+            className="inline-flex items-center text-sm font-medium mb-4 hover:opacity-80 transition-opacity cursor-pointer"
             style={{ color: primaryColor }}
           >
             <FiArrowLeft className="mr-2 h-4 w-4" />
@@ -157,7 +148,7 @@ function ProfilePage() {
             {!isEditing && (
               <button
                 onClick={handleEdit}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all hover:opacity-80"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all hover:opacity-80 cursor-pointer"
                 style={{
                   backgroundColor: primaryColor,
                   color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
@@ -267,39 +258,10 @@ function ProfilePage() {
               {isEditing ? (
                 /* Edit Form */
                 <>
-                  <div
-                    className="flex items-center justify-between mb-6 pb-4 border-b"
-                    style={{ borderColor }}
-                  >
+                  <div className="mb-6 pb-4 border-b" style={{ borderColor }}>
                     <h2 className="text-lg font-bold" style={{ color: textColor }}>
                       Edit Profile
                     </h2>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={handleCancel}
-                        className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all hover:opacity-80"
-                        style={{
-                          color: subtextColor,
-                          backgroundColor: darkMode
-                            ? 'rgba(255, 255, 255, 0.05)'
-                            : 'rgba(0, 0, 0, 0.05)',
-                        }}
-                      >
-                        <FiX className="h-4 w-4" />
-                        Cancel
-                      </button>
-                      <button
-                        onClick={handleSave}
-                        className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-md transition-all hover:opacity-80"
-                        style={{
-                          backgroundColor: primaryColor,
-                          color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
-                        }}
-                      >
-                        <FiSave className="h-4 w-4" />
-                        Save
-                      </button>
-                    </div>
                   </div>
                   <ProfileForm onSave={handleSave} onCancel={handleCancel} />
                 </>

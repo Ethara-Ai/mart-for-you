@@ -17,7 +17,7 @@ import { useTheme } from '../../context/ThemeContext';
  * @param {string} props.videoUrl - Background video URL
  */
 function Hero({
-  title = 'Shop. Discover. Enjoy.',
+  title = 'Discover. Shop. Enjoy.',
   subtitle = 'Shopping made simple.',
   ctaText = 'Shop Now',
   ctaLink,

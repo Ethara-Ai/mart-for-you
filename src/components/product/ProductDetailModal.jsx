@@ -303,7 +303,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
               {/* Close Button - Positioned outside/above the card */}
               <button
                 onClick={onClose}
-                className="absolute -top-2 -right-2 z-10 p-2 rounded-full transition-all hover:scale-110 active:scale-95"
+                className="absolute -top-2 -right-2 z-10 p-2 rounded-full transition-all hover:scale-110 active:scale-95 cursor-pointer"
                 style={{
                   backgroundColor: darkMode
                     ? COLORS.dark.modalBackground
@@ -423,7 +423,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                       {!isInCart(product.id) ? (
                         <button
                           onClick={handleAddToCart}
-                          className="w-full flex items-center justify-center gap-2 px-6 py-3 text-base font-semibold rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+                          className="w-full flex items-center justify-center gap-2 px-6 py-3 text-base font-semibold rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                           style={{
                             backgroundColor: primaryColor,
                             color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
@@ -518,9 +518,9 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                         Product Specifications
                       </span>
                       {showSpecifications ? (
-                        <FiChevronUp className="h-5 w-5" />
+                        <FiChevronUp className="h-5 w-5 cursor-pointer" />
                       ) : (
-                        <FiChevronDown className="h-5 w-5" />
+                        <FiChevronDown className="h-5 w-5 cursor-pointer" />
                       )}
                     </button>
 

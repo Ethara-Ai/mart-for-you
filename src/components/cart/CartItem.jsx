@@ -193,7 +193,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
             compact ? 'text-xs' : 'text-xs'
           }`}
           style={{
-            color: darkMode ? '#f87171' : '#dc2626',
+            color: darkMode ? '#ff0000' : '#dc2626',
           }}
           aria-label={`Remove ${item.name} from cart`}
         >
