@@ -56,9 +56,7 @@ function LandingPage() {
     <div
       className="h-screen w-full overflow-hidden flex flex-col"
       style={{
-        background: darkMode
-          ? COLORS.dark.backgroundGradient
-          : COLORS.light.backgroundGradient,
+        background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
       }}
     >
       {/* Theme Toggle - Top Right */}
@@ -88,10 +86,7 @@ function LandingPage() {
         animate="visible"
       >
         {/* Logo Icon */}
-        <motion.div
-          variants={logoVariants}
-          className="mb-6"
-        >
+        <motion.div variants={logoVariants} className="mb-6">
           <div
             className="w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center"
             style={{
@@ -103,10 +98,7 @@ function LandingPage() {
                 : '0 20px 40px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
             }}
           >
-            <FiShoppingBag
-              className="w-12 h-12 sm:w-16 sm:h-16"
-              style={{ color: primaryColor }}
-            />
+            <FiShoppingBag className="w-12 h-12 sm:w-16 sm:h-16" style={{ color: primaryColor }} />
           </div>
         </motion.div>
 
@@ -180,17 +172,7 @@ function LandingPage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.5 }}
         className="py-6 text-center"
-      >
-        <p
-          className="text-xs sm:text-sm"
-          style={{
-            color: darkMode ? 'rgba(224, 224, 224, 0.5)' : 'rgba(51, 51, 51, 0.5)',
-            fontFamily: "'Metropolis', sans-serif",
-          }}
-        >
-          © 2024 MART. All rights reserved.
-        </p>
-      </motion.div>
+      ></motion.div>
 
       {/* Decorative Elements */}
       <motion.div
@@ -228,4 +210,3 @@ function LandingPage() {
 }
 
 export default LandingPage;
-

@@ -438,7 +438,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                           <div className="flex items-center gap-3">
                             <button
                               onClick={handleDecrease}
-                              className="w-12 h-12 flex items-center justify-center rounded-lg transition-all hover:scale-110 active:scale-95"
+                              className="w-12 h-12 flex items-center justify-center rounded-lg transition-all hover:scale-110 active:scale-95 cursor-pointer"
                               style={{
                                 backgroundColor: darkMode
                                   ? COLORS.dark.secondary
@@ -465,7 +465,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                             <button
                               onClick={handleIncrease}
                               disabled={isAtStockLimit}
-                              className={`w-12 h-12 flex items-center justify-center rounded-lg transition-all ${
+                              className={`w-12 h-12 flex items-center justify-center rounded-lg transition-all cursor-pointer ${
                                 isAtStockLimit
                                   ? 'cursor-not-allowed opacity-50'
                                   : 'hover:scale-110 active:scale-95'

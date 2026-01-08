@@ -17,6 +17,12 @@ function Logo({ size = 'md', animate = true, onClick }) {
 
   // Size configurations
   const sizeConfig = {
+    xs: {
+      container: 'ml-7',
+      svg: { width: 24, height: 24 },
+      text: 'text-base',
+      tagline: 'text-[10px]',
+    },
     sm: {
       container: 'ml-10',
       svg: { width: 32, height: 32 },
@@ -127,13 +133,14 @@ function Logo({ size = 'md', animate = true, onClick }) {
 
       {/* Animated items appearing in the shopping bag */}
       <motion.div className="absolute left-3 top-5 z-10">
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-          custom={1.4}
-        >
-          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <motion.div variants={itemVariants} initial="hidden" animate="visible" custom={1.4}>
+          <svg
+            width="8"
+            height="8"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <circle
               cx="12"
               cy="12"
@@ -145,13 +152,14 @@ function Logo({ size = 'md', animate = true, onClick }) {
       </motion.div>
 
       <motion.div className="absolute left-8 top-8 z-10">
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-          custom={1.6}
-        >
-          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <motion.div variants={itemVariants} initial="hidden" animate="visible" custom={1.6}>
+          <svg
+            width="9"
+            height="9"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <rect
               x="6"
               y="6"
@@ -165,13 +173,14 @@ function Logo({ size = 'md', animate = true, onClick }) {
       </motion.div>
 
       <motion.div className="absolute left-12 top-6 z-10">
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-          custom={1.8}
-        >
-          <svg width="7" height="7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <motion.div variants={itemVariants} initial="hidden" animate="visible" custom={1.8}>
+          <svg
+            width="7"
+            height="7"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <polygon
               points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
               fill={darkMode ? 'rgba(191, 219, 254, 0.8)' : 'rgba(30, 58, 138, 0.8)'}
@@ -224,7 +233,7 @@ function Logo({ size = 'md', animate = true, onClick }) {
             transition={{ delay: animate ? 1.8 : 0, duration: 0.5, ease: 'easeOut' }}
             style={{ color: primaryColor }}
           >
-              For You
+            For You
           </motion.span>
         </motion.div>
       </div>

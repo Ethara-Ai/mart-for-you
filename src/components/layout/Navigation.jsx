@@ -103,12 +103,16 @@ function Navigation({
 
   return (
     <>
-      {/* Placeholder to maintain layout space when nav is fixed */}
-      <div ref={placeholderRef} className={isSticky ? 'h-16 sm:h-14' : 'h-0'} />
+      {/* Placeholder to maintain layout space when nav is fixed (hidden on mobile) */}
+      <div
+        ref={placeholderRef}
+        className={`hidden md:block ${isSticky ? 'h-16 sm:h-14' : 'h-0'}`}
+      />
 
+      {/* Navigation hidden on mobile (categories now in sidebar), visible on tablet and desktop */}
       <nav
         ref={navRef}
-        className={`py-3 sm:py-4 z-50 left-0 right-0 transition-all duration-300 ${isSticky ? 'fixed top-0 shadow-md' : 'relative'}`}
+        className={`hidden md:block py-3 sm:py-4 z-50 left-0 right-0 transition-all duration-300 ${isSticky ? 'fixed top-0 shadow-md' : 'relative'}`}
         style={{
           background: isSticky
             ? darkMode
@@ -119,8 +123,8 @@ function Navigation({
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-4">
           <div className="flex justify-between items-center gap-2 sm:gap-4">
-            {/* Mobile Menu Button - Left Side */}
-            <div className="md:hidden">
+            {/* Mobile Menu Button - Hidden on mobile (categories now in sidebar), visible on tablet */}
+            <div className="hidden md:block lg:hidden">
               <button
                 onClick={toggleMobileMenu}
                 className="p-2 rounded-md cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"

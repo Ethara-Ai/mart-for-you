@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { SearchContext, SearchProvider } from './SearchContext';
 
-// Context exports
-export { ThemeProvider, useTheme, default as ThemeContext } from './ThemeContext';
-export { CartProvider, useCart, default as CartContext } from './CartContext';
-export { ToastProvider, useToast, default as ToastContext } from './ToastContext';
-export { ProfileProvider, useProfile, default as ProfileContext } from './ProfileContext';
-export { SearchProvider, SearchContext };
+// Context exports - only export providers and hooks (not context objects) to avoid Fast Refresh warnings
+export { ThemeProvider, useTheme } from './ThemeContext';
+export { CartProvider, useCart } from './CartContext';
+export { ToastProvider, useToast } from './ToastContext';
+export { ProfileProvider, useProfile } from './ProfileContext';
+export { SearchProvider };
 
 // Custom hook to use search context (defined here to avoid Fast Refresh warning)
 export function useSearch() {

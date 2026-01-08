@@ -2,9 +2,6 @@ import { useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { SearchContext } from './searchContextValue';
 
-// Re-export SearchContext for convenience
-export { SearchContext };
-
 // Search Provider Component
 export function SearchProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState('');

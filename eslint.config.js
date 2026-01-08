@@ -114,7 +114,7 @@ export default [
       'no-multi-spaces': 'warn',
       'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 1 }],
       'no-trailing-spaces': 'warn',
-      'comma-dangle': ['warn', 'always-multiline'],
+      'comma-dangle': 'off',
       semi: ['warn', 'always'],
       quotes: ['warn', 'single', { avoidEscape: true }],
 

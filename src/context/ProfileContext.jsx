@@ -142,5 +142,3 @@ export function useProfile() {
   }
   return context;
 }
-
-export default ProfileContext;

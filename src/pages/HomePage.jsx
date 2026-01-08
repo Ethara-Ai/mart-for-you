@@ -54,7 +54,7 @@ function HomePage() {
 
         return categoryMatch && searchMatch && offersMatch;
       }),
-    [activeCategory, searchTerm, viewingOffers],
+    [activeCategory, searchTerm, viewingOffers]
   );
 
   // Group products by category for scrolling sections

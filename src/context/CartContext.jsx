@@ -23,7 +23,7 @@ export function CartProvider({ children }) {
           return prevItems;
         }
         return prevItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
 
@@ -49,7 +49,7 @@ export function CartProvider({ children }) {
           return { ...item, quantity: clampedQuantity };
         }
         return item;
-      }),
+      })
     );
   }, []);
 
@@ -61,7 +61,7 @@ export function CartProvider({ children }) {
   // Calculate total items in cart
   const totalItems = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
-    [cartItems],
+    [cartItems]
   );
 
   // Calculate cart subtotal
@@ -71,7 +71,7 @@ export function CartProvider({ children }) {
         const price = item.onSale ? item.salePrice : item.price;
         return sum + price * item.quantity;
       }, 0),
-    [cartItems],
+    [cartItems]
   );
 
   // Get shipping cost
@@ -104,7 +104,7 @@ export function CartProvider({ children }) {
   // Check if item is in cart
   const isInCart = useCallback(
     (productId) => cartItems.some((item) => item.id === productId),
-    [cartItems],
+    [cartItems]
   );
 
   // Get item quantity in cart
@@ -113,7 +113,7 @@ export function CartProvider({ children }) {
       const item = cartItems.find((item) => item.id === productId);
       return item ? item.quantity : 0;
     },
-    [cartItems],
+    [cartItems]
   );
 
   // Context value
@@ -149,5 +149,3 @@ export function useCart() {
   }
   return context;
 }
-
-export default CartContext;

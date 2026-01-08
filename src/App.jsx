@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import AppProvider from './context/AppProvider';
 import { useTheme } from './context/ThemeContext';
 import { useProfile } from './context/ProfileContext';
@@ -47,10 +47,15 @@ function PageLoader() {
  * closing modals.
  */
 function AppLayout() {
+  const navigate = useNavigate();
   const { darkMode, COLORS } = useTheme();
   const { closeProfileCard, isProfileCardOpen } = useProfile();
   const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Category state for mobile sidebar navigation
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [viewingOffers, setViewingOffers] = useState(false);
 
   // Handle click outside to close profile card
   useEffect(() => {
@@ -79,6 +84,26 @@ function AppLayout() {
     setIsCartOpen(true);
   };
 
+  // Handle category change from mobile sidebar
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    setViewingOffers(false);
+    // Navigate to products page with category in URL
+    if (category === 'all') {
+      navigate('/products');
+    } else {
+      navigate(`/products?category=${category}`);
+    }
+  };
+
+  // Handle offers click from mobile sidebar
+  const handleOffersClick = () => {
+    setViewingOffers(true);
+    setActiveCategory('all');
+    // Navigate to offers page
+    navigate('/offers');
+  };
+
   return (
     <div
       className={`min-h-screen flex flex-col ${darkMode ? 'dark' : ''}`}
@@ -101,6 +126,10 @@ function AppLayout() {
         onSearchSubmit={onSearchSubmit}
         onSearchClear={clearSearch}
         onCartClick={handleCartOpen}
+        activeCategory={activeCategory}
+        onCategoryChange={handleCategoryChange}
+        viewingOffers={viewingOffers}
+        onOffersClick={handleOffersClick}
       />
 
       {/* Main content area - Routes */}
