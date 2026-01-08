@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiMenu } from 'react-icons/fi';
+import { FiX, FiMenu, FiShoppingCart } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
+import { useCart } from '../../context/CartContext';
 import { categories } from '../../data/products';
 import SearchBar from '../common/SearchBar';
 
 /**
  * Navigation - Category navigation and search component
  *
- * Displays category filters, search bar, and offers link.
+ * Displays category filters, search bar, cart button, and offers link.
  * Includes mobile-responsive menu that collapses on smaller screens.
  *
  * @param {Object} props
@@ -19,6 +20,7 @@ import SearchBar from '../common/SearchBar';
  * @param {Function} props.onSearchChange - Callback when search changes
  * @param {boolean} props.viewingOffers - Whether offers filter is active
  * @param {Function} props.onOffersClick - Callback when offers is clicked
+ * @param {Function} props.onCartClick - Callback when cart button is clicked
  */
 function Navigation({
   activeCategory = 'all',
@@ -27,10 +29,12 @@ function Navigation({
   onSearchChange,
   viewingOffers = false,
   onOffersClick,
+  onCartClick,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { darkMode, COLORS } = useTheme();
+  const { totalItems } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const navRef = useRef(null);
@@ -125,25 +129,25 @@ function Navigation({
   return (
     <>
       {/* Placeholder to maintain layout space when nav is fixed */}
-      <div ref={placeholderRef} className={isSticky ? 'h-14' : 'h-0'} />
+      <div ref={placeholderRef} className={isSticky ? 'h-16 sm:h-14' : 'h-0'} />
 
       <nav
         ref={navRef}
-        className={`shadow-md py-4 z-50 left-0 right-0 ${isSticky ? 'fixed top-0' : 'relative'}`}
+        className={`shadow-md py-3 sm:py-4 z-50 left-0 right-0 transition-all duration-300 ${isSticky ? 'fixed top-0' : 'relative'}`}
         style={{
           background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            {/* Desktop Category Navigation */}
-            <div className="hidden md:flex space-x-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex justify-between items-center gap-2 sm:gap-4">
+            {/* Desktop/Tablet Category Navigation */}
+            <div className="hidden lg:flex space-x-4 xl:space-x-8 shrink-0">
               {categories.map((category) => (
                 <motion.button
                   key={category}
                   type="button"
                   onClick={(e) => handleCategoryClick(e, category)}
-                  className={`px-3 py-2 text-sm font-medium capitalize cursor-pointer transition-all ${
+                  className={`px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium capitalize cursor-pointer transition-all whitespace-nowrap ${
                     activeCategory === category && !viewingOffers ? 'border-b-2' : ''
                   } hover:-translate-y-0.5`}
                   style={getButtonStyles(activeCategory === category && !viewingOffers)}
@@ -158,7 +162,7 @@ function Navigation({
               <motion.button
                 type="button"
                 onClick={(e) => handleOffersClick(e)}
-                className={`px-3 py-2 text-sm font-medium cursor-pointer transition-all ${
+                className={`px-2 xl:px-3 py-2 text-xs xl:text-sm font-medium cursor-pointer transition-all whitespace-nowrap ${
                   viewingOffers ? 'border-b-2' : ''
                 } hover:-translate-y-0.5`}
                 style={getButtonStyles(viewingOffers)}
@@ -169,8 +173,39 @@ function Navigation({
               </motion.button>
             </div>
 
-            {/* Desktop Search Bar */}
-            <div className="hidden md:block grow max-w-md mx-4">
+            {/* Tablet View - Compact Categories */}
+            <div className="hidden md:flex lg:hidden space-x-2 shrink-0">
+              {/* Show only first 4 categories on tablet */}
+              {categories.slice(0, 4).map((category) => (
+                <motion.button
+                  key={category}
+                  type="button"
+                  onClick={(e) => handleCategoryClick(e, category)}
+                  className={`px-2 py-1.5 text-xs font-medium capitalize cursor-pointer transition-all whitespace-nowrap ${
+                    activeCategory === category && !viewingOffers ? 'border-b-2' : ''
+                  }`}
+                  style={getButtonStyles(activeCategory === category && !viewingOffers)}
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {category}
+                </motion.button>
+              ))}
+
+              {/* More button for tablet */}
+              <button
+                onClick={toggleMobileMenu}
+                className="px-2 py-1.5 text-xs font-medium cursor-pointer transition-all whitespace-nowrap"
+                style={{
+                  color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                }}
+              >
+                More...
+              </button>
+            </div>
+
+            {/* Desktop/Tablet Search Bar and Cart */}
+            <div className="hidden md:flex items-center gap-2 lg:gap-3 grow max-w-sm lg:max-w-md mx-2 lg:mx-4">
               <SearchBar
                 value={searchTerm}
                 onChange={handleSearchChange}
@@ -179,14 +214,40 @@ function Navigation({
                 placeholder="Search products..."
                 variant="desktop"
               />
+
+              {/* Cart Button - Desktop/Tablet */}
+              <button
+                id="cart-button"
+                onClick={onCartClick}
+                className="relative w-9 h-9 lg:w-10 lg:h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
+                style={{
+                  backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
+                  color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                }}
+                aria-label={`View shopping cart with ${totalItems} items`}
+              >
+                <FiShoppingCart className="h-4 w-4 lg:h-5 lg:w-5" />
+                {totalItems > 0 && (
+                  <span
+                    className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 lg:w-5 lg:h-5 text-xs font-bold rounded-full"
+                    style={{
+                      backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                      color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                    }}
+                  >
+                    {totalItems > 99 ? '99+' : totalItems}
+                  </span>
+                )}
+              </button>
             </div>
 
-            {/* Mobile Search and Menu */}
-            <div className="flex items-center space-x-2 md:hidden">
+            {/* Mobile Search, Cart and Menu */}
+            <div className="flex items-center gap-2 md:hidden w-full justify-between">
               {/* Mobile Menu Button */}
               <button
                 onClick={toggleMobileMenu}
-                className="p-2 rounded-md cursor-pointer transform hover:scale-105 active:scale-95"
+                className="p-2 rounded-md cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
                 style={{
                   color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                   backgroundColor: darkMode ? 'rgba(30, 41, 59, 0.3)' : 'rgba(219, 234, 254, 0.3)',
@@ -194,11 +255,15 @@ function Navigation({
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileMenuOpen}
               >
-                {mobileMenuOpen ? <FiX className="h-6 w-6" /> : <FiMenu className="h-6 w-6" />}
+                {mobileMenuOpen ? (
+                  <FiX className="h-5 w-5 sm:h-6 sm:w-6" />
+                ) : (
+                  <FiMenu className="h-5 w-5 sm:h-6 sm:w-6" />
+                )}
               </button>
 
-              {/* Mobile Search */}
-              <div className="relative" style={{ width: '220px' }}>
+              {/* Mobile Search - Flexible width */}
+              <div className="relative flex-1 min-w-0 max-w-[200px] mx-2">
                 <SearchBar
                   value={searchTerm}
                   onChange={handleSearchChange}
@@ -208,11 +273,37 @@ function Navigation({
                   variant="mobile"
                 />
               </div>
+
+              {/* Mobile Cart Button */}
+              <button
+                id="cart-button-mobile"
+                onClick={onCartClick}
+                className="relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
+                style={{
+                  backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
+                  color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                }}
+                aria-label={`View shopping cart with ${totalItems} items`}
+              >
+                <FiShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
+                {totalItems > 0 && (
+                  <span
+                    className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 text-xs font-bold rounded-full"
+                    style={{
+                      backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                      color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                    }}
+                  >
+                    {totalItems > 99 ? '99+' : totalItems}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Mobile/Tablet Navigation Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -220,13 +311,13 @@ function Navigation({
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2, ease: 'easeInOut' }}
-              className="md:hidden border-t"
+              className="lg:hidden border-t mt-3"
               style={{
                 backgroundColor: darkMode ? COLORS.dark.navbackground : COLORS.light.background,
                 borderColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
               }}
             >
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 max-h-[60vh] overflow-y-auto">
                 {categories.map((category, index) => (
                   <motion.button
                     key={category}
@@ -235,7 +326,7 @@ function Navigation({
                     initial={{ x: -5, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 0.2, delay: index * 0.05 }}
-                    className={`block px-3 py-2 rounded-md text-base font-medium w-full text-left capitalize cursor-pointer transition-all ${
+                    className={`block px-3 py-2.5 sm:py-2 rounded-md text-sm sm:text-base font-medium w-full text-left capitalize cursor-pointer transition-all ${
                       activeCategory === category && !viewingOffers ? 'bg-opacity-20' : ''
                     }`}
                     style={{
@@ -260,7 +351,7 @@ function Navigation({
                   initial={{ x: -5, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ duration: 0.2, delay: categories.length * 0.05 }}
-                  className={`block px-3 py-2 rounded-md text-base font-medium w-full text-left cursor-pointer transition-all ${
+                  className={`block px-3 py-2.5 sm:py-2 rounded-md text-sm sm:text-base font-medium w-full text-left cursor-pointer transition-all ${
                     viewingOffers ? 'bg-opacity-20' : ''
                   }`}
                   style={{
@@ -273,7 +364,7 @@ function Navigation({
                     fontFamily: "'Metropolis', sans-serif",
                   }}
                 >
-                  Offers
+                  🔥 Offers
                 </motion.button>
               </div>
             </motion.div>

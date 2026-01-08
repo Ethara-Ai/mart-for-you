@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { Navigation } from '../components/layout';
 import { ProductGrid } from '../components/product';
+import { CartModal } from '../components/cart';
 import { products } from '../data/products';
 
 /**
@@ -16,6 +17,7 @@ import { products } from '../data/products';
 function ProductsPage() {
   const { darkMode, COLORS } = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Get initial values from URL params
   const initialCategory = searchParams.get('category') || 'all';
@@ -112,6 +114,16 @@ function ProductsPage() {
     return 'Explore our complete collection of carefully curated products.';
   };
 
+  // Handle cart open
+  const handleCartOpen = () => {
+    setIsCartOpen(true);
+  };
+
+  // Handle cart close
+  const handleCartClose = () => {
+    setIsCartOpen(false);
+  };
+
   return (
     <div>
       {/* Navigation with categories and search */}
@@ -122,6 +134,7 @@ function ProductsPage() {
         onSearchChange={handleSearchChange}
         viewingOffers={viewingOffers}
         onOffersClick={handleOffersClick}
+        onCartClick={handleCartOpen}
       />
 
       {/* Main Content */}
@@ -270,6 +283,9 @@ function ProductsPage() {
           />
         </div>
       </main>
+
+      {/* Cart Modal */}
+      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
     </div>
   );
 }

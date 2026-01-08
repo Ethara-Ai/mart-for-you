@@ -4,6 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import { Hero } from '../components/home';
 import { Navigation } from '../components/layout';
 import { ProductGrid } from '../components/product';
+import { CartModal } from '../components/cart';
 import { products } from '../data/products';
 
 /**
@@ -17,6 +18,7 @@ function OffersPage() {
   const { darkMode, COLORS } = useTheme();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Get only products on sale
   const saleProducts = useMemo(() => products.filter((product) => product.onSale === true), []);
@@ -74,6 +76,16 @@ function OffersPage() {
     setSearchTerm('');
   };
 
+  // Handle cart open
+  const handleCartOpen = () => {
+    setIsCartOpen(true);
+  };
+
+  // Handle cart close
+  const handleCartClose = () => {
+    setIsCartOpen(false);
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -93,6 +105,7 @@ function OffersPage() {
         onSearchChange={handleSearchChange}
         viewingOffers={true}
         onOffersClick={handleOffersClick}
+        onCartClick={handleCartOpen}
       />
 
       {/* Main Content */}
@@ -306,6 +319,9 @@ function OffersPage() {
           )}
         </div>
       </main>
+
+      {/* Cart Modal */}
+      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
     </div>
   );
 }

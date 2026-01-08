@@ -4,6 +4,7 @@ import { Hero } from '../components/home';
 import { Navigation } from '../components/layout';
 import { ProductGrid } from '../components/product';
 import { products } from '../data/products';
+import { CartModal } from '../components/cart';
 
 /**
  * HomePage - Main landing page component
@@ -17,6 +18,7 @@ function HomePage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [viewingOffers, setViewingOffers] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Filter products based on category, search, and offers
   const filteredProducts = useMemo(() => products.filter((product) => {
@@ -59,6 +61,16 @@ function HomePage() {
     setSearchTerm('');
   };
 
+  // Handle cart open
+  const handleCartOpen = () => {
+    setIsCartOpen(true);
+  };
+
+  // Handle cart close
+  const handleCartClose = () => {
+    setIsCartOpen(false);
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -72,6 +84,7 @@ function HomePage() {
         onSearchChange={handleSearchChange}
         viewingOffers={viewingOffers}
         onOffersClick={handleOffersClick}
+        onCartClick={handleCartOpen}
       />
 
       {/* Main Content */}
@@ -159,6 +172,9 @@ function HomePage() {
           />
         </div>
       </main>
+
+      {/* Cart Modal */}
+      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
     </div>
   );
 }

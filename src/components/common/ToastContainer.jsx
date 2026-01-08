@@ -5,9 +5,10 @@ import Toast from './Toast';
 /**
  * ToastContainer - Container component for displaying toast notifications
  *
- * This component renders all active toast notifications in a fixed position
- * at the bottom-right corner of the screen. Uses AnimatePresence for
- * smooth enter/exit animations.
+ * This component renders all active toast notifications in a fixed position.
+ * Desktop: Bottom-right corner
+ * Mobile: Bottom-center (centered horizontally)
+ * Uses AnimatePresence for smooth enter/exit animations.
  *
  * Usage:
  * Place this component once in your app layout (typically in App.jsx or a layout component)
@@ -26,7 +27,7 @@ function ToastContainer() {
 
   return (
     <div
-      className="fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"
+      className="fixed bottom-4 left-1/2 -translate-x-1/2 md:left-auto md:right-4 md:translate-x-0 z-50 flex flex-col space-y-2 pointer-events-none w-[calc(100%-2rem)] max-w-md md:w-auto"
       aria-live="polite"
       aria-label="Notifications"
     >

@@ -58,19 +58,19 @@ function Toast({ toast, onClose }) {
       initial={{ opacity: 0, y: 50, scale: 0.3 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5, y: 20 }}
-      className="p-4 mb-3 rounded-lg shadow-lg flex items-center"
+      className="p-3 sm:p-4 mb-3 rounded-lg shadow-lg flex items-center min-w-0 w-full"
       style={{
         backgroundColor: getBgColor(),
         color: '#FFFFFF',
       }}
     >
-      <div className="mr-3">
+      <div className="mr-2 sm:mr-3 shrink-0">
         {getIcon()}
       </div>
-      <p className="flex-1">{toast.message}</p>
+      <p className="flex-1 text-sm sm:text-base break-words">{toast.message}</p>
       <button
         onClick={onClose}
-        className="ml-3 p-1 text-white hover:text-gray-300 cursor-pointer rounded-full hover:bg-white/10 transition-colors"
+        className="ml-2 sm:ml-3 p-1 text-white hover:text-gray-300 cursor-pointer rounded-full hover:bg-white/10 transition-colors shrink-0"
         aria-label="Dismiss notification"
       >
         <FiX className="h-4 w-4" />

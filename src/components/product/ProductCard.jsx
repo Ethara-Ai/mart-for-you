@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { FiPlus, FiMinus } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
@@ -23,7 +24,7 @@ import { useToast } from '../../context/ToastContext';
  */
 function ProductCard({ product, onAddToCart }) {
   const { darkMode, COLORS } = useTheme();
-  const { addToCart, isInCart, getItemQuantity } = useCart();
+  const { addToCart, removeFromCart, updateQuantity, isInCart, getItemQuantity } = useCart();
   const { showSuccess } = useToast();
 
   // Handle add to cart
@@ -38,6 +39,26 @@ function ProductCard({ product, onAddToCart }) {
       } else {
         showSuccess(`${product.name} added to cart`);
       }
+    }
+  };
+
+  // Handle quantity increase
+  const handleIncrease = (e) => {
+    e.stopPropagation();
+    const currentQty = getItemQuantity(product.id);
+    updateQuantity(product.id, currentQty + 1);
+  };
+
+  // Handle quantity decrease
+  const handleDecrease = (e) => {
+    e.stopPropagation();
+    const currentQty = getItemQuantity(product.id);
+    if (currentQty > 1) {
+      updateQuantity(product.id, currentQty - 1);
+    } else if (currentQty === 1) {
+      // Remove from cart when quantity reaches 0
+      removeFromCart(product.id);
+      showSuccess(`${product.name} removed from cart`);
     }
   };
 
@@ -136,9 +157,9 @@ function ProductCard({ product, onAddToCart }) {
         </p>
 
         {/* Price and Add to Cart */}
-        <div className="mt-4 flex items-center justify-between">
+        <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2">
           {/* Price Display */}
-          <div>
+          <div className="shrink-0">
             {product.onSale ? (
               <div className="flex flex-col">
                 <span
@@ -170,19 +191,63 @@ function ProductCard({ product, onAddToCart }) {
             )}
           </div>
 
-          {/* Add to Cart Button */}
-          <button
-            onClick={handleAddToCart}
-            className="flex items-center justify-center px-4 py-2 font-medium rounded-md transition-all cursor-pointer transform hover:scale-105 active:scale-95"
-            style={{
-              backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-              color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            }}
-            aria-label={`Add ${product.name} to cart`}
-          >
-            Add to Cart
-          </button>
+          {/* Add to Cart Button or Quantity Selector */}
+          {!isInCart(product.id) ? (
+            /* Add to Cart Button - When NOT in cart */
+            <button
+              onClick={handleAddToCart}
+              className="w-full sm:w-auto flex items-center justify-center px-3 md:px-4 py-2 text-sm md:text-base font-medium rounded-md transition-all cursor-pointer transform hover:scale-105 active:scale-95 whitespace-nowrap"
+              style={{
+                backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              }}
+              aria-label={`Add ${product.name} to cart`}
+            >
+              Add to Cart
+            </button>
+          ) : (
+            /* Quantity Selector - When IN cart */
+            <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center sm:justify-end">
+              {/* Decrease Button */}
+              <button
+                onClick={handleDecrease}
+                className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-md transition-all cursor-pointer transform hover:scale-110 active:scale-95 shrink-0"
+                style={{
+                  backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
+                  color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                }}
+                aria-label="Decrease quantity"
+              >
+                <FiMinus className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </button>
+
+              {/* Quantity Display */}
+              <span
+                className="min-w-[1.75rem] md:min-w-[2rem] text-center font-semibold text-base md:text-lg"
+                style={{
+                  color: darkMode ? COLORS.dark.text : COLORS.light.text,
+                }}
+              >
+                {getItemQuantity(product.id)}
+              </span>
+
+              {/* Increase Button */}
+              <button
+                onClick={handleIncrease}
+                className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-md transition-all cursor-pointer transform hover:scale-110 active:scale-95 shrink-0"
+                style={{
+                  backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                  color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                }}
+                aria-label="Increase quantity"
+              >
+                <FiPlus className="h-3.5 w-3.5 md:h-4 md:w-4" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

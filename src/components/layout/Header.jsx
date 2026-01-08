@@ -1,24 +1,19 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiShoppingCart, FiMoon, FiSun, FiEdit } from 'react-icons/fi';
+import { FiMoon, FiSun, FiEdit } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
-import { useCart } from '../../context/CartContext';
 import { useProfile } from '../../context/ProfileContext';
 import Logo from './Logo';
 
 /**
  * Header - Main application header component
  *
- * Contains the brand logo, dark mode toggle, user profile button,
- * and shopping cart button. Sticky positioned at the top of the page.
- *
- * @param {Object} props
- * @param {Function} props.onCartClick - Callback when cart button is clicked
+ * Contains the brand logo, dark mode toggle, and user profile button.
+ * Sticky positioned at the top of the page.
  */
-function Header({ onCartClick }) {
+function Header() {
   const navigate = useNavigate();
   const { darkMode, toggleDarkMode, COLORS } = useTheme();
-  const { totalItems } = useCart();
   const {
     userProfile,
     isProfileCardOpen,
@@ -217,32 +212,6 @@ function Header({ onCartClick }) {
                 )}
               </AnimatePresence>
             </div>
-
-            {/* Cart button */}
-            <button
-              id="cart-button"
-              onClick={onCartClick}
-              className="relative w-10 h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95"
-              style={{
-                backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
-                color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              }}
-              aria-label={`View shopping cart with ${totalItems} items`}
-            >
-              <FiShoppingCart className="h-5 w-5" />
-              {totalItems > 0 && (
-                <span
-                  className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full"
-                  style={{
-                    backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                    color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
-                  }}
-                >
-                  {totalItems > 99 ? '99+' : totalItems}
-                </span>
-              )}
-            </button>
           </div>
         </div>
       </div>

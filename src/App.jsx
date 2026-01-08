@@ -93,7 +93,7 @@ function AppLayout() {
       <ToastContainer />
 
       {/* Header */}
-      <Header onCartClick={handleCartOpen} />
+      <Header />
 
       {/* Main content area - Routes */}
       <div className="flex-1">

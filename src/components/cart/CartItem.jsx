@@ -43,6 +43,13 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
       } else {
         updateQuantity(item.id, item.quantity - 1);
       }
+    } else if (item.quantity === 1) {
+      // Remove from cart when quantity reaches 0
+      if (onRemove) {
+        onRemove(item.id);
+      } else {
+        removeFromCart(item.id);
+      }
     }
   };
 
@@ -121,8 +128,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
         <div className="flex items-center mt-2">
           <button
             onClick={handleDecrease}
-            disabled={item.quantity <= 1}
-            className={`p-1 cursor-pointer rounded-full transition-all hover:bg-black/5 dark:hover:bg-white/10 disabled:opacity-40 disabled:cursor-not-allowed ${
+            className={`p-1 cursor-pointer rounded-full transition-all hover:bg-black/5 dark:hover:bg-white/10 ${
               compact ? 'p-0.5' : 'p-1'
             }`}
             style={{ color: buttonColor }}
