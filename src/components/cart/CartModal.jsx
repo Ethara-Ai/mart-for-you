@@ -36,7 +36,7 @@ function CartModal({ isOpen, onClose }) {
   useEffect(() => {
     if (isOpen) {
       // Save current scroll position and lock body
-      const scrollY = window.scrollY;
+      const { scrollY } = window;
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
       // Lock both html and body to prevent all scroll scenarios

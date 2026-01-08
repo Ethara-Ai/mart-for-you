@@ -155,7 +155,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
   // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
-      const scrollY = window.scrollY;
+      const { scrollY } = window;
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
       // Lock both html and body to prevent all scroll scenarios
