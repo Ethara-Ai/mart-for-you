@@ -5,7 +5,7 @@ import { FiArrowLeft, FiEdit, FiUser, FiMail, FiPhone, FiMapPin } from 'react-ic
 import { useTheme } from '../context/ThemeContext';
 import { useProfile } from '../context/ProfileContext';
 import { useToast } from '../context/ToastContext';
-import { ProfileForm } from '../components/profile';
+import ProfileForm from '../components/ProfileForm';
 
 /**
  * InfoCard - Displays a labeled info field with an icon

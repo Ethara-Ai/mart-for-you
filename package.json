@@ -1,23 +1,10 @@
 {
   "name": "mart-for-you",
-  "version": "1.1.0",
+  "version": "0.0.1",
   "description": "A modern, full-featured e-commerce web application built with React and Tailwind CSS. Features product browsing, filtering, cart management, and user profile functionality.",
   "private": true,
   "type": "module",
   "license": "MIT",
-  "author": {
-    "name": "Mart - For You Team",
-    "email": "contact@martforyou.com",
-    "url": "https://martforyou.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/mart-for-you.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yourusername/mart-for-you/issues"
-  },
-  "homepage": "https://yourusername.github.io/mart-for-you/",
   "keywords": [
     "react",
     "ecommerce",
@@ -31,15 +18,23 @@
     "frontend"
   ],
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ethara-AI/mart-for-you.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ethara-AI/mart-for-you/issues"
+  },
+  "homepage": "https://components.ethara.ai/mart-for-you",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint src --ext .js,.jsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint src --ext .js,.jsx --fix",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{js,jsx,css,json}\"",
     "test": "vitest run",
@@ -49,19 +44,14 @@
     "clean": "rimraf dist node_modules/.cache",
     "clean:all": "rimraf dist node_modules",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "prepare": "echo 'Ready for development'",
-    "prebuild": "npm run lint",
-    "postbuild": "echo 'Build completed successfully!'"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "framer-motion": "^12.24.8",
-    "lucide-react": "^0.562.0",
+    "framer-motion": "^12.24.12",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.11.0",
-    "zod": "^4.3.5"
+    "react-router-dom": "^7.12.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -84,17 +74,5 @@
     "tailwindcss": "^4.1.18",
     "vite": "^7.3.1",
     "vitest": "^4.0.16"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }

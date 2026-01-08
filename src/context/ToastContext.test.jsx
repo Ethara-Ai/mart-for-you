@@ -462,7 +462,7 @@ describe('ToastContext', () => {
       expect(typeof result.current.toasts[0].id).toBe('string');
     });
 
-    it('toast id has expected format (alphanumeric)', () => {
+    it('toast id has expected format (timestamp-random)', () => {
       const { result } = renderHook(() => useToast(), { wrapper });
 
       act(() => {
@@ -470,7 +470,8 @@ describe('ToastContext', () => {
       });
 
       const { id } = result.current.toasts[0];
-      expect(id).toMatch(/^[a-z0-9]+$/);
+      // Format is: timestamp-randomstring (e.g., "1234567890123-abc123def")
+      expect(id).toMatch(/^[0-9]+-[a-z0-9]+$/);
     });
   });
 

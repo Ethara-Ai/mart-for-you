@@ -8,6 +8,8 @@ import { CartProvider } from '../context/CartContext';
 import { ProfileProvider } from '../context/ProfileContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import { ToastProvider } from '../context/ToastContext';
+import { SearchProvider } from '../context/SearchContext';
+import { FilterProvider } from '../context/FilterContext';
 
 /**
  * AllProviders - Wraps children with all application context providers
@@ -19,7 +21,11 @@ function AllProviders({ children }) {
       <ThemeProvider>
         <ToastProvider>
           <ProfileProvider>
-            <CartProvider>{children}</CartProvider>
+            <CartProvider>
+              <SearchProvider>
+                <FilterProvider>{children}</FilterProvider>
+              </SearchProvider>
+            </CartProvider>
           </ProfileProvider>
         </ToastProvider>
       </ThemeProvider>
@@ -37,7 +43,11 @@ function MemoryRouterProviders({ children, initialEntries = ['/'] }) {
       <ThemeProvider>
         <ToastProvider>
           <ProfileProvider>
-            <CartProvider>{children}</CartProvider>
+            <CartProvider>
+              <SearchProvider>
+                <FilterProvider>{children}</FilterProvider>
+              </SearchProvider>
+            </CartProvider>
           </ProfileProvider>
         </ToastProvider>
       </ThemeProvider>
@@ -270,6 +280,53 @@ export const waitForAsync = (ms = 0) => new Promise((resolve) => setTimeout(reso
 // Utility function to create a mock function that resolves after a delay
 export const createDelayedMock = (returnValue, delay = 100) =>
   vi.fn(() => new Promise((resolve) => setTimeout(() => resolve(returnValue), delay)));
+
+/**
+ * Filter out framer-motion specific props that shouldn't be passed to DOM elements.
+ * Use this helper when mocking framer-motion in tests.
+ *
+ * @param {Object} props - Props object that may contain framer-motion animation props
+ * @returns {Object} Props object with animation props removed
+ *
+ * @example
+ * vi.mock('framer-motion', async () => {
+ *   const actual = await vi.importActual('framer-motion');
+ *   return {
+ *     ...actual,
+ *     motion: {
+ *       div: ({ children, ...props }) => <div {...filterMotionProps(props)}>{children}</div>,
+ *     },
+ *   };
+ * });
+ */
+export const filterMotionProps = (props) => {
+  const {
+    initial,
+    animate,
+    exit,
+    transition,
+    whileHover,
+    whileTap,
+    whileFocus,
+    whileDrag,
+    whileInView,
+    variants,
+    layoutId,
+    layout,
+    drag,
+    dragConstraints,
+    dragElastic,
+    dragMomentum,
+    dragTransition,
+    onAnimationStart,
+    onAnimationComplete,
+    onDragStart,
+    onDragEnd,
+    onDrag,
+    ...rest
+  } = props;
+  return rest;
+};
 
 // Re-export everything from @testing-library/react
 export * from '@testing-library/react';

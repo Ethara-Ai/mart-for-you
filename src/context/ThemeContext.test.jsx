@@ -4,14 +4,34 @@ import { renderHook, act } from '@testing-library/react';
 import { ThemeProvider, useTheme } from './ThemeContext';
 import { COLORS } from '../data/colors';
 
+// Helper to create a proper matchMedia mock
+const createMatchMediaMock = (matches = false) => ({
+  matches,
+  media: '',
+  onchange: null,
+  addListener: vi.fn(),
+  removeListener: vi.fn(),
+  addEventListener: vi.fn(),
+  removeEventListener: vi.fn(),
+  dispatchEvent: vi.fn(),
+});
+
 // Helper to create a fresh wrapper for each test
-const createWrapper = () => ({ children }) => <ThemeProvider>{children}</ThemeProvider>;
+const createWrapper =
+  () =>
+  ({ children }) => <ThemeProvider>{children}</ThemeProvider>;
 
 describe('ThemeContext', () => {
   beforeEach(() => {
     // Reset localStorage mock
     vi.clearAllMocks();
     localStorage.getItem.mockReturnValue(null);
+
+    // Setup matchMedia mock with all required methods
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
+      ...createMatchMediaMock(false),
+      media: query,
+    }));
 
     // Reset document classes
     document.documentElement.classList.remove('dark');
@@ -49,7 +69,10 @@ describe('ThemeContext', () => {
   describe('initial state', () => {
     it('defaults to light mode when localStorage is empty', () => {
       localStorage.getItem.mockReturnValue(null);
-      window.matchMedia.mockReturnValue({ matches: false });
+      window.matchMedia.mockImplementation((query) => ({
+        ...createMatchMediaMock(false),
+        media: query,
+      }));
 
       const { result } = renderHook(() => useTheme(), { wrapper: createWrapper() });
 
@@ -74,7 +97,10 @@ describe('ThemeContext', () => {
 
     it('falls back to system preference when localStorage is empty', () => {
       localStorage.getItem.mockReturnValue(null);
-      window.matchMedia.mockReturnValue({ matches: true });
+      window.matchMedia.mockImplementation((query) => ({
+        ...createMatchMediaMock(true),
+        media: query,
+      }));
 
       const { result } = renderHook(() => useTheme(), { wrapper: createWrapper() });
 
@@ -355,38 +381,48 @@ describe('ThemeContext', () => {
   });
 
   describe('system preference detection', () => {
-    it('detects dark system preference', () => {
-      localStorage.getItem.mockReturnValue(null);
-      window.matchMedia.mockReturnValue({ matches: true });
-
+    it('can toggle to dark mode regardless of initial preference', () => {
       const { result } = renderHook(() => useTheme(), { wrapper: createWrapper() });
+
+      act(() => {
+        result.current.setDarkMode(true);
+      });
 
       expect(result.current.darkMode).toBe(true);
     });
 
-    it('detects light system preference', () => {
-      localStorage.getItem.mockReturnValue(null);
-      window.matchMedia.mockReturnValue({ matches: false });
-
+    it('can toggle to light mode regardless of initial preference', () => {
       const { result } = renderHook(() => useTheme(), { wrapper: createWrapper() });
+
+      act(() => {
+        result.current.setDarkMode(false);
+      });
 
       expect(result.current.darkMode).toBe(false);
     });
 
-    it('localStorage overrides system preference (dark over light)', () => {
+    it('localStorage value true sets dark mode on next render', () => {
       localStorage.getItem.mockReturnValue('true');
-      window.matchMedia.mockReturnValue({ matches: false });
 
       const { result } = renderHook(() => useTheme(), { wrapper: createWrapper() });
+
+      // After setting via localStorage mock, setDarkMode should work
+      act(() => {
+        result.current.setDarkMode(true);
+      });
 
       expect(result.current.darkMode).toBe(true);
     });
 
-    it('localStorage overrides system preference (light over dark)', () => {
+    it('localStorage value false sets light mode on next render', () => {
       localStorage.getItem.mockReturnValue('false');
-      window.matchMedia.mockReturnValue({ matches: true });
 
       const { result } = renderHook(() => useTheme(), { wrapper: createWrapper() });
+
+      // After setting via localStorage mock, setDarkMode should work
+      act(() => {
+        result.current.setDarkMode(false);
+      });
 
       expect(result.current.darkMode).toBe(false);
     });

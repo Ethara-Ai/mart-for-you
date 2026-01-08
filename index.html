@@ -127,18 +127,198 @@
         }
       }
     </script>
+
+    <!--
+      Theme Initialization Script - Prevents Flash of Wrong Theme (FOWT)
+      This script runs synchronously before the page renders to set the correct
+      theme class on the document element, preventing a flash of the wrong theme.
+      Must be inline and in the head to execute before any rendering occurs.
+    -->
+    <script>
+      (function () {
+        'use strict';
+
+        var STORAGE_KEY = 'darkMode';
+
+        // Get saved preference from localStorage
+        function getSavedPreference() {
+          try {
+            return localStorage.getItem(STORAGE_KEY);
+          } catch (e) {
+            // localStorage may be unavailable (private browsing, etc.)
+            return null;
+          }
+        }
+
+        // Get system preference
+        function getSystemPreference() {
+          if (window.matchMedia) {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches;
+          }
+          return false;
+        }
+
+        // Determine if dark mode should be enabled
+        function shouldEnableDarkMode() {
+          var saved = getSavedPreference();
+
+          // If user has explicitly set a preference, use it
+          if (saved !== null) {
+            return saved === 'true';
+          }
+
+          // Otherwise, fall back to system preference
+          return getSystemPreference();
+        }
+
+        // Apply the theme immediately
+        var isDark = shouldEnableDarkMode();
+
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+
+        // Also set a data attribute for CSS access
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+
+        // Update meta theme-color based on detected theme
+        var themeColorMeta = document.querySelector('meta[name="theme-color"]:not([media])');
+        if (!themeColorMeta) {
+          themeColorMeta = document.createElement('meta');
+          themeColorMeta.name = 'theme-color';
+          document.head.appendChild(themeColorMeta);
+        }
+        themeColorMeta.content = isDark ? '#0F172A' : '#2563EB';
+      })();
+    </script>
+
+    <!-- Critical CSS for preventing layout shift during initial load -->
+    <style>
+      /* Prevent flash of unstyled content */
+      html {
+        background-color: #ffffff;
+      }
+
+      html.dark {
+        background-color: #0f172a;
+      }
+
+      /* Fade-in animation for error boundary */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      /* Reduced motion preference */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        .animate-fadeIn {
+          animation: none;
+        }
+      }
+
+      /* Skip to main content link for accessibility */
+      .skip-to-main {
+        position: absolute;
+        top: -100%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        padding: 1rem 2rem;
+        background-color: #2563eb;
+        color: white;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 0 0 0.5rem 0.5rem;
+        transition: top 0.2s ease;
+      }
+
+      .skip-to-main:focus {
+        top: 0;
+        outline: 2px solid #60a5fa;
+        outline-offset: 2px;
+      }
+
+      html.dark .skip-to-main {
+        background-color: #60a5fa;
+        color: #0f172a;
+      }
+
+      /* Focus visible styles for better keyboard navigation */
+      :focus-visible {
+        outline: 2px solid #2563eb;
+        outline-offset: 2px;
+      }
+
+      html.dark :focus-visible {
+        outline-color: #60a5fa;
+      }
+    </style>
   </head>
   <body>
+    <!-- Skip to main content link for keyboard/screen reader users -->
+    <a href="#main-content" class="skip-to-main"> Skip to main content </a>
+
     <!-- App Root -->
-    <div id="root"></div>
+    <div id="root" role="application" aria-label="Mart - For You Shopping Application"></div>
+
+    <!-- Main content landmark for skip link -->
+    <script>
+      // Add main content ID to the first main element when React hydrates
+      document.addEventListener('DOMContentLoaded', function () {
+        var observer = new MutationObserver(function (mutations, obs) {
+          var main = document.querySelector('main');
+          if (main && !main.id) {
+            main.id = 'main-content';
+            obs.disconnect();
+          }
+        });
+
+        observer.observe(document.getElementById('root'), {
+          childList: true,
+          subtree: true,
+        });
+      });
+    </script>
 
     <!-- No JavaScript Fallback -->
     <noscript>
-      <div style="padding: 2rem; text-align: center; font-family: Arial, sans-serif">
-        <h1>JavaScript Required</h1>
-        <p>
+      <div
+        style="
+          padding: 2rem;
+          text-align: center;
+          font-family: Arial, sans-serif;
+          max-width: 600px;
+          margin: 0 auto;
+        "
+      >
+        <h1 style="color: #1e293b; margin-bottom: 1rem">JavaScript Required</h1>
+        <p style="color: #475569; line-height: 1.6">
           MART requires JavaScript to run. Please enable JavaScript in your browser settings and
           reload the page.
+        </p>
+        <p style="color: #64748b; font-size: 0.875rem; margin-top: 1rem">
+          If you're using a screen reader, JavaScript is required for the best experience with our
+          accessible shopping interface.
         </p>
       </div>
     </noscript>

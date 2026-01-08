@@ -23,7 +23,7 @@ const defaultProfile = {
   country: 'India',
   phone: '9876543210',
   avatar:
-    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&h=256&q=80',
 };
 
 describe('ProfileContext', () => {
@@ -303,7 +303,7 @@ describe('ProfileContext', () => {
   });
 
   describe('saveProfile', () => {
-    it('saves userProfile to savedProfile', () => {
+    it('saves userProfile to savedProfile', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       act(() => {
@@ -314,14 +314,14 @@ describe('ProfileContext', () => {
         result.current.updateField('firstName', 'Saved');
       });
 
-      act(() => {
-        result.current.saveProfile();
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       expect(result.current.savedProfile.firstName).toBe('Saved');
     });
 
-    it('sets isProfileEditing to false', () => {
+    it('sets isProfileEditing to false', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       act(() => {
@@ -330,14 +330,14 @@ describe('ProfileContext', () => {
 
       expect(result.current.isProfileEditing).toBe(true);
 
-      act(() => {
-        result.current.saveProfile();
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       expect(result.current.isProfileEditing).toBe(false);
     });
 
-    it('closes profile modal', () => {
+    it('closes profile modal', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       act(() => {
@@ -346,22 +346,38 @@ describe('ProfileContext', () => {
 
       expect(result.current.isProfileOpen).toBe(true);
 
-      act(() => {
-        result.current.saveProfile();
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       expect(result.current.isProfileOpen).toBe(false);
     });
 
-    it('returns success result', () => {
+    it('returns success result', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       let saveResult;
-      act(() => {
-        saveResult = result.current.saveProfile();
+      await act(async () => {
+        saveResult = await result.current.saveProfile();
       });
 
       expect(saveResult).toEqual({ success: true });
+    });
+
+    it('sets isSaving to true during save', async () => {
+      const { result } = renderHook(() => useProfile(), { wrapper });
+
+      let _savingDuringSave = false;
+      const savePromise = act(async () => {
+        const promise = result.current.saveProfile();
+        // Check isSaving immediately after calling saveProfile
+        _savingDuringSave = result.current.isSaving;
+        await promise;
+      });
+
+      await savePromise;
+      // After save completes, isSaving should be false
+      expect(result.current.isSaving).toBe(false);
     });
   });
 
@@ -424,7 +440,7 @@ describe('ProfileContext', () => {
       expect(result.current.isProfileOpen).toBe(false);
     });
 
-    it('preserves savedProfile after cancel', () => {
+    it('preserves savedProfile after cancel', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       // Make a successful save first
@@ -436,8 +452,8 @@ describe('ProfileContext', () => {
         result.current.updateField('firstName', 'SavedName');
       });
 
-      act(() => {
-        result.current.saveProfile();
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       // Now start editing again, make changes, and cancel
@@ -478,7 +494,7 @@ describe('ProfileContext', () => {
       expect(result.current.userProfile).toEqual(defaultProfile);
     });
 
-    it('resets savedProfile to default values', () => {
+    it('resets savedProfile to default values', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       // Start editing first to save current profile
@@ -492,8 +508,8 @@ describe('ProfileContext', () => {
         });
       });
 
-      act(() => {
-        result.current.saveProfile();
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       expect(result.current.savedProfile.firstName).toBe('Modified');
@@ -894,7 +910,7 @@ describe('ProfileContext', () => {
   });
 
   describe('complex profile operations', () => {
-    it('handles full edit-save workflow', () => {
+    it('handles full edit-save workflow', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       // Start editing
@@ -915,8 +931,8 @@ describe('ProfileContext', () => {
       });
 
       // Save changes
-      act(() => {
-        result.current.saveProfile();
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       expect(result.current.isProfileEditing).toBe(false);
@@ -952,7 +968,7 @@ describe('ProfileContext', () => {
       expect(result.current.userProfile.firstName).toBe(originalFirstName);
     });
 
-    it('handles multiple edit-save cycles', () => {
+    it('handles multiple edit-save cycles', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       // First edit cycle
@@ -964,8 +980,8 @@ describe('ProfileContext', () => {
         result.current.updateField('firstName', 'First');
       });
 
-      act(() => {
-        result.current.saveProfile();
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       expect(result.current.userProfile.firstName).toBe('First');
@@ -979,8 +995,8 @@ describe('ProfileContext', () => {
         result.current.updateField('firstName', 'Second');
       });
 
-      act(() => {
-        result.current.saveProfile();
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       expect(result.current.userProfile.firstName).toBe('Second');
@@ -1001,7 +1017,7 @@ describe('ProfileContext', () => {
       expect(result.current.userProfile.firstName).toBe('Second');
     });
 
-    it('reset after edits restores default', () => {
+    it('reset after edits restores default', async () => {
       const { result } = renderHook(() => useProfile(), { wrapper });
 
       // Make and save edits
@@ -1017,8 +1033,9 @@ describe('ProfileContext', () => {
         });
       });
 
-      act(() => {
-        result.current.saveProfile();
+      // saveProfile is async, need to await it
+      await act(async () => {
+        await result.current.saveProfile();
       });
 
       expect(result.current.userProfile.firstName).toBe('Custom');

@@ -35,6 +35,7 @@ export default defineConfig(({ command, mode }) => {
         '@context': resolve(__dirname, './src/context'),
         '@data': resolve(__dirname, './src/data'),
         '@hooks': resolve(__dirname, './src/hooks'),
+        '@constants': resolve(__dirname, './src/constants'),
       },
     },
 
@@ -58,7 +59,13 @@ export default defineConfig(({ command, mode }) => {
       outDir: 'dist',
       sourcemap: isProduction ? 'hidden' : true,
       minify: isProduction ? 'esbuild' : false,
-      target: 'es2020',
+      // Target ES2024 for Node.js 24 LTS compatibility
+      // Enables modern JavaScript features like:
+      // - Array grouping (Object.groupBy, Map.groupBy)
+      // - Promise.withResolvers
+      // - Well-formed Unicode strings
+      // - Resizable ArrayBuffer
+      target: 'es2024',
 
       // Chunk size warnings
       chunkSizeWarningLimit: 500,
@@ -72,7 +79,7 @@ export default defineConfig(({ command, mode }) => {
             'vendor-react': ['react', 'react-dom'],
             'vendor-router': ['react-router-dom'],
             'vendor-motion': ['framer-motion'],
-            'vendor-icons': ['react-icons', 'lucide-react'],
+            'vendor-icons': ['react-icons'],
           },
           // Asset file naming
           chunkFileNames: isProduction ? 'assets/js/[name]-[hash].js' : 'assets/js/[name].js',
@@ -105,14 +112,7 @@ export default defineConfig(({ command, mode }) => {
 
     // Optimize dependencies
     optimizeDeps: {
-      include: [
-        'react',
-        'react-dom',
-        'react-router-dom',
-        'framer-motion',
-        'react-icons',
-        'lucide-react',
-      ],
+      include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'react-icons'],
       exclude: [],
     },
 
@@ -132,6 +132,8 @@ export default defineConfig(({ command, mode }) => {
     esbuild: {
       // Remove console.log in production
       drop: isProduction ? ['console', 'debugger'] : [],
+      // Target ES2024 for esbuild as well
+      target: 'es2024',
       // JSX optimization
       jsxInject: undefined,
       legalComments: 'none',

@@ -1,21 +1,34 @@
 import { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { shippingOptions } from '../data/products';
+import { DEFAULTS, SHIPPING } from '../constants';
 
 // Create the Cart Context
 const CartContext = createContext(null);
 
-// Cart Provider Component
+/**
+ * CartProvider - Shopping cart state management
+ *
+ * Provides cart functionality including adding/removing items,
+ * quantity management, shipping selection, and checkout handling.
+ * All values are memoized to prevent unnecessary re-renders.
+ *
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - Child components
+ */
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
-  const [selectedShipping, setSelectedShipping] = useState('standard');
+  const [selectedShipping, setSelectedShipping] = useState(SHIPPING.STANDARD);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderNumber, setOrderNumber] = useState(null);
 
-  // Add item to cart (respects stock limit)
+  /**
+   * Add item to cart (respects stock limit)
+   * @param {Object} product - Product to add
+   */
   const addToCart = useCallback((product) => {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
-      const stockLimit = product.stock || 10;
+      const stockLimit = product.stock || DEFAULTS.STOCK_LIMIT;
 
       if (existingItem) {
         // Don't exceed stock limit
@@ -31,19 +44,26 @@ export function CartProvider({ children }) {
     });
   }, []);
 
-  // Remove item from cart
+  /**
+   * Remove item from cart
+   * @param {number|string} id - Product ID to remove
+   */
   const removeFromCart = useCallback((id) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   }, []);
 
-  // Update item quantity (respects stock limit)
+  /**
+   * Update item quantity (respects stock limit)
+   * @param {number|string} id - Product ID
+   * @param {number} newQuantity - New quantity value
+   */
   const updateQuantity = useCallback((id, newQuantity) => {
     if (newQuantity < 1) return;
 
     setCartItems((prevItems) =>
       prevItems.map((item) => {
         if (item.id === id) {
-          const stockLimit = item.stock || 10;
+          const stockLimit = item.stock || DEFAULTS.STOCK_LIMIT;
           // Don't exceed stock limit
           const clampedQuantity = Math.min(newQuantity, stockLimit);
           return { ...item, quantity: clampedQuantity };
@@ -53,18 +73,24 @@ export function CartProvider({ children }) {
     );
   }, []);
 
-  // Clear cart
+  /**
+   * Clear all items from cart
+   */
   const clearCart = useCallback(() => {
     setCartItems([]);
   }, []);
 
-  // Calculate total items in cart
+  /**
+   * Calculate total items in cart
+   */
   const totalItems = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
     [cartItems]
   );
 
-  // Calculate cart subtotal
+  /**
+   * Calculate cart subtotal
+   */
   const cartTotal = useMemo(
     () =>
       cartItems.reduce((sum, item) => {
@@ -74,19 +100,29 @@ export function CartProvider({ children }) {
     [cartItems]
   );
 
-  // Get shipping cost
+  /**
+   * Get shipping cost based on selected option
+   * @returns {number} Shipping cost
+   */
   const getShippingCost = useCallback(() => {
     const option = shippingOptions.find((opt) => opt.id === selectedShipping);
     return option ? option.price : 0;
   }, [selectedShipping]);
 
-  // Calculate total with shipping
+  /**
+   * Calculate total with shipping
+   * @returns {number} Total including shipping
+   */
   const getTotal = useCallback(() => cartTotal + getShippingCost(), [cartTotal, getShippingCost]);
 
-  // Handle checkout
+  /**
+   * Handle checkout process
+   * Generates order number and clears cart
+   * @returns {Object} Checkout result with success status and orderId
+   */
   const handleCheckout = useCallback(() => {
     // Generate order number at checkout time (not during render)
-    const newOrderNumber = Math.floor(Math.random() * 10000000);
+    const newOrderNumber = Math.floor(Math.random() * DEFAULTS.MAX_ORDER_NUMBER);
     setOrderNumber(newOrderNumber);
     setOrderPlaced(true);
     // Clear cart items immediately after placing order
@@ -94,54 +130,92 @@ export function CartProvider({ children }) {
     return { success: true, orderId: newOrderNumber };
   }, []);
 
-  // Reset order state (called when user clicks Continue after order confirmation)
+  /**
+   * Reset order state (called after order confirmation)
+   */
   const resetOrder = useCallback(() => {
     setOrderPlaced(false);
     setOrderNumber(null);
   }, []);
 
-  // Check if item is in cart
+  /**
+   * Check if item is in cart
+   * @param {number|string} productId - Product ID to check
+   * @returns {boolean} True if item is in cart
+   */
   const isInCart = useCallback(
     (productId) => cartItems.some((item) => item.id === productId),
     [cartItems]
   );
 
-  // Get item quantity in cart
+  /**
+   * Get item quantity in cart
+   * @param {number|string} productId - Product ID
+   * @returns {number} Quantity in cart (0 if not in cart)
+   */
   const getItemQuantity = useCallback(
     (productId) => {
-      const item = cartItems.find((item) => item.id === productId);
+      const item = cartItems.find((cartItem) => cartItem.id === productId);
       return item ? item.quantity : 0;
     },
     [cartItems]
   );
 
-  // Context value
-  const value = {
-    cartItems,
-    selectedShipping,
-    setSelectedShipping,
-    orderPlaced,
-    setOrderPlaced,
-    orderNumber,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    totalItems,
-    cartTotal,
-    getShippingCost,
-    getTotal,
-    handleCheckout,
-    resetOrder,
-    isInCart,
-    getItemQuantity,
-    shippingOptions,
-  };
+  // Memoize context value to prevent unnecessary re-renders of consumers
+  const value = useMemo(
+    () => ({
+      cartItems,
+      selectedShipping,
+      setSelectedShipping,
+      orderPlaced,
+      setOrderPlaced,
+      orderNumber,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      clearCart,
+      totalItems,
+      cartTotal,
+      getShippingCost,
+      getTotal,
+      handleCheckout,
+      resetOrder,
+      isInCart,
+      getItemQuantity,
+      shippingOptions,
+    }),
+    [
+      cartItems,
+      selectedShipping,
+      orderPlaced,
+      orderNumber,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      clearCart,
+      totalItems,
+      cartTotal,
+      getShippingCost,
+      getTotal,
+      handleCheckout,
+      resetOrder,
+      isInCart,
+      getItemQuantity,
+    ]
+  );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
-// Custom hook to use cart context
+/**
+ * useCart - Custom hook to access cart context
+ *
+ * @returns {Object} Cart context value containing cart state and methods
+ * @throws {Error} If used outside of CartProvider
+ *
+ * @example
+ * const { cartItems, addToCart, removeFromCart, totalItems, cartTotal } = useCart();
+ */
 export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
@@ -149,3 +223,5 @@ export function useCart() {
   }
   return context;
 }
+
+export default CartContext;

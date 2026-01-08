@@ -1,14 +1,22 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect, useState, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+
+// Context
 import AppProvider from './context/AppProvider';
 import { useTheme } from './context/ThemeContext';
 import { useProfile } from './context/ProfileContext';
-import { SearchProvider, useSearch } from './context';
+import { useSearch, useFilter } from './context';
 
 // Layout components (not lazy loaded as they're always needed)
-import { Header, Footer } from './components/layout';
-import { CartModal } from './components/cart';
-import { ToastContainer, ErrorBoundary, Loading } from './components/common';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import CartModal from './components/CartModal';
+import ToastContainer from './components/ToastContainer';
+import ErrorBoundary from './components/ErrorBoundary';
+import Loading from './components/Loading';
+
+// Constants
+import { ROUTES, SECTION_IDS } from './constants';
 
 // Lazy load page components for better performance
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -51,11 +59,10 @@ function AppLayout() {
   const { darkMode, COLORS } = useTheme();
   const { closeProfileCard, isProfileCardOpen } = useProfile();
   const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
 
-  // Category state for mobile sidebar navigation
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [viewingOffers, setViewingOffers] = useState(false);
+  // Cart modal state
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Handle click outside to close profile card
   useEffect(() => {
@@ -63,7 +70,7 @@ function AppLayout() {
       const { target } = e;
       if (
         isProfileCardOpen &&
-        !target.closest('#profile-card') &&
+        !target.closest(`#${SECTION_IDS.PROFILE_CARD}`) &&
         !target.closest('#profile-photo-button')
       ) {
         closeProfileCard();
@@ -75,34 +82,35 @@ function AppLayout() {
   }, [isProfileCardOpen, closeProfileCard]);
 
   // Close cart modal
-  const handleCartClose = () => {
+  const handleCartClose = useCallback(() => {
     setIsCartOpen(false);
-  };
+  }, []);
 
   // Open cart modal
-  const handleCartOpen = () => {
+  const handleCartOpen = useCallback(() => {
     setIsCartOpen(true);
-  };
+  }, []);
 
   // Handle category change from mobile sidebar
-  const handleCategoryChange = (category) => {
-    setActiveCategory(category);
-    setViewingOffers(false);
-    // Navigate to products page with category in URL
-    if (category === 'all') {
-      navigate('/products');
-    } else {
-      navigate(`/products?category=${category}`);
-    }
-  };
+  const handleCategoryChange = useCallback(
+    (category) => {
+      setActiveCategory(category);
+      // Navigate to products page with category in URL
+      if (category === 'all') {
+        navigate(ROUTES.PRODUCTS);
+      } else {
+        navigate(`${ROUTES.PRODUCTS}?category=${category}`);
+      }
+    },
+    [setActiveCategory, navigate]
+  );
 
   // Handle offers click from mobile sidebar
-  const handleOffersClick = () => {
-    setViewingOffers(true);
-    setActiveCategory('all');
+  const handleOffersClick = useCallback(() => {
+    enableOffersView();
     // Navigate to offers page
-    navigate('/offers');
-  };
+    navigate(ROUTES.OFFERS);
+  }, [enableOffersView, navigate]);
 
   return (
     <div
@@ -136,11 +144,11 @@ function AppLayout() {
       <div className="flex-1">
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/offers" element={<OffersPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path={ROUTES.HOME} element={<HomePage />} />
+            <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
+            <Route path={ROUTES.OFFERS} element={<OffersPage />} />
+            <Route path={ROUTES.CART} element={<CartPage />} />
+            <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
             {/* 404 Not Found route */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
@@ -161,7 +169,7 @@ function AppLayout() {
  */
 function AppRoutes() {
   const location = useLocation();
-  const isLandingPage = location.pathname === '/';
+  const isLandingPage = location.pathname === ROUTES.LANDING;
 
   if (isLandingPage) {
     return (
@@ -181,17 +189,18 @@ function AppRoutes() {
  * and routing. Provider hierarchy:
  * - ErrorBoundary (catches JavaScript errors)
  * - BrowserRouter (routing)
- * - AppProvider (theme, cart, toast, profile contexts)
+ * - AppProvider (theme, cart, toast, profile, search, filter contexts)
  * - AppRoutes (landing page or main layout)
+ *
+ * Note: AppProvider must be inside BrowserRouter because SearchProvider
+ * and FilterProvider use router hooks (useNavigate, useSearchParams).
  */
 function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
         <AppProvider>
-          <SearchProvider>
-            <AppRoutes />
-          </SearchProvider>
+          <AppRoutes />
         </AppProvider>
       </BrowserRouter>
     </ErrorBoundary>

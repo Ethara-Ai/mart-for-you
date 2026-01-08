@@ -224,7 +224,7 @@ describe('CartContext', () => {
       expect(result.current.cartItems[0].quantity).toBe(1);
     });
 
-    it('updates quantity to large values', () => {
+    it('clamps quantity to stock limit', () => {
       const { result } = renderHook(() => useCart(), { wrapper });
 
       act(() => {
@@ -235,7 +235,8 @@ describe('CartContext', () => {
         result.current.updateQuantity(mockProduct.id, 100);
       });
 
-      expect(result.current.cartItems[0].quantity).toBe(100);
+      // Quantity is clamped to stock limit (default: 10)
+      expect(result.current.cartItems[0].quantity).toBe(10);
     });
   });
 
@@ -558,7 +559,7 @@ describe('CartContext', () => {
       });
     });
 
-    it('clears cart after checkout completes', async () => {
+    it('clears cart immediately after checkout', () => {
       const { result } = renderHook(() => useCart(), { wrapper });
 
       act(() => {
@@ -568,19 +569,14 @@ describe('CartContext', () => {
 
       expect(result.current.cartItems).toHaveLength(2);
 
-      let checkoutPromise;
       act(() => {
-        checkoutPromise = result.current.handleCheckout();
+        result.current.handleCheckout();
       });
 
-      await act(async () => {
-        vi.advanceTimersByTime(3000);
-        await checkoutPromise;
-      });
-
+      // Cart is cleared immediately after checkout
       expect(result.current.cartItems).toHaveLength(0);
-      expect(result.current.orderPlaced).toBe(false);
-      expect(result.current.orderNumber).toBeNull();
+      expect(result.current.orderPlaced).toBe(true);
+      expect(result.current.orderNumber).not.toBeNull();
     });
 
     it('returns success result with order ID', async () => {
