@@ -77,14 +77,14 @@ function SearchBar({
 
   // Input styles
   const inputStyles = {
-    backgroundColor: darkMode ? 'rgba(30, 41, 59, 0.5)' : 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: darkMode ? 'rgba(51, 65, 85, 0.8)' : 'rgba(255, 255, 255, 0.9)',
     color: darkMode ? COLORS.dark.text : COLORS.light.text,
     borderColor: isFocused
       ? (darkMode ? COLORS.dark.primary : COLORS.light.primary)
-      : 'transparent',
+      : (darkMode ? 'rgba(100, 116, 139, 0.5)' : 'transparent'),
     boxShadow: isFocused
-      ? `0 0 0 2px ${darkMode ? 'rgba(96, 165, 250, 0.2)' : 'rgba(37, 99, 235, 0.2)'}`
-      : '0 1px 3px rgba(0, 0, 0, 0.1)',
+      ? `0 0 0 2px ${darkMode ? 'rgba(96, 165, 250, 0.3)' : 'rgba(37, 99, 235, 0.2)'}`
+      : (darkMode ? '0 1px 3px rgba(0, 0, 0, 0.3)' : '0 1px 3px rgba(0, 0, 0, 0.1)'),
   };
 
   return (
@@ -97,7 +97,7 @@ function SearchBar({
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        className={`${inputWidth} ${inputPadding} rounded-full text-sm transition-all duration-200 outline-hidden border-2`}
+        className={`${inputWidth} ${inputPadding} rounded-full text-sm transition-all duration-200 outline-hidden border-2 placeholder:text-gray-400 dark:placeholder:text-gray-300`}
         style={inputStyles}
         aria-label="Search"
       />

@@ -24,8 +24,8 @@ function Logo({ size = 'md', animate = true, onClick }) {
       tagline: 'text-xs',
     },
     md: {
-      container: 'ml-14',
-      svg: { width: 45, height: 45 },
+      container: 'ml-12',
+      svg: { width: 40, height: 40 },
       text: 'text-xl',
       tagline: 'text-xs',
     },

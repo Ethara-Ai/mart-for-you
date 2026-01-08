@@ -30,9 +30,6 @@ function ShippingOptions({ className = '', compact = false, onSelect }) {
     ? 'rgba(224, 224, 224, 0.7)'
     : 'rgba(51, 51, 51, 0.7)';
   const accentColor = darkMode ? COLORS.dark.primary : COLORS.light.primary;
-  const hoverBg = darkMode
-    ? 'rgba(255, 255, 255, 0.05)'
-    : 'rgba(0, 0, 0, 0.02)';
   const selectedBg = darkMode
     ? 'rgba(96, 165, 250, 0.1)'
     : 'rgba(37, 99, 235, 0.05)';
@@ -44,36 +41,28 @@ function ShippingOptions({ className = '', compact = false, onSelect }) {
     <div className={className}>
       {/* Section Title */}
       <h3
-        className={`font-medium mb-3 ${compact ? 'text-xs' : 'text-sm'}`}
+        className="font-medium mb-2 text-xs"
         style={{ color: textColor }}
       >
         Shipping Method
       </h3>
 
-      {/* Shipping Options List */}
-      <div className="space-y-2">
+      {/* Shipping Options - Horizontal on larger screens, stacked on mobile */}
+      <div className={compact ? 'flex flex-wrap gap-2' : 'space-y-1.5'}>
         {shippingOptions.map((option) => {
           const isSelected = selectedShipping === option.id;
 
           return (
             <label
               key={option.id}
-              className={`flex items-center p-3 rounded-lg cursor-pointer transition-all ${
-                compact ? 'p-2' : 'p-3'
+              className={`flex items-center rounded-md cursor-pointer transition-all ${
+                compact
+                  ? 'flex-1 min-w-[100px] px-2 py-1.5'
+                  : 'px-3 py-2'
               }`}
               style={{
                 backgroundColor: isSelected ? selectedBg : 'transparent',
                 border: `1px solid ${isSelected ? accentColor : borderColor}`,
-              }}
-              onMouseEnter={(e) => {
-                if (!isSelected) {
-                  e.currentTarget.style.backgroundColor = hoverBg;
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isSelected) {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }
               }}
             >
               {/* Radio Button */}
@@ -83,75 +72,48 @@ function ShippingOptions({ className = '', compact = false, onSelect }) {
                 type="radio"
                 checked={isSelected}
                 onChange={() => handleChange(option.id)}
-                className="h-4 w-4 cursor-pointer shrink-0"
+                className="h-3 w-3 cursor-pointer shrink-0"
                 style={{
                   accentColor,
                 }}
               />
 
               {/* Option Details */}
-              <div className="ml-3 grow">
-                <div className="flex justify-between items-start">
-                  {/* Name and Delivery Time */}
-                  <div>
-                    <span
-                      className={`block font-medium ${compact ? 'text-xs' : 'text-sm'}`}
-                      style={{ color: textColor }}
-                    >
-                      {option.name}
-                    </span>
-                    <span
-                      className={`block ${compact ? 'text-xs' : 'text-xs'}`}
-                      style={{ color: subtextColor }}
-                    >
-                      {option.estimatedDelivery}
-                    </span>
-                  </div>
+              <div className="ml-2 flex-1 min-w-0">
+                <div className={compact ? 'flex flex-col' : 'flex justify-between items-center'}>
+                  {/* Name */}
+                  <span
+                    className="text-xs font-medium truncate"
+                    style={{ color: textColor }}
+                  >
+                    {option.name.replace(' Shipping', '')}
+                  </span>
 
                   {/* Price */}
                   <span
-                    className={`font-medium shrink-0 ml-2 ${compact ? 'text-xs' : 'text-sm'}`}
-                    style={{ color: textColor }}
+                    className="text-xs font-medium shrink-0"
+                    style={{
+                      color: option.price === 0
+                        ? (darkMode ? '#4ade80' : '#16a34a')
+                        : textColor,
+                    }}
                   >
-                    {option.price === 0 ? (
-                      <span
-                        className="text-green-600 dark:text-green-400"
-                        style={{
-                          color: darkMode ? '#4ade80' : '#16a34a',
-                        }}
-                      >
-                        Free
-                      </span>
-                    ) : (
-                      `$${option.price.toFixed(2)}`
-                    )}
+                    {option.price === 0 ? 'Free' : `$${option.price.toFixed(2)}`}
                   </span>
                 </div>
+                {!compact && (
+                  <span
+                    className="text-[10px] block"
+                    style={{ color: subtextColor }}
+                  >
+                    {option.estimatedDelivery}
+                  </span>
+                )}
               </div>
             </label>
           );
         })}
       </div>
-
-      {/* Selected Option Summary (Optional) */}
-      {selectedShipping && (
-        <div
-          className={`mt-3 pt-3 border-t ${compact ? 'text-xs' : 'text-xs'}`}
-          style={{ borderColor }}
-        >
-          <p style={{ color: subtextColor }}>
-            {(() => {
-              const selected = shippingOptions.find(
-                (opt) => opt.id === selectedShipping,
-              );
-              if (selected) {
-                return `Estimated delivery: ${selected.estimatedDelivery}`;
-              }
-              return '';
-            })()}
-          </p>
-        </div>
-      )}
     </div>
   );
 }

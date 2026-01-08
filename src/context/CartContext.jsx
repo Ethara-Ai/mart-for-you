@@ -11,12 +11,17 @@ export function CartProvider({ children }) {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderNumber, setOrderNumber] = useState(null);
 
-  // Add item to cart
+  // Add item to cart (respects stock limit)
   const addToCart = useCallback((product) => {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
+      const stockLimit = product.stock || 10;
 
       if (existingItem) {
+        // Don't exceed stock limit
+        if (existingItem.quantity >= stockLimit) {
+          return prevItems;
+        }
         return prevItems.map((item) =>
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
         );
@@ -31,12 +36,20 @@ export function CartProvider({ children }) {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   }, []);
 
-  // Update item quantity
+  // Update item quantity (respects stock limit)
   const updateQuantity = useCallback((id, newQuantity) => {
     if (newQuantity < 1) return;
 
     setCartItems((prevItems) =>
-      prevItems.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item)),
+      prevItems.map((item) => {
+        if (item.id === id) {
+          const stockLimit = item.stock || 10;
+          // Don't exceed stock limit
+          const clampedQuantity = Math.min(newQuantity, stockLimit);
+          return { ...item, quantity: clampedQuantity };
+        }
+        return item;
+      }),
     );
   }, []);
 

@@ -4,14 +4,21 @@ import { FiMoon, FiSun, FiEdit } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useProfile } from '../../context/ProfileContext';
 import Logo from './Logo';
+import SearchBar from '../common/SearchBar';
 
 /**
  * Header - Main application header component
  *
- * Contains the brand logo, dark mode toggle, and user profile button.
+ * Contains the brand logo, search bar, dark mode toggle, and user profile button.
  * Sticky positioned at the top of the page.
+ *
+ * @param {Object} props
+ * @param {string} props.searchTerm - Current search term
+ * @param {Function} props.onSearchChange - Callback when search changes
+ * @param {Function} props.onSearchSubmit - Callback when search is submitted
+ * @param {Function} props.onSearchClear - Callback when search is cleared
  */
-function Header() {
+function Header({ searchTerm = '', onSearchChange, onSearchSubmit, onSearchClear }) {
   const navigate = useNavigate();
   const { darkMode, toggleDarkMode, COLORS } = useTheme();
   const {
@@ -41,15 +48,27 @@ function Header() {
         background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Logo onClick={handleLogoClick} />
+      <div className="max-w-7xl mx-auto px-3 sm:px-4">
+        <div className="flex justify-between h-16 items-center gap-4">
+          {/* Logo - More prominent on desktop */}
+          <div className="flex items-center flex-shrink-0">
+            <Logo onClick={handleLogoClick} size="md" animate={false} />
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center space-x-4">
+          {/* Actions - Search, Dark Mode Toggle, Profile */}
+          <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4 flex-1 justify-end">
+            {/* Search Bar */}
+            <div className="flex-1 max-w-[140px] sm:max-w-[200px] md:max-w-[280px] lg:max-w-[350px]">
+              <SearchBar
+                value={searchTerm}
+                onChange={onSearchChange}
+                onSubmit={onSearchSubmit}
+                onClear={onSearchClear}
+                placeholder="Search..."
+                variant="desktop"
+              />
+            </div>
+
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}

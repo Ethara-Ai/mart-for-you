@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { useSearch } from '../context';
 import { Navigation } from '../components/layout';
 import { ProductGrid } from '../components/product';
 import { CartModal } from '../components/cart';
@@ -16,15 +17,14 @@ import { products } from '../data/products';
  */
 function ProductsPage() {
   const { darkMode, COLORS } = useTheme();
+  const { searchTerm, clearSearch } = useSearch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Get initial values from URL params
   const initialCategory = searchParams.get('category') || 'all';
-  const initialSearch = searchParams.get('search') || '';
 
   const [activeCategory, setActiveCategory] = useState(initialCategory);
-  const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [viewingOffers, setViewingOffers] = useState(false);
 
   // Filter products based on category, search, and offers
@@ -63,19 +63,6 @@ function ProductsPage() {
     setSearchParams(newParams);
   };
 
-  // Handle search change
-  const handleSearchChange = (value) => {
-    setSearchTerm(value);
-    // Update URL params
-    const newParams = new URLSearchParams(searchParams);
-    if (value) {
-      newParams.set('search', value);
-    } else {
-      newParams.delete('search');
-    }
-    setSearchParams(newParams);
-  };
-
   // Handle offers click
   const handleOffersClick = () => {
     setViewingOffers(true);
@@ -83,14 +70,6 @@ function ProductsPage() {
     // Clear category from URL
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('category');
-    setSearchParams(newParams);
-  };
-
-  // Clear search
-  const handleClearSearch = () => {
-    setSearchTerm('');
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete('search');
     setSearchParams(newParams);
   };
 
@@ -126,16 +105,21 @@ function ProductsPage() {
 
   return (
     <div>
-      {/* Navigation with categories and search */}
-      <Navigation
-        activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
-        searchTerm={searchTerm}
-        onSearchChange={handleSearchChange}
-        viewingOffers={viewingOffers}
-        onOffersClick={handleOffersClick}
-        onCartClick={handleCartOpen}
-      />
+      {/* Navigation Section with gradient background */}
+      <div
+        style={{
+          background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
+        }}
+      >
+        {/* Navigation with categories */}
+        <Navigation
+          activeCategory={activeCategory}
+          onCategoryChange={handleCategoryChange}
+          viewingOffers={viewingOffers}
+          onOffersClick={handleOffersClick}
+          onCartClick={handleCartOpen}
+        />
+      </div>
 
       {/* Main Content */}
       <main
@@ -145,7 +129,7 @@ function ProductsPage() {
           background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
           {/* Page Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -258,7 +242,7 @@ function ProductsPage() {
               </p>
               {filteredProducts.length === 0 && (
                 <button
-                  onClick={handleClearSearch}
+                  onClick={clearSearch}
                   className="mt-2 text-sm underline cursor-pointer hover:opacity-80 transition-opacity"
                   style={{
                     color: darkMode ? COLORS.dark.primary : COLORS.light.primary,

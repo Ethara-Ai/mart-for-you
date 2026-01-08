@@ -2,6 +2,7 @@ import { FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import { useCart } from '../../context/CartContext';
+import { useToast } from '../../context/ToastContext';
 
 /**
  * CartItem - Individual cart item display component
@@ -18,6 +19,7 @@ import { useCart } from '../../context/CartContext';
  * @param {number} props.item.quantity - Quantity in cart
  * @param {boolean} props.item.onSale - Whether item is on sale
  * @param {number} props.item.salePrice - Sale price (if on sale)
+ * @param {number} props.item.stock - Stock limit
  * @param {boolean} props.compact - Whether to use compact layout
  * @param {Function} props.onQuantityChange - Optional custom quantity change handler
  * @param {Function} props.onRemove - Optional custom remove handler
@@ -25,9 +27,18 @@ import { useCart } from '../../context/CartContext';
 function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
   const { darkMode, COLORS } = useTheme();
   const { updateQuantity, removeFromCart } = useCart();
+  const { showSuccess } = useToast();
+
+  // Get stock limit
+  const stockLimit = item.stock || 10;
+  const isAtStockLimit = item.quantity >= stockLimit;
 
   // Handle quantity increase
   const handleIncrease = () => {
+    if (isAtStockLimit) {
+      showSuccess(`Maximum ${stockLimit} items allowed per order`);
+      return;
+    }
     if (onQuantityChange) {
       onQuantityChange(item.id, item.quantity + 1);
     } else {
@@ -146,11 +157,16 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
 
           <button
             onClick={handleIncrease}
-            className={`p-1 cursor-pointer rounded-full transition-all hover:bg-black/5 dark:hover:bg-white/10 ${
+            disabled={isAtStockLimit}
+            className={`p-1 rounded-full transition-all ${
               compact ? 'p-0.5' : 'p-1'
+            } ${
+              isAtStockLimit
+                ? 'cursor-not-allowed opacity-40'
+                : 'cursor-pointer hover:bg-black/5 dark:hover:bg-white/10'
             }`}
             style={{ color: buttonColor }}
-            aria-label="Increase quantity"
+            aria-label={isAtStockLimit ? 'Stock limit reached' : 'Increase quantity'}
           >
             <FiPlus className={compact ? 'h-3 w-3' : 'h-4 w-4'} />
           </button>
@@ -174,7 +190,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
             compact ? 'text-xs' : 'text-xs'
           }`}
           style={{
-            color: darkMode ? 'rgba(220, 38, 38, 0.8)' : 'rgba(220, 38, 38, 1)',
+            color: darkMode ? '#f87171' : '#dc2626',
           }}
           aria-label={`Remove ${item.name} from cart`}
         >

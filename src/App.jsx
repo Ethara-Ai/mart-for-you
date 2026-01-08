@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import AppProvider from './context/AppProvider';
 import { useTheme } from './context/ThemeContext';
 import { useProfile } from './context/ProfileContext';
+import { SearchProvider, useSearch } from './context';
 
 // Layout components (not lazy loaded as they're always needed)
 import { Header, Footer } from './components/layout';
@@ -48,12 +49,13 @@ function PageLoader() {
 function AppLayout() {
   const { darkMode, COLORS } = useTheme();
   const { closeProfileCard, isProfileCardOpen } = useProfile();
+  const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Handle click outside to close profile card
   useEffect(() => {
     const handleClickOutside = (e) => {
-      const {target} = e;
+      const { target } = e;
       if (
         isProfileCardOpen &&
         !target.closest('#profile-card') &&
@@ -66,11 +68,6 @@ function AppLayout() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isProfileCardOpen, closeProfileCard]);
-
-  // Open cart modal
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
 
   // Close cart modal
   const handleCartClose = () => {
@@ -93,7 +90,12 @@ function AppLayout() {
       <ToastContainer />
 
       {/* Header */}
-      <Header />
+      <Header
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        onSearchSubmit={onSearchSubmit}
+        onSearchClear={clearSearch}
+      />
 
       {/* Main content area - Routes */}
       <div className="flex-1">
@@ -152,7 +154,9 @@ function App() {
     <ErrorBoundary>
       <BrowserRouter>
         <AppProvider>
-          <AppRoutes />
+          <SearchProvider>
+            <AppRoutes />
+          </SearchProvider>
         </AppProvider>
       </BrowserRouter>
     </ErrorBoundary>

@@ -31,38 +31,33 @@ function ProductGrid({
     if (columns) {
       return `grid-cols-${columns}`;
     }
-    return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4';
+    return 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6';
   };
 
   // Loading skeleton
   if (loading) {
     return (
-      <div className={`grid ${getGridColumns()} gap-8 ${className}`}>
-        {[...Array(8)].map((_, index) => (
+      <div className={`grid ${getGridColumns()} gap-3 sm:gap-4 ${className}`}>
+        {[...Array(12)].map((_, index) => (
           <div
             key={index}
-            className="animate-pulse rounded-lg overflow-hidden"
+            className="animate-pulse rounded-lg overflow-hidden border"
             style={{
-              backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.background,
+              backgroundColor: darkMode ? COLORS.dark.secondary : '#ffffff',
+              borderColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)',
             }}
           >
             {/* Image skeleton */}
             <div
-              className="h-64 w-full"
+              className="aspect-square w-full"
               style={{
-                backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.05)' : '#f8f8f8',
               }}
             />
             {/* Content skeleton */}
-            <div className="p-4 space-y-3">
+            <div className="p-3 space-y-2">
               <div
-                className="h-4 w-16 rounded-sm"
-                style={{
-                  backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
-                }}
-              />
-              <div
-                className="h-5 w-3/4 rounded-sm"
+                className="h-3 w-16 rounded-sm"
                 style={{
                   backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                 }}
@@ -73,15 +68,21 @@ function ProductGrid({
                   backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                 }}
               />
-              <div className="flex justify-between items-center pt-2">
+              <div
+                className="h-3 w-1/2 rounded-sm"
+                style={{
+                  backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                }}
+              />
+              <div className="flex justify-between items-center pt-1">
                 <div
-                  className="h-6 w-16 rounded-sm"
+                  className="h-5 w-12 rounded-sm"
                   style={{
                     backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                   }}
                 />
                 <div
-                  className="h-9 w-24 rounded-md"
+                  className="h-7 w-14 rounded-lg"
                   style={{
                     backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
                   }}
@@ -144,7 +145,7 @@ function ProductGrid({
 
   // Product grid
   return (
-    <div className={`grid ${getGridColumns()} gap-8 ${className}`}>
+    <div className={`grid ${getGridColumns()} gap-3 sm:gap-4 ${className}`}>
       <AnimatePresence mode="popLayout">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />

@@ -1,43 +1,70 @@
 import { useState, useMemo } from 'react';
 import { useTheme } from '../context/ThemeContext';
+import { useSearch } from '../context';
 import { Hero } from '../components/home';
 import { Navigation } from '../components/layout';
-import { ProductGrid } from '../components/product';
-import { products } from '../data/products';
+import { ProductGrid, CategorySection } from '../components/product';
+import { products, categories } from '../data/products';
 import { CartModal } from '../components/cart';
+
+// Category display names
+const categoryDisplayNames = {
+  electronics: 'Electronics',
+  fashion: 'Fashion & Apparel',
+  home: 'Home & Living',
+  beauty: 'Beauty & Personal Care',
+  sports: 'Sports & Fitness',
+  food: 'Food & Beverages',
+  books: 'Books & Stationery',
+  toys: 'Toys & Games',
+};
 
 /**
  * HomePage - Main landing page component
  *
  * Displays the hero section with video background,
- * category navigation, search functionality, and
- * a grid of featured products.
+ * category navigation, and category-wise product scrolling sections.
  */
 function HomePage() {
   const { darkMode, COLORS } = useTheme();
+  const { searchTerm, clearSearch } = useSearch();
   const [activeCategory, setActiveCategory] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
   const [viewingOffers, setViewingOffers] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Get unique categories (excluding 'all')
+  const productCategories = useMemo(() => categories.filter((cat) => cat !== 'all'), []);
+
   // Filter products based on category, search, and offers
-  const filteredProducts = useMemo(() => products.filter((product) => {
-      // Category filter
-      const categoryMatch =
-        activeCategory === 'all' || product.category === activeCategory;
+  const filteredProducts = useMemo(
+    () =>
+      products.filter((product) => {
+        // Category filter
+        const categoryMatch = activeCategory === 'all' || product.category === activeCategory;
 
-      // Offers filter
-      const offersMatch = !viewingOffers || product.onSale === true;
+        // Offers filter
+        const offersMatch = !viewingOffers || product.onSale === true;
 
-      // Search filter
-      const searchMatch =
-        !searchTerm ||
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase());
+        // Search filter
+        const searchMatch =
+          !searchTerm ||
+          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.category.toLowerCase().includes(searchTerm.toLowerCase());
 
-      return categoryMatch && searchMatch && offersMatch;
-    }), [activeCategory, searchTerm, viewingOffers]);
+        return categoryMatch && searchMatch && offersMatch;
+      }),
+    [activeCategory, searchTerm, viewingOffers],
+  );
+
+  // Group products by category for scrolling sections
+  const productsByCategory = useMemo(() => {
+    const grouped = {};
+    productCategories.forEach((category) => {
+      grouped[category] = products.filter((p) => p.category === category);
+    });
+    return grouped;
+  }, [productCategories]);
 
   // Handle category change
   const handleCategoryChange = (category) => {
@@ -45,20 +72,10 @@ function HomePage() {
     setViewingOffers(false);
   };
 
-  // Handle search change
-  const handleSearchChange = (value) => {
-    setSearchTerm(value);
-  };
-
   // Handle offers click
   const handleOffersClick = () => {
     setViewingOffers(true);
     setActiveCategory('all');
-  };
-
-  // Clear search
-  const handleClearSearch = () => {
-    setSearchTerm('');
   };
 
   // Handle cart open
@@ -71,57 +88,39 @@ function HomePage() {
     setIsCartOpen(false);
   };
 
+  // Check if we should show category sections or filtered grid
+  const showCategorySections = activeCategory === 'all' && !searchTerm && !viewingOffers;
+
   return (
     <div>
-      {/* Hero Section */}
-      <Hero />
+      {/* Hero and Navigation Section with shared gradient background */}
+      <div
+        style={{
+          background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
+        }}
+      >
+        {/* Hero Section */}
+        <Hero />
 
-      {/* Navigation with categories and search */}
-      <Navigation
-        activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
-        searchTerm={searchTerm}
-        onSearchChange={handleSearchChange}
-        viewingOffers={viewingOffers}
-        onOffersClick={handleOffersClick}
-        onCartClick={handleCartOpen}
-      />
+        {/* Navigation with categories */}
+        <Navigation
+          activeCategory={activeCategory}
+          onCategoryChange={handleCategoryChange}
+          viewingOffers={viewingOffers}
+          onOffersClick={handleOffersClick}
+          onCartClick={handleCartOpen}
+        />
+      </div>
 
       {/* Main Content */}
       <main
         id="products-section"
-        className="grow py-12"
+        className="grow py-8"
         style={{
-          background: darkMode
-            ? COLORS.dark.backgroundGradient
-            : COLORS.light.backgroundGradient,
+          background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Heading */}
-          <div className="text-center mb-12">
-            <h2
-              className="text-3xl font-extrabold sm:text-4xl"
-              style={{
-                color: darkMode ? COLORS.dark.text : COLORS.light.text,
-                fontFamily: "'Metropolis', sans-serif",
-                letterSpacing: '-0.5px',
-              }}
-            >
-              {viewingOffers ? 'Special Offers' : 'Our Products'}
-            </h2>
-            <p
-              className="mt-4 text-lg max-w-2xl mx-auto"
-              style={{
-                color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-              }}
-            >
-              {viewingOffers
-                ? 'Limited time deals with amazing discounts on selected products.'
-                : 'Explore our collection of carefully curated products just for you.'}
-            </p>
-          </div>
-
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
           {/* Search Results Summary */}
           {searchTerm && (
             <div className="mb-8 text-center">
@@ -147,7 +146,7 @@ function HomePage() {
               </p>
               {filteredProducts.length === 0 && (
                 <button
-                  onClick={handleClearSearch}
+                  onClick={clearSearch}
                   className="mt-2 text-sm underline cursor-pointer"
                   style={{
                     color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
@@ -159,17 +158,65 @@ function HomePage() {
             </div>
           )}
 
-          {/* Product Grid */}
-          <ProductGrid
-            products={filteredProducts}
-            emptyMessage={
-              searchTerm
-                ? 'No products found matching your search'
-                : viewingOffers
-                ? 'No offers available at the moment'
-                : 'No products available'
-            }
-          />
+          {/* Offers or Specific Category View */}
+          {(viewingOffers || activeCategory !== 'all') && (
+            <>
+              <div className="text-center mb-8">
+                <h2
+                  className="text-2xl font-bold sm:text-3xl"
+                  style={{
+                    color: darkMode ? COLORS.dark.text : COLORS.light.text,
+                    fontFamily: "'Metropolis', sans-serif",
+                  }}
+                >
+                  {viewingOffers
+                    ? 'Special Offers'
+                    : categoryDisplayNames[activeCategory] || activeCategory}
+                </h2>
+                <p
+                  className="mt-2 text-base max-w-2xl mx-auto"
+                  style={{
+                    color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                  }}
+                >
+                  {viewingOffers
+                    ? 'Limited time deals with amazing discounts'
+                    : `Explore our ${categoryDisplayNames[activeCategory]?.toLowerCase() || activeCategory} collection`}
+                </p>
+              </div>
+              <ProductGrid
+                products={filteredProducts}
+                emptyMessage={
+                  viewingOffers
+                    ? 'No offers available at the moment'
+                    : 'No products available in this category'
+                }
+              />
+            </>
+          )}
+
+          {/* Search Results Grid */}
+          {searchTerm && !viewingOffers && activeCategory === 'all' && (
+            <ProductGrid
+              products={filteredProducts}
+              emptyMessage="No products found matching your search"
+            />
+          )}
+
+          {/* Category-wise Scrolling Sections (Home View) */}
+          {showCategorySections && (
+            <div className="space-y-6">
+              {productCategories.map((category) => (
+                <CategorySection
+                  key={category}
+                  title={categoryDisplayNames[category] || category}
+                  categoryId={category}
+                  products={productsByCategory[category]}
+                  seeAllLink={`/products?category=${category}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </main>
 

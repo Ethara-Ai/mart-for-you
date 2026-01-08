@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import { useSearch } from '../context';
 import { Hero } from '../components/home';
 import { Navigation } from '../components/layout';
 import { ProductGrid } from '../components/product';
@@ -16,7 +17,7 @@ import { products } from '../data/products';
  */
 function OffersPage() {
   const { darkMode, COLORS } = useTheme();
-  const [searchTerm, setSearchTerm] = useState('');
+  const { searchTerm, clearSearch } = useSearch();
   const [activeCategory, setActiveCategory] = useState('all');
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -59,21 +60,11 @@ function OffersPage() {
     setActiveCategory(category);
   };
 
-  // Handle search change
-  const handleSearchChange = (value) => {
-    setSearchTerm(value);
-  };
-
   // Handle offers click (already on offers page)
   const handleOffersClick = () => {
     // Already viewing offers, reset filters
     setActiveCategory('all');
-    setSearchTerm('');
-  };
-
-  // Clear search
-  const handleClearSearch = () => {
-    setSearchTerm('');
+    clearSearch();
   };
 
   // Handle cart open
@@ -88,25 +79,29 @@ function OffersPage() {
 
   return (
     <div>
-      {/* Hero Section */}
-      <Hero
-        title="Exclusive Deals & Offers"
-        subtitle="Save big on your favorite products with limited-time discounts"
-        ctaText="View Deals"
-        videoUrl="https://videos.pexels.com/video-files/29068393/12563855_1920_1080_30fps.mp4"
-        showScrollIndicator={true}
-      />
+      {/* Hero and Navigation Section with shared gradient background */}
+      <div
+        style={{
+          background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
+        }}
+      >
+        {/* Hero Section */}
+        <Hero
+          title="Exclusive Deals & Offers"
+          subtitle="Save big on your favorite products with limited-time discounts"
+          ctaText="View Deals"
+          videoUrl="https://videos.pexels.com/video-files/29068393/12563855_1920_1080_30fps.mp4"
+        />
 
-      {/* Navigation with categories and search */}
-      <Navigation
-        activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
-        searchTerm={searchTerm}
-        onSearchChange={handleSearchChange}
-        viewingOffers={true}
-        onOffersClick={handleOffersClick}
-        onCartClick={handleCartOpen}
-      />
+        {/* Navigation with categories */}
+        <Navigation
+          activeCategory={activeCategory}
+          onCategoryChange={handleCategoryChange}
+          viewingOffers={true}
+          onOffersClick={handleOffersClick}
+          onCartClick={handleCartOpen}
+        />
+      </div>
 
       {/* Main Content */}
       <main
@@ -116,7 +111,7 @@ function OffersPage() {
           background: darkMode ? COLORS.dark.backgroundGradient : COLORS.light.backgroundGradient,
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
           {/* Page Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -277,7 +272,7 @@ function OffersPage() {
               </p>
               {filteredProducts.length === 0 && (
                 <button
-                  onClick={handleClearSearch}
+                  onClick={clearSearch}
                   className="mt-2 text-sm underline cursor-pointer hover:opacity-80 transition-opacity"
                   style={{
                     color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
