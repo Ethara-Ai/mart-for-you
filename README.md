@@ -29,22 +29,24 @@ A modern, full-featured e-commerce web application built with React and Tailwind
 ## Features
 
 ### Product Management
-- Browse 32+ products across 8 categories
+- Browse 96 products across 8 categories (12 per category)
 - Advanced search functionality with real-time filtering
 - Category-based filtering with URL parameter support
 - Special offers and discounts section with dedicated page
 - Responsive product grid with smooth animations
 - Dynamic product cards with hover effects
+- Category-specific product specifications (dimensions, capacity, page counts, age ratings)
 
 ### Advanced Shopping Cart
 - **Dynamic Add to Cart Button**: Switches between "Add to Cart" and quantity selector based on cart state
 - **Inline Quantity Management**: Adjust quantities directly on product cards without opening cart
 - **Smart Quantity Controls**: Reduce quantity to zero to automatically remove items
+- **Stock Limit Enforcement**: Maximum quantity limits per product with toast notifications
 - **Real-time cart updates**: Instant synchronization across all components
 - **Cart Badge**: Visual indicator showing total items in cart
 - Multiple shipping options (Free, Standard $4.99, Express $9.99)
 - Automatic tax calculation (8% estimation)
-- Quick cart modal for fast checkout
+- Quick cart modal for fast checkout (with scroll lock to prevent background scrolling)
 - Dedicated cart page with full order summary
 - Remove items from cart or product cards
 
@@ -166,7 +168,7 @@ mart-for-you/
 │   │   ├── ThemeContext.jsx        # Theme (dark/light) state
 │   │   └── ToastContext.jsx        # Notification state
 │   ├── data/             # Static data and constants
-│   │   ├── products.js             # Product catalog (32 items)
+│   │   ├── products.js             # Product catalog (96 items across 8 categories)
 │   │   └── colors.js               # Theme color palette
 │   ├── hooks/            # Custom React hooks (reserved for future use)
 │   ├── pages/            # Route-level page components
@@ -250,8 +252,10 @@ Located in `src/components/product/`
 
 | Component | File | Description |
 |-----------|------|-------------|
-| `ProductCard` | `ProductCard.jsx` | Product display card with image, category badge, sale indicator, name, description, and price. Features dynamic cart controls: shows "Add to Cart" button when not in cart, switches to quantity selector (- / +) when in cart. Supports reducing to zero for removal. Fully responsive for mobile, tablet, and desktop. |
+| `ProductCard` | `ProductCard.jsx` | Product display card with image, category badge, sale indicator, name, description, and price. Features dynamic cart controls: shows "Add to Cart" button when not in cart, switches to quantity selector (- / +) when in cart. Supports reducing to zero for removal. Fully responsive for mobile, tablet, and desktop with optimized button sizes. |
+| `ProductDetailModal` | `ProductDetailModal.jsx` | Full product details modal with large image, specifications, price, quantity controls, and product benefits. Features scroll lock to prevent background scrolling and expandable specifications panel. |
 | `ProductGrid` | `ProductGrid.jsx` | Responsive grid container (1-4 columns based on screen size) with AnimatePresence for smooth product transitions. Includes loading skeleton states and empty state messaging. |
+| `CategorySection` | `CategorySection.jsx` | Horizontal scrolling product section for a category with navigation arrows and "see all" link. |
 
 ### Profile Components
 
@@ -365,24 +369,33 @@ All pages support lazy loading for optimal performance and include page-level ca
 
 ## Product Categories
 
-The application includes 32 products organized across 8 categories:
+The application includes 96 products organized across 8 categories:
 
-- **Electronics** (4 products) - Earbuds, Smart Watch, Bluetooth Speaker, Action Camera
-- **Fashion** (4 products) - Sneakers, Denim Jacket, Leather Bag, Sunglasses
-- **Home** (4 products) - Coffee Maker, Throw Blanket, Scented Candles, Wall Clock
-- **Beauty** (4 products) - Skincare Set, Hair Tools, Makeup Palette, Perfume Collection
-- **Sports** (4 products) - Yoga Mat, Fitness Tracker, Resistance Bands, Water Bottle
-- **Food** (4 products) - Gourmet Coffee, Artisan Chocolate, Tea Collection, Spice Set
-- **Books** (4 products) - Novel, Cookbook, Self-Help Book, Journal Set
-- **Toys** (4 products) - Building Blocks, Plush Animal, Board Game, Art Supply Kit
+- **Electronics** (12 products) - Earbuds, Smart Watch, Bluetooth Speaker, Action Camera, Wireless Keyboard, Gaming Mouse, USB-C Hub, Headphones, Power Bank, Webcam, Tablet Stand, Smart LED Bulb
+  - *Specs: Bluetooth version, battery life, resolution, ports*
+- **Fashion & Apparel** (12 products) - Sneakers, Denim Jacket, Leather Bag, Sunglasses, Wool Scarf, Canvas Backpack, Leather Belt, Baseball Cap, Silk Tie, Leather Wallet, Running Shoes, Winter Beanie
+  - *Specs: Sizes (S-XL), dimensions (cm), "One Size"*
+- **Home & Living** (12 products) - Coffee Maker, Throw Blanket, Scented Candles, Wall Clock, Plant Pot, Table Lamp, Decorative Vase, Kitchen Knife Set, Cotton Towels, Picture Frames, Blender, Bedside Organizer
+  - *Specs: Capacity, dimensions, piece counts*
+- **Beauty** (12 products) - Skincare Set, Hair Tools, Makeup Palette, Perfume Collection, Facial Cleanser, Lip Gloss Set, Face Masks, Makeup Brushes, Body Lotion, Nail Polish, Hair Serum, Sunscreen
+  - *Specs: Volume (ml), piece counts*
+- **Sports & Fitness** (12 products) - Yoga Mat, Fitness Tracker, Resistance Bands, Water Bottle, Dumbbells, Jump Rope, Gym Bag, Foam Roller, Sports Headband, Tennis Racket, Yoga Blocks, Cycling Gloves
+  - *Specs: Dimensions, capacity, resistance levels, sizes*
+- **Food & Beverages** (12 products) - Gourmet Coffee, Artisan Chocolate, Tea Collection, Spice Set, Olive Oil, Honey Jars, Granola Mix, Pasta Variety, Nut Butter, Dried Fruit, Matcha Powder, Hot Sauce
+  - *Specs: Weight (g/kg), volume (ml)*
+- **Books & Stationery** (12 products) - Bestselling Novel, Cookbook, Self-Help Book, Journal Set, Photography Book, History Book, Science Fiction, Business Guide, Art Book, Poetry Collection, Travel Guide, Fitness Book
+  - *Specs: Page counts, hardcover/paperback*
+- **Toys & Games** (12 products) - Building Blocks, Plush Animal, Board Game, Art Supply Kit, Remote Control Car, Puzzle, Play-Doh Set, Dollhouse, Science Kit, Train Set, Toy Robot, Card Games
+  - *Specs: Age recommendations, piece counts*
 
 ### Product Features
-- 9 products on sale with visible discount badges
-- Price range: $14.99 - $199.99
+- Multiple products on sale with visible discount badges
+- Price range: $12.99 - $249.99
 - High-quality product images from Unsplash
-- Detailed descriptions
+- Detailed descriptions with category-appropriate specifications
 - Category-based filtering
 - Search across name, description, and category
+- Stock limits with maximum quantity notifications
 
 ## Responsive Design
 

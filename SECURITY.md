@@ -6,6 +6,7 @@ The following versions of Mart - For You are currently supported with security u
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 1.1.x   | :white_check_mark: |
 | 1.0.x   | :white_check_mark: |
 | < 1.0   | :x:                |
 
@@ -137,4 +138,4 @@ We appreciate the security research community's efforts in responsibly disclosin
 
 ---
 
-Last updated: January 2024
+Last updated: January 2026

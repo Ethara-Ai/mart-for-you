@@ -17,6 +17,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-01-08
+
+### Added
+
+#### Product Catalog Expansion
+- **Expanded product catalog from 32 to 96 products** (12 products per category)
+- **Category-specific specifications** for all products:
+  - Electronics: Bluetooth version, battery life, resolution, connectivity
+  - Fashion & Apparel: Sizes (S-XL), dimensions, "One Size"
+  - Home & Living: Capacity, dimensions, piece counts
+  - Beauty: Volume (ml), piece counts
+  - Sports & Fitness: Dimensions, capacity, resistance levels
+  - Food & Beverages: Weight (g/kg), volume (ml)
+  - Books & Stationery: Page counts, hardcover/paperback format
+  - Toys & Games: Age recommendations, piece counts
+
+#### User Experience Improvements
+- **Maximum quantity toast notifications**: "Maximum quantity reached" toast appears when stock limit is reached
+- **Product Detail Modal**: Click on any product card to view full specifications and details
+- **Expandable specifications panel** in product modal with category-specific details
+
+### Fixed
+
+#### Modal Scroll Lock
+- **Fixed background scrolling issue** when product detail modal or cart modal is open
+- Added `overscrollBehavior: 'contain'` to prevent scroll chaining
+- Locked both `html` and `body` elements for complete scroll prevention
+- Added scrollbar width compensation to prevent layout shift
+
+#### Mobile Responsiveness
+- **Improved product card layout** on small mobile screens (320px+)
+- Reduced ADD button padding on mobile: `px-3` vs `px-5` on larger screens
+- Smaller quantity selector buttons on mobile: `w-7 h-7` vs `w-8 h-8`
+- Responsive text sizing for prices and buttons
+- Added `shrink-0` to prevent button overflow
+
+#### Navigation
+- **Reduced category spacing** in navigation bar for better fit
+- Changed spacing from `space-x-4 xl:space-x-8` to `space-x-1 xl:space-x-3`
+
+### Changed
+- Product weight field now displays category-appropriate specifications
+- Improved toast notification messages for quantity limits
+
+---
+
 ## [1.0.0] - 2024-01-15
 
 ### Added
@@ -136,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Highlights |
 |---------|------|------------|
+| 1.1.0 | 2026-01-08 | Expanded catalog (96 products), modal scroll fix, mobile responsiveness |
 | 1.0.0 | 2024-01-15 | Production release with all core features |
 | 0.2.0 | 2024-01-10 | Multi-page architecture, profile management |
 | 0.1.0 | 2024-01-05 | Initial release with basic functionality |
@@ -164,7 +211,8 @@ Thanks to all contributors who helped make this project possible!
 
 ---
 
-[Unreleased]: https://github.com/yourusername/mart-for-you/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/yourusername/mart-for-you/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/yourusername/mart-for-you/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/yourusername/mart-for-you/compare/v0.2.0...v1.0.0
 [0.2.0]: https://github.com/yourusername/mart-for-you/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/yourusername/mart-for-you/releases/tag/v0.1.0

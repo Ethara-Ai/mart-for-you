@@ -29,7 +29,7 @@ By participating in this project, you agree to maintain a respectful and inclusi
 2. **Clone your fork** locally:
    ```bash
    git clone https://github.com/your-username/mart-for-you.git
-   cd mart-for-you/react-app
+   cd mart-for-you
    ```
 3. **Add the upstream remote**:
    ```bash
@@ -60,7 +60,7 @@ By participating in this project, you agree to maintain a respectful and inclusi
    npm run dev
    ```
 
-4. Open [http://localhost:5017](http://localhost:5017) in your browser
+4. Open [http://localhost:5173](http://localhost:5173) in your browser
 
 ## How to Contribute
 
@@ -142,7 +142,7 @@ Use descriptive branch names following this pattern:
 // ✅ Good: Functional component with clear structure
 function ProductCard({ product, onAddToCart }) {
   const { darkMode } = useTheme();
-  
+
   const handleClick = () => {
     onAddToCart(product);
   };

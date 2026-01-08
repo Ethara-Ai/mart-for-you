@@ -1,6 +1,6 @@
 {
   "name": "mart-for-you",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A modern, full-featured e-commerce web application built with React and Tailwind CSS. Features product browsing, filtering, cart management, and user profile functionality.",
   "private": true,
   "type": "module",
@@ -60,7 +60,8 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.11.0"
+    "react-router-dom": "^7.11.0",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

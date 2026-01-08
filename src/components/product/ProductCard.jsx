@@ -65,10 +65,15 @@ function ProductCard({ product, onAddToCart }) {
   const handleIncrease = (e) => {
     e.stopPropagation();
     if (isAtStockLimit) {
-      showSuccess(`Maximum ${stockLimit} items allowed per order`);
+      showSuccess('Maximum quantity reached');
       return;
     }
-    updateQuantity(product.id, currentQuantity + 1);
+    const newQuantity = currentQuantity + 1;
+    updateQuantity(product.id, newQuantity);
+    // Show toast when reaching maximum quantity
+    if (newQuantity >= stockLimit) {
+      showSuccess('Maximum quantity reached');
+    }
   };
 
   // Handle quantity decrease
@@ -177,11 +182,11 @@ function ProductCard({ product, onAddToCart }) {
           </div>
 
           {/* Price and Add Button Row */}
-          <div className="flex items-center justify-between mt-1">
+          <div className="flex items-center justify-between mt-1 gap-1">
             {/* Price Display - Fixed height for consistent alignment */}
-            <div className="flex flex-col" style={{ minHeight: '2.75rem' }}>
+            <div className="flex flex-col shrink-0" style={{ minHeight: '2.75rem' }}>
               <span
-                className="font-semibold text-base"
+                className="font-semibold text-sm sm:text-base"
                 style={{
                   color: darkMode ? COLORS.dark.text : COLORS.light.text,
                 }}
@@ -204,7 +209,7 @@ function ProductCard({ product, onAddToCart }) {
               /* ADD Button - When NOT in cart */
               <button
                 onClick={handleAddToCart}
-                className="px-5 py-1.5 text-sm font-semibold rounded-lg transition-all cursor-pointer transform hover:scale-105 active:scale-95 border-2"
+                className="px-3 sm:px-5 py-1.5 text-xs sm:text-sm font-semibold rounded-lg transition-all cursor-pointer transform hover:scale-105 active:scale-95 border-2 shrink-0"
                 style={{
                   backgroundColor: darkMode ? 'transparent' : 'rgba(37, 99, 235, 0.08)',
                   color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
@@ -217,7 +222,7 @@ function ProductCard({ product, onAddToCart }) {
             ) : (
               /* Quantity Selector - When IN cart */
               <div
-                className="flex items-center rounded-lg overflow-hidden"
+                className="flex items-center rounded-lg overflow-hidden shrink-0"
                 style={{
                   backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                 }}
@@ -225,18 +230,18 @@ function ProductCard({ product, onAddToCart }) {
                 {/* Decrease Button */}
                 <button
                   onClick={handleDecrease}
-                  className="w-8 h-8 flex items-center justify-center transition-all cursor-pointer hover:bg-black/10 active:scale-95"
+                  className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-all cursor-pointer hover:bg-black/10 active:scale-95"
                   style={{
                     color: '#ffffff',
                   }}
                   aria-label="Decrease quantity"
                 >
-                  <FiMinus className="h-3.5 w-3.5" />
+                  <FiMinus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                 </button>
 
                 {/* Quantity Display */}
                 <span
-                  className="min-w-[1.5rem] text-center font-semibold text-sm"
+                  className="min-w-[1.25rem] sm:min-w-[1.5rem] text-center font-semibold text-xs sm:text-sm"
                   style={{
                     color: '#ffffff',
                   }}
@@ -248,7 +253,7 @@ function ProductCard({ product, onAddToCart }) {
                 <button
                   onClick={handleIncrease}
                   disabled={isAtStockLimit}
-                  className={`w-8 h-8 flex items-center justify-center transition-all ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-all ${
                     isAtStockLimit
                       ? 'cursor-not-allowed opacity-50'
                       : 'cursor-pointer hover:bg-black/10 active:scale-95'
@@ -258,7 +263,7 @@ function ProductCard({ product, onAddToCart }) {
                   }}
                   aria-label={isAtStockLimit ? 'Stock limit reached' : 'Increase quantity'}
                 >
-                  <FiPlus className="h-3.5 w-3.5" />
+                  <FiPlus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                 </button>
               </div>
             )}

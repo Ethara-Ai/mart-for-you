@@ -36,13 +36,18 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
   // Handle quantity increase
   const handleIncrease = () => {
     if (isAtStockLimit) {
-      showSuccess(`Maximum ${stockLimit} items allowed per order`);
+      showSuccess('Maximum quantity reached');
       return;
     }
+    const newQuantity = item.quantity + 1;
     if (onQuantityChange) {
-      onQuantityChange(item.id, item.quantity + 1);
+      onQuantityChange(item.id, newQuantity);
     } else {
-      updateQuantity(item.id, item.quantity + 1);
+      updateQuantity(item.id, newQuantity);
+    }
+    // Show toast when reaching maximum quantity
+    if (newQuantity >= stockLimit) {
+      showSuccess('Maximum quantity reached');
     }
   };
 
@@ -158,9 +163,7 @@ function CartItem({ item, compact = false, onQuantityChange, onRemove }) {
           <button
             onClick={handleIncrease}
             disabled={isAtStockLimit}
-            className={`p-1 rounded-full transition-all ${
-              compact ? 'p-0.5' : 'p-1'
-            } ${
+            className={`p-1 rounded-full transition-all ${compact ? 'p-0.5' : 'p-1'} ${
               isAtStockLimit
                 ? 'cursor-not-allowed opacity-40'
                 : 'cursor-pointer hover:bg-black/5 dark:hover:bg-white/10'

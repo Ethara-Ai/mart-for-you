@@ -94,9 +94,15 @@ const generateSpecifications = (product) => {
     model: product.model || defaults.model,
     colour: product.colour || defaults.colour,
     type: product.type || defaults.type,
-    serviceCenterDetails: product.serviceCenterDetails || 'For service center locations, please visit our website or contact customer care.',
-    customerCareDetails: product.customerCareDetails || 'Customer Care: 1800-XXX-XXXX (Toll Free)\nEmail: support@martforyou.com\nWorking Hours: Mon-Sat, 9 AM - 6 PM',
-    disclaimer: product.disclaimer || 'Product color may slightly vary due to photographic lighting or your monitor settings. Please check specifications before purchasing.',
+    serviceCenterDetails:
+      product.serviceCenterDetails ||
+      'For service center locations, please visit our website or contact customer care.',
+    customerCareDetails:
+      product.customerCareDetails ||
+      'Customer Care: 1800-XXX-XXXX (Toll Free)\nEmail: support@martforyou.com\nWorking Hours: Mon-Sat, 9 AM - 6 PM',
+    disclaimer:
+      product.disclaimer ||
+      'Product color may slightly vary due to photographic lighting or your monitor settings. Please check specifications before purchasing.',
     countryOfOrigin: product.countryOfOrigin || 'Imported / Made in India',
     warranty: product.warranty || defaults.warranty,
   };
@@ -108,7 +114,10 @@ const generateSpecifications = (product) => {
 function SpecItem({ label, value, borderColor, subtextColor, textColor }) {
   return (
     <div className="py-3 border-b" style={{ borderColor }}>
-      <dt className="text-xs font-medium uppercase tracking-wider mb-1" style={{ color: subtextColor }}>
+      <dt
+        className="text-xs font-medium uppercase tracking-wider mb-1"
+        style={{ color: subtextColor }}
+      >
         {label}
       </dt>
       <dd className="text-sm whitespace-pre-line" style={{ color: textColor }}>
@@ -146,17 +155,31 @@ function ProductDetailModal({ isOpen, onClose, product }) {
   // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
-      const { scrollY } = window;
+      const scrollY = window.scrollY;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+      // Lock both html and body to prevent all scroll scenarios
+      document.documentElement.style.overflow = 'hidden';
+      document.documentElement.style.height = '100%';
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.bottom = '0';
       document.body.style.overflow = 'hidden';
+      // Prevent layout shift from scrollbar disappearing
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
 
       return () => {
+        document.documentElement.style.overflow = '';
+        document.documentElement.style.height = '';
         document.body.style.position = '';
         document.body.style.top = '';
-        document.body.style.width = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.bottom = '';
         document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
         window.scrollTo(0, scrollY);
       };
     }
@@ -215,10 +238,15 @@ function ProductDetailModal({ isOpen, onClose, product }) {
   // Handle quantity increase
   const handleIncrease = () => {
     if (isAtStockLimit) {
-      showSuccess(`Maximum ${stockLimit} items allowed per order`);
+      showSuccess('Maximum quantity reached');
       return;
     }
-    updateQuantity(product.id, currentQuantity + 1);
+    const newQuantity = currentQuantity + 1;
+    updateQuantity(product.id, newQuantity);
+    // Show toast when reaching maximum quantity
+    if (newQuantity >= stockLimit) {
+      showSuccess('Maximum quantity reached');
+    }
   };
 
   // Handle quantity decrease
@@ -260,7 +288,8 @@ function ProductDetailModal({ isOpen, onClose, product }) {
 
           {/* Modal */}
           <div
-            className="fixed inset-0 z-[101] flex items-center justify-center p-4 overflow-y-auto"
+            className="fixed inset-0 z-[101] flex items-center justify-center p-4"
+            style={{ overscrollBehavior: 'contain' }}
             onClick={onClose}
           >
             <motion.div
@@ -268,7 +297,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
-              className="w-full max-w-4xl my-8 relative"
+              className="w-full max-w-4xl max-h-[90vh] relative flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button - Positioned outside/above the card */}
@@ -276,7 +305,9 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                 onClick={onClose}
                 className="absolute -top-2 -right-2 z-10 p-2 rounded-full transition-all hover:scale-110 active:scale-95"
                 style={{
-                  backgroundColor: darkMode ? COLORS.dark.modalBackground : COLORS.light.modalBackground,
+                  backgroundColor: darkMode
+                    ? COLORS.dark.modalBackground
+                    : COLORS.light.modalBackground,
                   color: textColor,
                   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                 }}
@@ -287,8 +318,8 @@ function ProductDetailModal({ isOpen, onClose, product }) {
 
               <div
                 ref={modalContentRef}
-                className="rounded-lg shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
-                style={{ backgroundColor: bgColor }}
+                className="rounded-lg shadow-2xl overflow-hidden overflow-y-auto"
+                style={{ backgroundColor: bgColor, overscrollBehavior: 'contain' }}
               >
                 {/* Content */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8">
@@ -369,16 +400,10 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                       {product.onSale ? (
                         <div>
                           <div className="flex items-baseline gap-3 mb-1">
-                            <span
-                              className="text-3xl font-bold"
-                              style={{ color: primaryColor }}
-                            >
+                            <span className="text-3xl font-bold" style={{ color: primaryColor }}>
                               ${product.salePrice.toFixed(2)}
                             </span>
-                            <span
-                              className="text-xl line-through"
-                              style={{ color: subtextColor }}
-                            >
+                            <span className="text-xl line-through" style={{ color: subtextColor }}>
                               ${product.price.toFixed(2)}
                             </span>
                           </div>
@@ -387,10 +412,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                           </p>
                         </div>
                       ) : (
-                        <span
-                          className="text-3xl font-bold"
-                          style={{ color: textColor }}
-                        >
+                        <span className="text-3xl font-bold" style={{ color: textColor }}>
                           ${product.price.toFixed(2)}
                         </span>
                       )}
@@ -418,7 +440,9 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                               onClick={handleDecrease}
                               className="w-12 h-12 flex items-center justify-center rounded-lg transition-all hover:scale-110 active:scale-95"
                               style={{
-                                backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
+                                backgroundColor: darkMode
+                                  ? COLORS.dark.secondary
+                                  : COLORS.light.secondary,
                                 color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                               }}
@@ -429,7 +453,9 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                             <div
                               className="flex-1 h-12 flex items-center justify-center rounded-lg font-bold text-xl"
                               style={{
-                                backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+                                backgroundColor: darkMode
+                                  ? 'rgba(255, 255, 255, 0.05)'
+                                  : 'rgba(0, 0, 0, 0.05)',
                                 color: textColor,
                               }}
                             >
@@ -446,19 +472,30 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                               }`}
                               style={{
                                 backgroundColor: primaryColor,
-                                color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                                color: darkMode
+                                  ? COLORS.dark.modalBackground
+                                  : COLORS.light.background,
                                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                               }}
-                              aria-label={isAtStockLimit ? 'Stock limit reached' : 'Increase quantity'}
+                              aria-label={
+                                isAtStockLimit ? 'Stock limit reached' : 'Increase quantity'
+                              }
                             >
                               <FiPlus className="h-5 w-5" />
                             </button>
                           </div>
                           <p className="text-sm text-center" style={{ color: subtextColor }}>
-                            Total: ${((product.onSale ? product.salePrice : product.price) * getItemQuantity(product.id)).toFixed(2)}
+                            Total: $
+                            {(
+                              (product.onSale ? product.salePrice : product.price) *
+                              getItemQuantity(product.id)
+                            ).toFixed(2)}
                           </p>
                           {isAtStockLimit && (
-                            <p className="text-xs text-center mt-1" style={{ color: 'rgb(239, 68, 68)' }}>
+                            <p
+                              className="text-xs text-center mt-1"
+                              style={{ color: 'rgb(239, 68, 68)' }}
+                            >
                               Max {stockLimit} items per order
                             </p>
                           )}
@@ -489,28 +526,52 @@ function ProductDetailModal({ isOpen, onClose, product }) {
 
                     {/* Features */}
                     <div className="space-y-3 pt-4 border-t" style={{ borderColor }}>
-                      <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: textColor }}>
+                      <h3
+                        className="text-sm font-semibold uppercase tracking-wider mb-3"
+                        style={{ color: textColor }}
+                      >
                         Product Benefits
                       </h3>
                       <div className="flex items-start gap-3">
-                        <FiPackage className="h-5 w-5 mt-0.5 shrink-0" style={{ color: primaryColor }} />
+                        <FiPackage
+                          className="h-5 w-5 mt-0.5 shrink-0"
+                          style={{ color: primaryColor }}
+                        />
                         <div>
-                          <p className="font-medium text-sm" style={{ color: textColor }}>Free Returns</p>
-                          <p className="text-xs" style={{ color: subtextColor }}>30-day return policy</p>
+                          <p className="font-medium text-sm" style={{ color: textColor }}>
+                            Free Returns
+                          </p>
+                          <p className="text-xs" style={{ color: subtextColor }}>
+                            30-day return policy
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
-                        <FiTruck className="h-5 w-5 mt-0.5 shrink-0" style={{ color: primaryColor }} />
+                        <FiTruck
+                          className="h-5 w-5 mt-0.5 shrink-0"
+                          style={{ color: primaryColor }}
+                        />
                         <div>
-                          <p className="font-medium text-sm" style={{ color: textColor }}>Fast Shipping</p>
-                          <p className="text-xs" style={{ color: subtextColor }}>Multiple delivery options available</p>
+                          <p className="font-medium text-sm" style={{ color: textColor }}>
+                            Fast Shipping
+                          </p>
+                          <p className="text-xs" style={{ color: subtextColor }}>
+                            Multiple delivery options available
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
-                        <FiShield className="h-5 w-5 mt-0.5 shrink-0" style={{ color: primaryColor }} />
+                        <FiShield
+                          className="h-5 w-5 mt-0.5 shrink-0"
+                          style={{ color: primaryColor }}
+                        />
                         <div>
-                          <p className="font-medium text-sm" style={{ color: textColor }}>Secure Checkout</p>
-                          <p className="text-xs" style={{ color: subtextColor }}>Your data is protected</p>
+                          <p className="font-medium text-sm" style={{ color: textColor }}>
+                            Secure Checkout
+                          </p>
+                          <p className="text-xs" style={{ color: subtextColor }}>
+                            Your data is protected
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -543,20 +604,80 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
                           {/* Left Column */}
                           <dl>
-                            <SpecItem label="Description" value={specifications.description} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
-                            <SpecItem label="Box Contents" value={specifications.boxContent} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
-                            <SpecItem label="Model Number" value={specifications.model} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
-                            <SpecItem label="Colour" value={specifications.colour} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
-                            <SpecItem label="Type" value={specifications.type} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
+                            <SpecItem
+                              label="Description"
+                              value={specifications.description}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
+                            <SpecItem
+                              label="Box Contents"
+                              value={specifications.boxContent}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
+                            <SpecItem
+                              label="Model Number"
+                              value={specifications.model}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
+                            <SpecItem
+                              label="Colour"
+                              value={specifications.colour}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
+                            <SpecItem
+                              label="Type"
+                              value={specifications.type}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
                           </dl>
 
                           {/* Right Column */}
                           <dl>
-                            <SpecItem label="Service Center Details" value={specifications.serviceCenterDetails} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
-                            <SpecItem label="Customer Care" value={specifications.customerCareDetails} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
-                            <SpecItem label="Warranty" value={specifications.warranty} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
-                            <SpecItem label="Country of Origin" value={specifications.countryOfOrigin} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
-                            <SpecItem label="Disclaimer" value={specifications.disclaimer} borderColor={borderColor} subtextColor={subtextColor} textColor={textColor} />
+                            <SpecItem
+                              label="Service Center Details"
+                              value={specifications.serviceCenterDetails}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
+                            <SpecItem
+                              label="Customer Care"
+                              value={specifications.customerCareDetails}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
+                            <SpecItem
+                              label="Warranty"
+                              value={specifications.warranty}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
+                            <SpecItem
+                              label="Country of Origin"
+                              value={specifications.countryOfOrigin}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
+                            <SpecItem
+                              label="Disclaimer"
+                              value={specifications.disclaimer}
+                              borderColor={borderColor}
+                              subtextColor={subtextColor}
+                              textColor={textColor}
+                            />
                           </dl>
                         </div>
                       </div>

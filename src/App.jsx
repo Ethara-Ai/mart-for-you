@@ -74,6 +74,11 @@ function AppLayout() {
     setIsCartOpen(false);
   };
 
+  // Open cart modal
+  const handleCartOpen = () => {
+    setIsCartOpen(true);
+  };
+
   return (
     <div
       className={`min-h-screen flex flex-col ${darkMode ? 'dark' : ''}`}
@@ -95,6 +100,7 @@ function AppLayout() {
         onSearchChange={setSearchTerm}
         onSearchSubmit={onSearchSubmit}
         onSearchClear={clearSearch}
+        onCartClick={handleCartOpen}
       />
 
       {/* Main content area - Routes */}

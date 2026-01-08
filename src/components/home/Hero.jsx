@@ -21,7 +21,7 @@ function Hero({
   subtitle = 'Shopping made simple.',
   ctaText = 'Shop Now',
   ctaLink,
-  videoUrl = 'https://videos.pexels.com/video-files/29068393/12563855_1920_1080_30fps.mp4',
+  videoUrl = 'https://www.pexels.com/download/video/4440956/',
 }) {
   const navigate = useNavigate();
   const { darkMode, COLORS } = useTheme();

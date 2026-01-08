@@ -4,7 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiMenu, FiShoppingCart } from 'react-icons/fi';
 import { useTheme } from '../../context/ThemeContext';
 import { useCart } from '../../context/CartContext';
+import { useSearch } from '../../context';
 import { categories } from '../../data/products';
+import SearchBar from '../common/SearchBar';
 
 /**
  * Navigation - Category navigation component
@@ -30,6 +32,7 @@ function Navigation({
   const location = useLocation();
   const { darkMode, COLORS } = useTheme();
   const { totalItems } = useCart();
+  const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const navRef = useRef(null);
@@ -137,7 +140,7 @@ function Navigation({
             </div>
 
             {/* Desktop/Tablet Category Navigation */}
-            <div className="hidden lg:flex space-x-4 xl:space-x-8 shrink-0">
+            <div className="hidden lg:flex space-x-1 xl:space-x-3 shrink-0">
               {categories.map((category) => (
                 <motion.button
                   key={category}
@@ -200,33 +203,56 @@ function Navigation({
               </button>
             </div>
 
-            {/* Cart Button - Right Side (All Screens) */}
-            <div className="flex items-center">
-              <button
-                id="cart-button"
-                onClick={onCartClick}
-                className="relative w-9 h-9 sm:w-10 sm:h-10 lg:w-10 lg:h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
-                style={{
-                  backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
-                  color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                }}
-                aria-label={`View shopping cart with ${totalItems} items`}
-              >
-                <FiShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 lg:h-5 lg:w-5" />
-                {totalItems > 0 && (
-                  <span
-                    className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 lg:w-5 lg:h-5 text-xs font-bold rounded-full"
+            {/* Search Bar and Cart Button - Right Side (Only when sticky) */}
+            <AnimatePresence>
+              {isSticky && (
+                <motion.div
+                  className="flex items-center gap-2 sm:gap-3"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {/* Search Bar */}
+                  <div className="w-[120px] sm:w-[160px] md:w-[200px] lg:w-[250px]">
+                    <SearchBar
+                      value={searchTerm}
+                      onChange={setSearchTerm}
+                      onSubmit={onSearchSubmit}
+                      onClear={clearSearch}
+                      placeholder="Search..."
+                      variant="desktop"
+                    />
+                  </div>
+
+                  {/* Cart Button */}
+                  <button
+                    id="cart-button"
+                    onClick={onCartClick}
+                    className="relative w-9 h-9 sm:w-10 sm:h-10 lg:w-10 lg:h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
                     style={{
-                      backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                      color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                      backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
+                      color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                     }}
+                    aria-label={`View shopping cart with ${totalItems} items`}
                   >
-                    {totalItems > 99 ? '99+' : totalItems}
-                  </span>
-                )}
-              </button>
-            </div>
+                    <FiShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 lg:h-5 lg:w-5" />
+                    {totalItems > 0 && (
+                      <span
+                        className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 lg:w-5 lg:h-5 text-xs font-bold rounded-full"
+                        style={{
+                          backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                          color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
+                        }}
+                      >
+                        {totalItems > 99 ? '99+' : totalItems}
+                      </span>
+                    )}
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 

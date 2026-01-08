@@ -36,18 +36,32 @@ function CartModal({ isOpen, onClose }) {
   useEffect(() => {
     if (isOpen) {
       // Save current scroll position and lock body
-      const { scrollY } = window;
+      const scrollY = window.scrollY;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+      // Lock both html and body to prevent all scroll scenarios
+      document.documentElement.style.overflow = 'hidden';
+      document.documentElement.style.height = '100%';
       document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.bottom = '0';
       document.body.style.overflow = 'hidden';
+      // Prevent layout shift from scrollbar disappearing
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
 
       return () => {
         // Restore scroll position when drawer closes
+        document.documentElement.style.overflow = '';
+        document.documentElement.style.height = '';
         document.body.style.position = '';
         document.body.style.top = '';
-        document.body.style.width = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.bottom = '';
         document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
         window.scrollTo(0, scrollY);
       };
     }
@@ -113,6 +127,7 @@ function CartModal({ isOpen, onClose }) {
               boxShadow: darkMode
                 ? '-10px 0 40px rgba(0, 0, 0, 0.5)'
                 : '-10px 0 40px rgba(0, 0, 0, 0.15)',
+              overscrollBehavior: 'contain',
             }}
           >
             {/* Header - Fixed at top */}
@@ -161,6 +176,7 @@ function CartModal({ isOpen, onClose }) {
                 scrollbarColor: darkMode
                   ? `${COLORS.dark.scrollbarThumb} ${COLORS.dark.scrollbarTrack}`
                   : `${COLORS.light.scrollbarThumb} ${COLORS.light.scrollbarTrack}`,
+                overscrollBehavior: 'contain',
               }}
             >
               {orderPlaced ? (
@@ -258,7 +274,7 @@ function CartModal({ isOpen, onClose }) {
               )}
             </div>
 
-              {/* Footer - Fixed at bottom (only when cart has items) */}
+            {/* Footer - Fixed at bottom (only when cart has items) */}
             {!orderPlaced && cartItems.length > 0 && (
               <div
                 className="shrink-0 border-t p-4 sm:p-5"
