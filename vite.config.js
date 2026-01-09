@@ -12,7 +12,7 @@ export default defineConfig(({ command, mode }) => {
   // For GitHub Pages: set to '/<repository-name>/' (e.g., '/mart-for-you/')
   // For custom domain or root deployment: set to '/'
   // Can also be set via VITE_BASE_URL environment variable
-  const base = env.VITE_BASE_URL || '/';
+  const base = '/';
 
   return {
     // Base public path for GitHub Pages or custom deployment
