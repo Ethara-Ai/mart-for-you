@@ -28,8 +28,9 @@ describe('Logo', () => {
     it('renders logo image', () => {
       const { container } = render(<Logo />);
 
-      const img = container.querySelector('img[src="/logo.png"]');
+      const img = container.querySelector('img[alt="Mart For You"]');
       expect(img).toBeInTheDocument();
+      expect(img).toHaveAttribute('src');
     });
 
     it('renders logo image with alt text', () => {
@@ -152,8 +153,9 @@ describe('Logo', () => {
     it('renders logo image when animate is false', () => {
       const { container } = render(<Logo animate={false} />);
 
-      const img = container.querySelector('img[src="/logo.png"]');
+      const img = container.querySelector('img[alt="Mart For You"]');
       expect(img).toBeInTheDocument();
+      expect(img).toHaveAttribute('src');
     });
   });
 
@@ -240,7 +242,8 @@ describe('Logo', () => {
       const { container } = render(<Logo />);
 
       const img = container.querySelector('img');
-      expect(img).toHaveAttribute('src', '/logo.png');
+      expect(img).toHaveAttribute('src');
+      expect(img.getAttribute('src')).toMatch(/logo/);
     });
 
     it('renders logo image with width', () => {
@@ -487,8 +490,9 @@ describe('Logo', () => {
     it('logo image is part of the document', () => {
       const { container } = render(<Logo />);
 
-      const img = container.querySelector('img[src="/logo.png"]');
+      const img = container.querySelector('img[alt="Mart For You"]');
       expect(img).toBeInTheDocument();
+      expect(img).toHaveAttribute('src');
     });
   });
 

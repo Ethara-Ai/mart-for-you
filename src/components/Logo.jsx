@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
-import logoImage from '/logo.png';
+import logoImage from '../assets/logo.png';
 
 /**
  * Logo - Professional shopping cart brand logo
