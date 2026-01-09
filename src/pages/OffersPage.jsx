@@ -2,10 +2,10 @@ import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { useSearch } from '../context';
-import { Hero } from '../components/home';
-import { Navigation } from '../components/layout';
-import { ProductGrid } from '../components/product';
-import { CartModal } from '../components/cart';
+import Hero from '../components/Hero';
+import Navigation from '../components/Navigation';
+import ProductGrid from '../components/ProductGrid';
+import CartModal from '../components/CartModal';
 import { products } from '../data/products';
 
 /**
@@ -40,7 +40,7 @@ function OffersPage() {
 
         return categoryMatch && searchMatch;
       }),
-    [saleProducts, activeCategory, searchTerm],
+    [saleProducts, activeCategory, searchTerm]
   );
 
   // Calculate total savings
@@ -52,7 +52,7 @@ function OffersPage() {
         }
         return total;
       }, 0),
-    [saleProducts],
+    [saleProducts]
   );
 
   // Handle category change

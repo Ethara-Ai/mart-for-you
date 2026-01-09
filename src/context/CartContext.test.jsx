@@ -182,7 +182,7 @@ describe('CartContext', () => {
       expect(result.current.cartItems[0].quantity).toBe(5);
     });
 
-    it('does not update quantity below 1', () => {
+    it('removes item when quantity set below 1', () => {
       const { result } = renderHook(() => useCart(), { wrapper });
 
       act(() => {
@@ -193,10 +193,11 @@ describe('CartContext', () => {
         result.current.updateQuantity(mockProduct.id, 0);
       });
 
-      expect(result.current.cartItems[0].quantity).toBe(1);
+      // Item should be removed from cart
+      expect(result.current.cartItems).toHaveLength(0);
     });
 
-    it('does not update quantity to negative values', () => {
+    it('removes item when quantity set to negative values', () => {
       const { result } = renderHook(() => useCart(), { wrapper });
 
       act(() => {
@@ -207,7 +208,8 @@ describe('CartContext', () => {
         result.current.updateQuantity(mockProduct.id, -5);
       });
 
-      expect(result.current.cartItems[0].quantity).toBe(1);
+      // Item should be removed from cart
+      expect(result.current.cartItems).toHaveLength(0);
     });
 
     it('handles updating non-existent item', () => {
@@ -224,7 +226,7 @@ describe('CartContext', () => {
       expect(result.current.cartItems[0].quantity).toBe(1);
     });
 
-    it('updates quantity to large values', () => {
+    it('clamps quantity to stock limit', () => {
       const { result } = renderHook(() => useCart(), { wrapper });
 
       act(() => {
@@ -235,7 +237,8 @@ describe('CartContext', () => {
         result.current.updateQuantity(mockProduct.id, 100);
       });
 
-      expect(result.current.cartItems[0].quantity).toBe(100);
+      // Quantity is clamped to stock limit (default: 10)
+      expect(result.current.cartItems[0].quantity).toBe(10);
     });
   });
 
@@ -536,29 +539,37 @@ describe('CartContext', () => {
       vi.useRealTimers();
     });
 
-    it('sets orderPlaced to true during checkout', async () => {
+    it('sets orderPlaced to true after checkout completes', async () => {
       const { result } = renderHook(() => useCart(), { wrapper });
 
       act(() => {
         result.current.addToCart(mockProduct);
       });
 
+      // Initially orderPlaced should be false
+      expect(result.current.orderPlaced).toBe(false);
+
       let checkoutPromise;
       act(() => {
         checkoutPromise = result.current.handleCheckout();
       });
 
-      expect(result.current.orderPlaced).toBe(true);
-      expect(result.current.orderNumber).not.toBeNull();
+      // During checkout, isCheckingOut should be true
+      expect(result.current.isCheckingOut).toBe(true);
 
-      // Fast-forward timers
+      // Fast-forward timers to complete the async checkout
       await act(async () => {
-        vi.advanceTimersByTime(3000);
+        vi.advanceTimersByTime(1000);
         await checkoutPromise;
       });
+
+      // After checkout completes, orderPlaced should be true
+      expect(result.current.orderPlaced).toBe(true);
+      expect(result.current.orderNumber).not.toBeNull();
+      expect(result.current.isCheckingOut).toBe(false);
     });
 
-    it('clears cart after checkout completes', async () => {
+    it('clears cart immediately after checkout', async () => {
       const { result } = renderHook(() => useCart(), { wrapper });
 
       act(() => {
@@ -574,13 +585,14 @@ describe('CartContext', () => {
       });
 
       await act(async () => {
-        vi.advanceTimersByTime(3000);
+        vi.advanceTimersByTime(1000);
         await checkoutPromise;
       });
 
+      // Cart is cleared after checkout completes
       expect(result.current.cartItems).toHaveLength(0);
-      expect(result.current.orderPlaced).toBe(false);
-      expect(result.current.orderNumber).toBeNull();
+      expect(result.current.orderPlaced).toBe(true);
+      expect(result.current.orderNumber).not.toBeNull();
     });
 
     it('returns success result with order ID', async () => {
@@ -603,7 +615,9 @@ describe('CartContext', () => {
 
       expect(checkoutResult.success).toBe(true);
       expect(checkoutResult.orderId).toBeDefined();
-      expect(typeof checkoutResult.orderId).toBe('number');
+      // Order ID is now a string in format "ORD-YYYYMMDD-XXXXXX"
+      expect(typeof checkoutResult.orderId).toBe('string');
+      expect(checkoutResult.orderId).toMatch(/^ORD-\d{8}-[A-Z0-9]{6}$/);
     });
 
     it('generates unique order numbers', async () => {

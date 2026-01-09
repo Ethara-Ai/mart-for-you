@@ -40,7 +40,7 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.browser,
-        ...globals.es2021,
+        ...globals.es2024,
         ...globals.node,
       },
       parserOptions: {
@@ -70,7 +70,14 @@ export default [
         'warn',
         {
           allowConstantExport: true,
-          allowExportNames: ['useCart', 'useProfile', 'useTheme', 'useToast'],
+          allowExportNames: [
+            'useCart',
+            'useProfile',
+            'useTheme',
+            'useToast',
+            'useFilter',
+            'useSearch',
+          ],
         },
       ],
 

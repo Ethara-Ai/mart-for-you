@@ -1,14 +1,20 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+
+// Context
 import AppProvider from './context/AppProvider';
 import { useTheme } from './context/ThemeContext';
-import { useProfile } from './context/ProfileContext';
-import { SearchProvider, useSearch } from './context';
 
 // Layout components (not lazy loaded as they're always needed)
-import { Header, Footer } from './components/layout';
-import { CartModal } from './components/cart';
-import { ToastContainer, ErrorBoundary, Loading } from './components/common';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import CartModal from './components/CartModal';
+import ToastContainer from './components/ToastContainer';
+import ErrorBoundary from './components/ErrorBoundary';
+import Loading from './components/Loading';
+
+// Constants
+import { ROUTES } from './constants';
 
 // Lazy load page components for better performance
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -40,69 +46,27 @@ function PageLoader() {
 }
 
 /**
+ * SkipLink - Accessibility skip navigation link
+ */
+function SkipLink() {
+  return (
+    <a href="#main-content" className="skip-link">
+      Skip to main content
+    </a>
+  );
+}
+
+/**
  * AppLayout - Main application layout wrapper
  *
  * Wraps all pages with common layout elements like Header, Footer,
- * CartModal, and ToastContainer. Handles global click events for
- * closing modals.
+ * CartModal, and ToastContainer.
+ *
+ * Note: Header and other components now consume contexts directly
+ * instead of receiving props (removing prop drilling anti-pattern).
  */
 function AppLayout() {
-  const navigate = useNavigate();
   const { darkMode, COLORS } = useTheme();
-  const { closeProfileCard, isProfileCardOpen } = useProfile();
-  const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  // Category state for mobile sidebar navigation
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [viewingOffers, setViewingOffers] = useState(false);
-
-  // Handle click outside to close profile card
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      const { target } = e;
-      if (
-        isProfileCardOpen &&
-        !target.closest('#profile-card') &&
-        !target.closest('#profile-photo-button')
-      ) {
-        closeProfileCard();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isProfileCardOpen, closeProfileCard]);
-
-  // Close cart modal
-  const handleCartClose = () => {
-    setIsCartOpen(false);
-  };
-
-  // Open cart modal
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
-
-  // Handle category change from mobile sidebar
-  const handleCategoryChange = (category) => {
-    setActiveCategory(category);
-    setViewingOffers(false);
-    // Navigate to products page with category in URL
-    if (category === 'all') {
-      navigate('/products');
-    } else {
-      navigate(`/products?category=${category}`);
-    }
-  };
-
-  // Handle offers click from mobile sidebar
-  const handleOffersClick = () => {
-    setViewingOffers(true);
-    setActiveCategory('all');
-    // Navigate to offers page
-    navigate('/offers');
-  };
 
   return (
     <div
@@ -113,45 +77,38 @@ function AppLayout() {
         fontFamily: "'Metropolis', Helvetica, Arial, sans-serif",
       }}
     >
+      {/* Accessibility skip link */}
+      <SkipLink />
+
       {/* Scroll to top on route change */}
       <ScrollToTop />
 
       {/* Toast notifications */}
       <ToastContainer />
 
-      {/* Header */}
-      <Header
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        onSearchSubmit={onSearchSubmit}
-        onSearchClear={clearSearch}
-        onCartClick={handleCartOpen}
-        activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
-        viewingOffers={viewingOffers}
-        onOffersClick={handleOffersClick}
-      />
+      {/* Header - consumes its own contexts now */}
+      <Header />
 
       {/* Main content area - Routes */}
-      <div className="flex-1">
+      <main id="main-content" className="flex-1">
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/offers" element={<OffersPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path={ROUTES.HOME} element={<HomePage />} />
+            <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
+            <Route path={ROUTES.OFFERS} element={<OffersPage />} />
+            <Route path={ROUTES.CART} element={<CartPage />} />
+            <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
             {/* 404 Not Found route */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
-      </div>
+      </main>
 
       {/* Footer */}
       <Footer />
 
-      {/* Cart Modal */}
-      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
+      {/* Cart Modal - Uses CartContext for open/close state */}
+      <CartModal />
     </div>
   );
 }
@@ -161,7 +118,7 @@ function AppLayout() {
  */
 function AppRoutes() {
   const location = useLocation();
-  const isLandingPage = location.pathname === '/';
+  const isLandingPage = location.pathname === ROUTES.LANDING;
 
   if (isLandingPage) {
     return (
@@ -181,17 +138,18 @@ function AppRoutes() {
  * and routing. Provider hierarchy:
  * - ErrorBoundary (catches JavaScript errors)
  * - BrowserRouter (routing)
- * - AppProvider (theme, cart, toast, profile contexts)
+ * - AppProvider (theme, cart, toast, profile, search, filter contexts)
  * - AppRoutes (landing page or main layout)
+ *
+ * Note: AppProvider must be inside BrowserRouter because SearchProvider
+ * and FilterProvider use router hooks (useNavigate, useSearchParams).
  */
 function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
         <AppProvider>
-          <SearchProvider>
-            <AppRoutes />
-          </SearchProvider>
+          <AppRoutes />
         </AppProvider>
       </BrowserRouter>
     </ErrorBoundary>

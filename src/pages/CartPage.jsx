@@ -5,7 +5,8 @@ import { FiShoppingCart, FiCheck, FiArrowLeft, FiTrash2 } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
-import { CartItem, ShippingOptions } from '../components/cart';
+import CartItem from '../components/CartItem';
+import ShippingOptions from '../components/ShippingOptions';
 
 /**
  * CartPage - Full page shopping cart component

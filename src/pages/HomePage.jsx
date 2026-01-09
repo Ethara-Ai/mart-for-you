@@ -1,46 +1,40 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTheme } from '../context/ThemeContext';
-import { useSearch } from '../context';
-import { Hero } from '../components/home';
-import { Navigation } from '../components/layout';
-import { ProductGrid, CategorySection } from '../components/product';
+import { useSearch, useFilter } from '../context';
+import { useCart } from '../context/CartContext';
+import Hero from '../components/Hero';
+import Navigation from '../components/Navigation';
+import ProductGrid from '../components/ProductGrid';
+import CategorySection from '../components/CategorySection';
 import { products, categories } from '../data/products';
-import { CartModal } from '../components/cart';
-
-// Category display names
-const categoryDisplayNames = {
-  electronics: 'Electronics',
-  fashion: 'Fashion & Apparel',
-  home: 'Home & Living',
-  beauty: 'Beauty & Personal Care',
-  sports: 'Sports & Fitness',
-  food: 'Food & Beverages',
-  books: 'Books & Stationery',
-  toys: 'Toys & Games',
-};
+import { CATEGORY_DISPLAY_NAMES, CATEGORIES } from '../constants';
 
 /**
  * HomePage - Main landing page component
  *
  * Displays the hero section with video background,
  * category navigation, and category-wise product scrolling sections.
+ * Uses FilterContext for category and offers state management.
+ *
+ * Note: CartModal is now rendered once in AppLayout (via CartContext),
+ * eliminating the need for duplicate modal instances.
  */
 function HomePage() {
   const { darkMode, COLORS } = useTheme();
   const { searchTerm, clearSearch } = useSearch();
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [viewingOffers, setViewingOffers] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
+  const { openCart } = useCart();
 
   // Get unique categories (excluding 'all')
-  const productCategories = useMemo(() => categories.filter((cat) => cat !== 'all'), []);
+  const productCategories = useMemo(() => categories.filter((cat) => cat !== CATEGORIES.ALL), []);
 
   // Filter products based on category, search, and offers
   const filteredProducts = useMemo(
     () =>
       products.filter((product) => {
         // Category filter
-        const categoryMatch = activeCategory === 'all' || product.category === activeCategory;
+        const categoryMatch =
+          activeCategory === CATEGORIES.ALL || product.category === activeCategory;
 
         // Offers filter
         const offersMatch = !viewingOffers || product.onSale === true;
@@ -69,27 +63,15 @@ function HomePage() {
   // Handle category change
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
-    setViewingOffers(false);
   };
 
   // Handle offers click
   const handleOffersClick = () => {
-    setViewingOffers(true);
-    setActiveCategory('all');
-  };
-
-  // Handle cart open
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
-
-  // Handle cart close
-  const handleCartClose = () => {
-    setIsCartOpen(false);
+    enableOffersView();
   };
 
   // Check if we should show category sections or filtered grid
-  const showCategorySections = activeCategory === 'all' && !searchTerm && !viewingOffers;
+  const showCategorySections = activeCategory === CATEGORIES.ALL && !searchTerm && !viewingOffers;
 
   return (
     <div>
@@ -108,7 +90,7 @@ function HomePage() {
           onCategoryChange={handleCategoryChange}
           viewingOffers={viewingOffers}
           onOffersClick={handleOffersClick}
-          onCartClick={handleCartOpen}
+          onCartClick={openCart}
         />
       </div>
 
@@ -159,7 +141,7 @@ function HomePage() {
           )}
 
           {/* Offers or Specific Category View */}
-          {(viewingOffers || activeCategory !== 'all') && (
+          {(viewingOffers || activeCategory !== CATEGORIES.ALL) && (
             <>
               <div className="text-center mb-8">
                 <h2
@@ -171,7 +153,7 @@ function HomePage() {
                 >
                   {viewingOffers
                     ? 'Special Offers'
-                    : categoryDisplayNames[activeCategory] || activeCategory}
+                    : CATEGORY_DISPLAY_NAMES[activeCategory] || activeCategory}
                 </h2>
                 <p
                   className="mt-2 text-base max-w-2xl mx-auto"
@@ -181,7 +163,7 @@ function HomePage() {
                 >
                   {viewingOffers
                     ? 'Limited time deals with amazing discounts'
-                    : `Explore our ${categoryDisplayNames[activeCategory]?.toLowerCase() || activeCategory} collection`}
+                    : `Explore our ${CATEGORY_DISPLAY_NAMES[activeCategory]?.toLowerCase() || activeCategory} collection`}
                 </p>
               </div>
               <ProductGrid
@@ -196,7 +178,7 @@ function HomePage() {
           )}
 
           {/* Search Results Grid */}
-          {searchTerm && !viewingOffers && activeCategory === 'all' && (
+          {searchTerm && !viewingOffers && activeCategory === CATEGORIES.ALL && (
             <ProductGrid
               products={filteredProducts}
               emptyMessage="No products found matching your search"
@@ -209,7 +191,7 @@ function HomePage() {
               {productCategories.map((category) => (
                 <CategorySection
                   key={category}
-                  title={categoryDisplayNames[category] || category}
+                  title={CATEGORY_DISPLAY_NAMES[category] || category}
                   categoryId={category}
                   products={productsByCategory[category]}
                   seeAllLink={`/products?category=${category}`}
@@ -219,9 +201,6 @@ function HomePage() {
           )}
         </div>
       </main>
-
-      {/* Cart Modal */}
-      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
     </div>
   );
 }

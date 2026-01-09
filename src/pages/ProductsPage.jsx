@@ -1,38 +1,36 @@
-import { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
-import { useSearch } from '../context';
-import { Navigation } from '../components/layout';
-import { ProductGrid } from '../components/product';
-import { CartModal } from '../components/cart';
+import { useSearch, useFilter } from '../context';
+import { useCart } from '../context/CartContext';
+import Navigation from '../components/Navigation';
+import ProductGrid from '../components/ProductGrid';
 import { products } from '../data/products';
+import { CATEGORY_DISPLAY_NAMES, CATEGORIES } from '../constants';
 
 /**
  * ProductsPage - Products listing page component
  *
  * Displays all products with category filtering, search functionality,
- * and optional offers filter. Supports URL query parameters for
- * pre-filtering (e.g., ?category=electronics)
+ * and optional offers filter. Uses FilterContext for state management
+ * which handles URL query parameters for deep linking support.
+ *
+ * Note: CartModal is now rendered once in AppLayout (via CartContext),
+ * eliminating the need for duplicate modal instances.
  */
 function ProductsPage() {
   const { darkMode, COLORS } = useTheme();
   const { searchTerm, clearSearch } = useSearch();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  // Get initial values from URL params
-  const initialCategory = searchParams.get('category') || 'all';
-
-  const [activeCategory, setActiveCategory] = useState(initialCategory);
-  const [viewingOffers, setViewingOffers] = useState(false);
+  const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
+  const { openCart } = useCart();
 
   // Filter products based on category, search, and offers
   const filteredProducts = useMemo(
     () =>
       products.filter((product) => {
         // Category filter
-        const categoryMatch = activeCategory === 'all' || product.category === activeCategory;
+        const categoryMatch =
+          activeCategory === CATEGORIES.ALL || product.category === activeCategory;
 
         // Offers filter
         const offersMatch = !viewingOffers || product.onSale === true;
@@ -46,38 +44,27 @@ function ProductsPage() {
 
         return categoryMatch && searchMatch && offersMatch;
       }),
-    [activeCategory, searchTerm, viewingOffers],
+    [activeCategory, searchTerm, viewingOffers]
   );
 
   // Handle category change
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
-    setViewingOffers(false);
-    // Update URL params
-    const newParams = new URLSearchParams(searchParams);
-    if (category === 'all') {
-      newParams.delete('category');
-    } else {
-      newParams.set('category', category);
-    }
-    setSearchParams(newParams);
   };
 
   // Handle offers click
   const handleOffersClick = () => {
-    setViewingOffers(true);
-    setActiveCategory('all');
-    // Clear category from URL
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete('category');
-    setSearchParams(newParams);
+    enableOffersView();
   };
 
   // Get page title
   const getPageTitle = () => {
     if (viewingOffers) return 'Special Offers';
-    if (activeCategory !== 'all') {
-      return `${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Products`;
+    if (activeCategory !== CATEGORIES.ALL) {
+      const displayName = CATEGORY_DISPLAY_NAMES[activeCategory];
+      return displayName
+        ? `${displayName}`
+        : `${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Products`;
     }
     return 'All Products';
   };
@@ -87,20 +74,11 @@ function ProductsPage() {
     if (viewingOffers) {
       return 'Limited time deals with amazing discounts on selected products.';
     }
-    if (activeCategory !== 'all') {
-      return `Browse our selection of ${activeCategory} products.`;
+    if (activeCategory !== CATEGORIES.ALL) {
+      const displayName = CATEGORY_DISPLAY_NAMES[activeCategory]?.toLowerCase() || activeCategory;
+      return `Browse our selection of ${displayName} products.`;
     }
     return 'Explore our complete collection of carefully curated products.';
-  };
-
-  // Handle cart open
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
-
-  // Handle cart close
-  const handleCartClose = () => {
-    setIsCartOpen(false);
   };
 
   return (
@@ -117,7 +95,7 @@ function ProductsPage() {
           onCategoryChange={handleCategoryChange}
           viewingOffers={viewingOffers}
           onOffersClick={handleOffersClick}
-          onCartClick={handleCartOpen}
+          onCartClick={openCart}
         />
       </div>
 
@@ -267,9 +245,6 @@ function ProductsPage() {
           />
         </div>
       </main>
-
-      {/* Cart Modal */}
-      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
     </div>
   );
 }

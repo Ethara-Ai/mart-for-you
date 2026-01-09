@@ -462,7 +462,7 @@ describe('ToastContext', () => {
       expect(typeof result.current.toasts[0].id).toBe('string');
     });
 
-    it('toast id has expected format (alphanumeric)', () => {
+    it('toast id has expected format (toast-timestamp-random)', () => {
       const { result } = renderHook(() => useToast(), { wrapper });
 
       act(() => {
@@ -470,7 +470,8 @@ describe('ToastContext', () => {
       });
 
       const { id } = result.current.toasts[0];
-      expect(id).toMatch(/^[a-z0-9]+$/);
+      // Format is: toast-timestamp-randomstring (e.g., "toast-1234567890123-abc123def")
+      expect(id).toMatch(/^toast-[0-9]+-[a-z0-9]+$/);
     });
   });
 
@@ -551,16 +552,21 @@ describe('ToastContext', () => {
       expect(result.current.toasts).toHaveLength(1);
     });
 
-    it('handles rapid toast additions', () => {
+    it('handles rapid toast additions (limited by maxToasts)', () => {
       const { result } = renderHook(() => useToast(), { wrapper });
 
+      // Add 50 toasts (but only 5 will be kept due to maxToasts default limit)
       act(() => {
         for (let i = 0; i < 50; i++) {
           result.current.addToast(`Toast ${i}`);
         }
       });
 
-      expect(result.current.toasts).toHaveLength(50);
+      // Default maxToasts is 5
+      expect(result.current.toasts).toHaveLength(5);
+      // Should keep the most recent toasts
+      expect(result.current.toasts[0].message).toBe('Toast 45');
+      expect(result.current.toasts[4].message).toBe('Toast 49');
     });
 
     it('handles rapid toast removals', () => {
@@ -568,12 +574,13 @@ describe('ToastContext', () => {
 
       const ids = [];
       act(() => {
-        for (let i = 0; i < 20; i++) {
+        // Add 5 toasts (maxToasts limit)
+        for (let i = 0; i < 5; i++) {
           ids.push(result.current.addToast(`Toast ${i}`));
         }
       });
 
-      expect(result.current.toasts).toHaveLength(20);
+      expect(result.current.toasts).toHaveLength(5);
 
       act(() => {
         ids.forEach((id) => result.current.removeToast(id));
