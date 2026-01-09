@@ -155,10 +155,12 @@ export function CartItemsProvider({ children, onCartChange }) {
       }
 
       let result = { success: true, message: '' };
+      let itemName = '';
 
       setCartItems((prevItems) =>
         prevItems.map((item) => {
           if (item.id === id) {
+            itemName = item.name;
             const stockLimit = item.stock || DEFAULTS.STOCK_LIMIT;
 
             // Don't exceed stock limit
@@ -167,6 +169,7 @@ export function CartItemsProvider({ children, onCartChange }) {
               return { ...item, quantity: stockLimit };
             }
 
+            // Quantity updated successfully (message intentionally empty - no toast needed for quantity changes)
             return { ...item, quantity: newQuantity };
           }
           return item;

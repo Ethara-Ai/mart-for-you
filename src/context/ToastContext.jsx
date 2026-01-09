@@ -84,10 +84,15 @@ export function ToastProvider({
    * @param {number} [options.duration] - Duration in ms (0 for no auto-dismiss)
    * @param {string} [options.id] - Custom toast ID
    * @param {boolean} [options.persistent=false] - If true, toast won't auto-dismiss
-   * @returns {string} Toast ID for manual removal
+   * @returns {string|null} Toast ID for manual removal, or null if message was empty
    */
   const addToast = useCallback(
     (message, type = TOAST_TYPES.SUCCESS, options = {}) => {
+      // Don't add toast if message is empty or undefined
+      if (!message || (typeof message === 'string' && message.trim() === '')) {
+        return null;
+      }
+
       const { duration = defaultDuration, id: customId, persistent = false } = options;
       const id = customId || generateToastId();
 

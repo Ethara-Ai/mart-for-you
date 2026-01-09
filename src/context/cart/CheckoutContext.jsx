@@ -1,13 +1,23 @@
 import { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { generateOrderNumber } from '../../utils/id';
 import { createLogger } from '../../utils/logger';
-import { CHECKOUT_STAGES } from './constants';
 
 // Create logger for this context
 const log = createLogger('CheckoutContext');
 
 // Create the Checkout Context
 const CheckoutContext = createContext(null);
+
+/**
+ * Checkout stages for tracking progress
+ */
+export const CHECKOUT_STAGES = {
+  CART: 'cart',
+  SHIPPING: 'shipping',
+  PAYMENT: 'payment',
+  REVIEW: 'review',
+  CONFIRMATION: 'confirmation',
+};
 
 /**
  * CheckoutProvider - Manages checkout flow state
@@ -220,10 +230,7 @@ export function CheckoutProvider({ children, onOrderPlaced, clearCart }) {
    * @param {Array} cartItems - Current cart items
    * @returns {boolean}
    */
-  const canProceed = useCallback(
-    (cartItems = []) => cartItems.length > 0 && !isCheckingOut,
-    [isCheckingOut]
-  );
+  const canProceed = useCallback((cartItems = []) => cartItems.length > 0 && !isCheckingOut, [isCheckingOut]);
 
   /**
    * Has validation errors

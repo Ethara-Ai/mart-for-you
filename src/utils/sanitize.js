@@ -132,7 +132,12 @@ export function removeDangerousPatterns(str) {
  * // Returns: 'Hello'
  */
 export function sanitizeString(str, options = {}) {
-  const { encodeEntities = true, removeDangerous = true, trim = true, maxLength } = options;
+  const {
+    encodeEntities = true,
+    removeDangerous = true,
+    trim = true,
+    maxLength,
+  } = options;
 
   if (typeof str !== 'string') {
     return '';

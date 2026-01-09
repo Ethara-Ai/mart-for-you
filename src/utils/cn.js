@@ -77,7 +77,11 @@ export function withBase(baseClass) {
  * merge('p-4 m-2', 'p-6 text-red') // => 'm-2 p-6 text-red' (p-6 overrides p-4)
  */
 export function merge(...classStrings) {
-  const allClasses = classStrings.filter(Boolean).join(' ').split(/\s+/).filter(Boolean);
+  const allClasses = classStrings
+    .filter(Boolean)
+    .join(' ')
+    .split(/\s+/)
+    .filter(Boolean);
 
   // Use a Map to track the last occurrence of each class prefix
   // This helps with Tailwind's utility class overriding

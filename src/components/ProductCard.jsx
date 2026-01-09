@@ -230,19 +230,18 @@ function ProductCard({ product, onAddToCart }) {
           </div>
 
           {/* Price and Add Button Row */}
-          <div className="flex items-center justify-between mt-1 gap-1">
-            {/* Price Display - Fixed height for consistent alignment */}
-            <div className="flex flex-col shrink-0" style={{ minHeight: '2.75rem' }}>
+          <div className="flex items-center justify-between mt-1 gap-1" style={{ minHeight: '2.75rem' }}>
+            {/* Price Display */}
+            <div className="flex flex-col justify-center shrink-0">
               <span className="font-semibold text-sm sm:text-base text-theme-primary">
                 ${displayPrice?.toFixed(2)}
               </span>
-              {/* Always reserve space for strikethrough price */}
-              <span
-                className={`text-xs text-theme-muted ${product.onSale ? 'line-through' : 'invisible'}`}
-                aria-hidden={!product.onSale}
-              >
-                {product.onSale ? `$${product.price.toFixed(2)}` : '$0.00'}
-              </span>
+              {/* Only show strikethrough when on sale */}
+              {product.onSale && (
+                <span className="text-xs text-theme-muted line-through">
+                  ${product.price.toFixed(2)}
+                </span>
+              )}
             </div>
 
             {/* Add Button or Quantity Selector */}

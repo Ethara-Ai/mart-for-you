@@ -228,16 +228,7 @@ describe('Validation Utilities', () => {
       });
 
       it('accepts valid categories', () => {
-        const validCategories = [
-          'electronics',
-          'fashion',
-          'home',
-          'beauty',
-          'sports',
-          'food',
-          'books',
-          'toys',
-        ];
+        const validCategories = ['electronics', 'fashion', 'home', 'beauty', 'sports', 'food', 'books', 'toys'];
 
         validCategories.forEach((category) => {
           const product = { ...validProduct, category };
@@ -510,7 +501,11 @@ describe('Validation Utilities', () => {
       });
 
       it('accepts valid email formats', () => {
-        const validEmails = ['test@example.com', 'user.name@domain.org', 'user+tag@example.co.uk'];
+        const validEmails = [
+          'test@example.com',
+          'user.name@domain.org',
+          'user+tag@example.co.uk',
+        ];
 
         validEmails.forEach((email) => {
           const profile = { ...validProfile, email };

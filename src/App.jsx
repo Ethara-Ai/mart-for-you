@@ -99,7 +99,7 @@ function AppLayout() {
             <Route path={ROUTES.CART} element={<CartPage />} />
             <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
             {/* 404 Not Found route */}
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<HomePage />} />
           </Routes>
         </Suspense>
       </main>

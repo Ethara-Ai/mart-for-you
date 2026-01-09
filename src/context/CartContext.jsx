@@ -30,15 +30,8 @@
  * // Gets everything - re-renders on any cart change
  * const { cartItems, isCartOpen, handleCheckout } = useCart();
  *
- * @example
- * // For constants, import directly from cart/constants
- * import { CHECKOUT_STAGES } from '@context/cart/constants';
- *
  * @deprecated Import from './cart' for better performance
  */
-
-// Import default for re-export
-import CartProvider from './cart';
 
 // Re-export everything from the new cart module
 export {
@@ -57,10 +50,10 @@ export {
   useCartTotals,
   useCartUI,
   useCheckout,
+
+  // Constants
+  CHECKOUT_STAGES,
 } from './cart';
 
 // Default export for backwards compatibility
-export default CartProvider;
-
-// NOTE: For constants like CHECKOUT_STAGES, import directly from:
-// import { CHECKOUT_STAGES } from '@context/cart/constants';
+export { default } from './cart';

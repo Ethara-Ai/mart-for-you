@@ -498,7 +498,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                               className="text-xs text-center mt-1"
                               style={{ color: 'rgb(239, 68, 68)' }}
                             >
-                              Max {stockLimit} items per order
+                              We only have limited units for this product.
                             </p>
                           )}
                         </div>

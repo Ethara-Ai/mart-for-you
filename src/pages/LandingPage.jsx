@@ -150,15 +150,7 @@ function LandingPage() {
               ? 'linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%)'
               : 'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)',
             color: '#FFFFFF',
-            boxShadow: darkMode
-              ? '0 10px 30px rgba(96, 165, 250, 0.3)'
-              : '0 10px 30px rgba(37, 99, 235, 0.3)',
             fontFamily: "'Metropolis', sans-serif",
-          }}
-          whileHover={{
-            boxShadow: darkMode
-              ? '0 15px 40px rgba(96, 165, 250, 0.4)'
-              : '0 15px 40px rgba(37, 99, 235, 0.4)',
           }}
         >
           Start Shopping

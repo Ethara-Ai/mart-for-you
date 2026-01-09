@@ -187,7 +187,14 @@ function sortProducts(products, sortBy) {
  * @returns {Array} Filtered products
  */
 function filterProducts(products, filters = {}) {
-  const { category, search, onSale, minPrice, maxPrice, inStock } = filters;
+  const {
+    category,
+    search,
+    onSale,
+    minPrice,
+    maxPrice,
+    inStock,
+  } = filters;
 
   return products.filter((product) => {
     // Category filter
@@ -198,8 +205,7 @@ function filterProducts(products, filters = {}) {
     // Search filter
     if (search) {
       const sanitized = sanitizeSearchTerm(search).toLowerCase();
-      const searchableText =
-        `${product.name} ${product.description} ${product.category}`.toLowerCase();
+      const searchableText = `${product.name} ${product.description} ${product.category}`.toLowerCase();
       if (!searchableText.includes(sanitized)) {
         return false;
       }
@@ -590,8 +596,12 @@ export async function fetchFeaturedProducts(options = {}) {
   const excludeSet = new Set(excludeIds.map(Number));
 
   // Get on-sale items first, then fill with random popular items
-  const onSaleProducts = allProducts.filter((p) => p.onSale && !excludeSet.has(p.id));
-  const regularProducts = allProducts.filter((p) => !p.onSale && !excludeSet.has(p.id));
+  const onSaleProducts = allProducts.filter(
+    (p) => p.onSale && !excludeSet.has(p.id)
+  );
+  const regularProducts = allProducts.filter(
+    (p) => !p.onSale && !excludeSet.has(p.id)
+  );
 
   // Shuffle regular products
   const shuffled = [...regularProducts].sort(() => Math.random() - 0.5);
