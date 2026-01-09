@@ -1540,7 +1540,7 @@ export const products = [
     name: 'Science Kit',
     price: 32.99,
     image:
-      'https://images.unsplash.com/photo-C5RMYhObqgA?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHV6emxlJTIwMTAwJTIwcGllY2VzfGVufDB8fDB8fHww',
+      'https://images.unsplash.com/photo-1619249722898-492c571615fe?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHV6emxlJTIwMTAwJTIwcGllY2VzfGVufDB8fDB8fHww',
     description:
       'STEM learning kit with 20 exciting experiments including volcano eruptions and crystal growing. Complete with materials, illustrated guide, and safety goggles for budding scientists ages 8+.',
     category: 'toys',
