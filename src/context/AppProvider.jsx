@@ -16,8 +16,8 @@ import { FilterProvider } from './FilterContext';
  * 2. ToastProvider - Toast notifications (no dependencies)
  * 3. ProfileProvider - User profile state (no dependencies)
  * 4. CartProvider - Shopping cart state (combines CartItems, CartTotals, CartUI, Checkout)
- * 5. SearchProvider - Search state (requires Router context - must be inside BrowserRouter)
- * 6. FilterProvider - Filter state (requires Router context - must be inside BrowserRouter)
+ * 5. SearchProvider - Search state (requires Router context - must be inside HashRouter)
+ * 6. FilterProvider - Filter state (requires Router context - must be inside HashRouter)
  *
  * Cart Context Architecture:
  * The CartProvider now uses split contexts internally for better performance:
@@ -30,7 +30,7 @@ import { FilterProvider } from './FilterContext';
  * or individual hooks (`useCartItems`, `useCartTotals`, `useCartUI`, `useCheckout`)
  * for better performance when they only need specific data.
  *
- * IMPORTANT: AppProvider must be used inside a Router context (e.g., BrowserRouter)
+ * IMPORTANT: AppProvider must be used inside a Router context (e.g., HashRouter)
  * because SearchProvider and FilterProvider use router hooks.
  *
  * @param {Object} props
@@ -40,11 +40,11 @@ import { FilterProvider } from './FilterContext';
  * // In App.jsx
  * function App() {
  *   return (
- *     <BrowserRouter>
+ *     <HashRouter>
  *       <AppProvider>
  *         <AppRoutes />
  *       </AppProvider>
- *     </BrowserRouter>
+ *     </HashRouter>
  *   );
  * }
  *

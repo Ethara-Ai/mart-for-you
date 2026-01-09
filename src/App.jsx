@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 // Context
 import AppProvider from './context/AppProvider';
@@ -175,21 +175,25 @@ function AppRoutes() {
  * Sets up the application with all necessary providers, error boundary,
  * and routing. Provider hierarchy:
  * - ErrorBoundary (catches JavaScript errors)
- * - BrowserRouter (routing)
+ * - HashRouter (routing - uses hash-based URLs like /#/home for better server compatibility)
  * - AppProvider (theme, cart, toast, profile, search, filter contexts)
  * - AppRoutes (landing page or main layout)
  *
- * Note: AppProvider must be inside BrowserRouter because SearchProvider
+ * Note: HashRouter is used instead of BrowserRouter to ensure page refreshes work
+ * correctly on all servers (nginx, Apache, etc.) without requiring server-side
+ * configuration. URLs will be in the format: domain.com/#/home instead of domain.com/home
+ *
+ * Note: AppProvider must be inside HashRouter because SearchProvider
  * and FilterProvider use router hooks (useNavigate, useSearchParams).
  */
 function App() {
   return (
     <ErrorBoundary>
-      <BrowserRouter>
+      <HashRouter>
         <AppProvider>
           <AppRoutes />
         </AppProvider>
-      </BrowserRouter>
+      </HashRouter>
     </ErrorBoundary>
   );
 }

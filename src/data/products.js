@@ -14,6 +14,7 @@ export const products = [
     weight: 'Bluetooth 5.0, 6h',
     deliveryTime: 15,
     stock: 3,
+    colour: 'White',
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ export const products = [
     weight: '1.4" AMOLED, GPS',
     deliveryTime: 12,
     stock: 14,
+    colour: 'Black',
   },
   {
     id: 3,
@@ -38,6 +40,7 @@ export const products = [
     weight: '20W, 12h battery',
     deliveryTime: 10,
     stock: 7,
+    colour: 'Black',
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ export const products = [
     weight: '4K 60fps, WiFi',
     deliveryTime: 18,
     stock: 10,
+    colour: 'Black',
   },
   {
     id: 5,
@@ -64,6 +68,7 @@ export const products = [
     weight: '2.4GHz, Backlit',
     deliveryTime: 8,
     stock: 14,
+    colour: 'Black',
   },
   {
     id: 6,
@@ -76,6 +81,7 @@ export const products = [
     weight: '16000 DPI, RGB',
     deliveryTime: 10,
     stock: 6,
+    colour: 'Black',
   },
   {
     id: 7,
@@ -88,6 +94,7 @@ export const products = [
     weight: '7-in-1, 4K HDMI',
     deliveryTime: 12,
     stock: 15,
+    colour: 'Silver',
   },
   {
     id: 8,
@@ -102,6 +109,7 @@ export const products = [
     weight: 'ANC, 30h battery',
     deliveryTime: 15,
     stock: 13,
+    colour: 'Black',
   },
   {
     id: 9,
@@ -114,6 +122,7 @@ export const products = [
     weight: '20000mAh, PD 65W',
     deliveryTime: 8,
     stock: 7,
+    colour: 'White',
   },
   {
     id: 10,
@@ -126,6 +135,7 @@ export const products = [
     weight: '1080p 30fps, Mic',
     deliveryTime: 10,
     stock: 8,
+    colour: 'Black',
   },
   {
     id: 11,
@@ -138,6 +148,7 @@ export const products = [
     weight: 'Fits 4-13" devices',
     deliveryTime: 6,
     stock: 13,
+    colour: 'Silver',
   },
   {
     id: 12,
@@ -152,6 +163,7 @@ export const products = [
     weight: '9W, WiFi, RGB',
     deliveryTime: 8,
     stock: 11,
+    colour: 'White',
   },
 
   // ==================== FASHION (12 products) ====================
@@ -166,6 +178,7 @@ export const products = [
     weight: 'Size: 8 US',
     deliveryTime: 12,
     stock: 9,
+    colour: 'White',
   },
   {
     id: 14,
@@ -180,6 +193,7 @@ export const products = [
     weight: 'Size: L',
     deliveryTime: 15,
     stock: 9,
+    colour: 'Blue',
   },
   {
     id: 15,
@@ -192,6 +206,7 @@ export const products = [
     weight: '25 x 18 x 8 cm',
     deliveryTime: 10,
     stock: 15,
+    colour: 'Brown',
   },
   {
     id: 16,
@@ -204,6 +219,7 @@ export const products = [
     weight: 'One Size',
     deliveryTime: 8,
     stock: 10,
+    colour: 'Gold',
   },
   {
     id: 17,
@@ -216,6 +232,7 @@ export const products = [
     weight: '180 x 30 cm',
     deliveryTime: 10,
     stock: 15,
+    colour: 'Beige',
   },
   {
     id: 18,
@@ -230,6 +247,7 @@ export const products = [
     weight: '45 x 30 x 15 cm',
     deliveryTime: 12,
     stock: 10,
+    colour: 'Olive Green',
   },
   {
     id: 19,
@@ -242,6 +260,7 @@ export const products = [
     weight: 'Sizes: 28-44 in',
     deliveryTime: 8,
     stock: 8,
+    colour: 'Brown',
   },
   {
     id: 20,
@@ -254,6 +273,7 @@ export const products = [
     weight: 'One Size Adjustable',
     deliveryTime: 6,
     stock: 8,
+    colour: 'Black',
   },
   {
     id: 21,
@@ -266,6 +286,7 @@ export const products = [
     weight: '150 x 8 cm',
     deliveryTime: 10,
     stock: 4,
+    colour: 'Navy Blue',
   },
   {
     id: 22,
@@ -280,6 +301,7 @@ export const products = [
     weight: '11 x 9 cm',
     deliveryTime: 8,
     stock: 14,
+    colour: 'Brown',
   },
   {
     id: 23,
@@ -292,6 +314,7 @@ export const products = [
     weight: 'Sizes: 6-13 US',
     deliveryTime: 15,
     stock: 7,
+    colour: 'Red',
   },
   {
     id: 24,
@@ -304,6 +327,7 @@ export const products = [
     weight: 'One Size',
     deliveryTime: 6,
     stock: 12,
+    colour: 'Grey',
   },
 
   // ==================== HOME (12 products) ====================
@@ -318,6 +342,7 @@ export const products = [
     weight: '12-Cup, 1000W',
     deliveryTime: 18,
     stock: 3,
+    colour: 'Black',
   },
   {
     id: 26,
@@ -330,6 +355,7 @@ export const products = [
     weight: '150 x 200 cm',
     deliveryTime: 10,
     stock: 14,
+    colour: 'Cream',
   },
   {
     id: 27,
@@ -344,6 +370,7 @@ export const products = [
     weight: '3 x 150g candles',
     deliveryTime: 8,
     stock: 10,
+    colour: 'White',
   },
   {
     id: 28,
@@ -356,6 +383,7 @@ export const products = [
     weight: '30 cm diameter',
     deliveryTime: 12,
     stock: 14,
+    colour: 'Black',
   },
   {
     id: 29,
@@ -368,6 +396,7 @@ export const products = [
     weight: '15 cm diameter',
     deliveryTime: 10,
     stock: 5,
+    colour: 'White',
   },
   {
     id: 30,
@@ -382,6 +411,7 @@ export const products = [
     weight: '40 cm, Dimmable LED',
     deliveryTime: 15,
     stock: 4,
+    colour: 'Gold',
   },
   {
     id: 31,
@@ -394,6 +424,7 @@ export const products = [
     weight: '25 cm height',
     deliveryTime: 10,
     stock: 12,
+    colour: 'White',
   },
   {
     id: 32,
@@ -406,6 +437,7 @@ export const products = [
     weight: '5-Piece, Stainless Steel',
     deliveryTime: 18,
     stock: 7,
+    colour: 'Silver',
   },
   {
     id: 33,
@@ -418,6 +450,7 @@ export const products = [
     weight: '6-Piece, 100% Cotton',
     deliveryTime: 10,
     stock: 7,
+    colour: 'White',
   },
   {
     id: 34,
@@ -432,6 +465,7 @@ export const products = [
     weight: '5-Piece, 4x6" to 8x10"',
     deliveryTime: 8,
     stock: 11,
+    colour: 'Natural Wood',
   },
   {
     id: 35,
@@ -444,6 +478,7 @@ export const products = [
     weight: '1.5L, 700W',
     deliveryTime: 15,
     stock: 13,
+    colour: 'Silver',
   },
   {
     id: 36,
@@ -456,6 +491,7 @@ export const products = [
     weight: '35 x 25 cm',
     deliveryTime: 8,
     stock: 4,
+    colour: 'Grey',
   },
 
   // ==================== BEAUTY (12 products) ====================
@@ -470,6 +506,7 @@ export const products = [
     weight: '5-Piece, 450ml total',
     deliveryTime: 12,
     stock: 8,
+    colour: 'White',
   },
   {
     id: 38,
@@ -484,6 +521,7 @@ export const products = [
     weight: 'Dryer + Straightener',
     deliveryTime: 15,
     stock: 7,
+    colour: 'Pink',
   },
   {
     id: 39,
@@ -496,6 +534,7 @@ export const products = [
     weight: '18 Colors',
     deliveryTime: 10,
     stock: 10,
+    colour: 'Rose Gold',
   },
   {
     id: 40,
@@ -508,6 +547,7 @@ export const products = [
     weight: '3 x 30ml bottles',
     deliveryTime: 12,
     stock: 7,
+    colour: 'Gold',
   },
   {
     id: 41,
@@ -520,6 +560,7 @@ export const products = [
     weight: '200ml',
     deliveryTime: 8,
     stock: 8,
+    colour: 'White',
   },
   {
     id: 42,
@@ -534,6 +575,7 @@ export const products = [
     weight: '6 x 5ml tubes',
     deliveryTime: 6,
     stock: 10,
+    colour: 'Pink',
   },
   {
     id: 43,
@@ -546,6 +588,7 @@ export const products = [
     weight: '10 Sheet Masks',
     deliveryTime: 8,
     stock: 5,
+    colour: 'White',
   },
   {
     id: 44,
@@ -558,6 +601,7 @@ export const products = [
     weight: '12-Piece Set',
     deliveryTime: 10,
     stock: 6,
+    colour: 'Pink',
   },
   {
     id: 45,
@@ -570,6 +614,7 @@ export const products = [
     weight: '250ml',
     deliveryTime: 8,
     stock: 7,
+    colour: 'White',
   },
   {
     id: 46,
@@ -584,6 +629,7 @@ export const products = [
     weight: '8 x 10ml bottles',
     deliveryTime: 6,
     stock: 8,
+    colour: 'Red',
   },
   {
     id: 47,
@@ -596,6 +642,7 @@ export const products = [
     weight: '100ml',
     deliveryTime: 8,
     stock: 5,
+    colour: 'Amber',
   },
   {
     id: 48,
@@ -608,6 +655,7 @@ export const products = [
     weight: '150ml',
     deliveryTime: 8,
     stock: 14,
+    colour: 'Orange',
   },
 
   // ==================== SPORTS (12 products) ====================
@@ -624,6 +672,7 @@ export const products = [
     weight: '183 x 61 cm, 6mm',
     deliveryTime: 10,
     stock: 15,
+    colour: 'Purple',
   },
   {
     id: 50,
@@ -636,6 +685,7 @@ export const products = [
     weight: 'Heart Rate, 7-day battery',
     deliveryTime: 12,
     stock: 7,
+    colour: 'Black',
   },
   {
     id: 51,
@@ -648,6 +698,7 @@ export const products = [
     weight: '5-40 lbs resistance',
     deliveryTime: 8,
     stock: 10,
+    colour: 'Green',
   },
   {
     id: 52,
@@ -660,6 +711,7 @@ export const products = [
     weight: '750ml capacity',
     deliveryTime: 6,
     stock: 9,
+    colour: 'White',
   },
   {
     id: 53,
@@ -672,6 +724,7 @@ export const products = [
     weight: '5-25 lbs adjustable',
     deliveryTime: 20,
     stock: 10,
+    colour: 'Black',
   },
   {
     id: 54,
@@ -686,6 +739,7 @@ export const products = [
     weight: '3m adjustable length',
     deliveryTime: 6,
     stock: 11,
+    colour: 'Black',
   },
   {
     id: 55,
@@ -698,6 +752,7 @@ export const products = [
     weight: '50L capacity',
     deliveryTime: 10,
     stock: 14,
+    colour: 'Black',
   },
   {
     id: 56,
@@ -710,6 +765,7 @@ export const products = [
     weight: '45 cm length',
     deliveryTime: 8,
     stock: 3,
+    colour: 'Blue',
   },
   {
     id: 57,
@@ -722,6 +778,7 @@ export const products = [
     weight: 'One Size Elastic',
     deliveryTime: 5,
     stock: 13,
+    colour: 'Black',
   },
   {
     id: 58,
@@ -736,6 +793,7 @@ export const products = [
     weight: '280g, 27 inch',
     deliveryTime: 15,
     stock: 11,
+    colour: 'White',
   },
   {
     id: 59,
@@ -748,6 +806,7 @@ export const products = [
     weight: '2-Pack, 9x6x3 in',
     deliveryTime: 8,
     stock: 10,
+    colour: 'Cork',
   },
   {
     id: 60,
@@ -760,6 +819,7 @@ export const products = [
     weight: 'Sizes: S-XL',
     deliveryTime: 8,
     stock: 8,
+    colour: 'Black',
   },
 
   // ==================== FOOD (12 products) ====================
@@ -774,6 +834,7 @@ export const products = [
     weight: '500g',
     deliveryTime: 8,
     stock: 10,
+    colour: 'Brown',
   },
   {
     id: 62,
@@ -788,6 +849,7 @@ export const products = [
     weight: '300g',
     deliveryTime: 10,
     stock: 13,
+    colour: 'Brown',
   },
   {
     id: 63,
@@ -800,6 +862,7 @@ export const products = [
     weight: '5 x 40g pouches',
     deliveryTime: 8,
     stock: 14,
+    colour: 'Green',
   },
   {
     id: 64,
@@ -812,6 +875,7 @@ export const products = [
     weight: '8 Spice Jars, 50g each',
     deliveryTime: 10,
     stock: 5,
+    colour: 'Assorted',
   },
   {
     id: 65,
@@ -824,6 +888,7 @@ export const products = [
     weight: '500ml',
     deliveryTime: 10,
     stock: 5,
+    colour: 'Green',
   },
   {
     id: 66,
@@ -838,6 +903,7 @@ export const products = [
     weight: '3 x 250g jars',
     deliveryTime: 8,
     stock: 6,
+    colour: 'Amber',
   },
   {
     id: 67,
@@ -850,6 +916,7 @@ export const products = [
     weight: '400g',
     deliveryTime: 6,
     stock: 8,
+    colour: 'Brown',
   },
   {
     id: 68,
@@ -862,6 +929,7 @@ export const products = [
     weight: '1kg',
     deliveryTime: 8,
     stock: 15,
+    colour: 'Yellow',
   },
   {
     id: 69,
@@ -874,6 +942,7 @@ export const products = [
     weight: '3 x 200g jars',
     deliveryTime: 8,
     stock: 8,
+    colour: 'Brown',
   },
   {
     id: 70,
@@ -888,6 +957,7 @@ export const products = [
     weight: '350g',
     deliveryTime: 6,
     stock: 5,
+    colour: 'Assorted',
   },
   {
     id: 71,
@@ -900,6 +970,7 @@ export const products = [
     weight: '100g',
     deliveryTime: 10,
     stock: 13,
+    colour: 'Green',
   },
   {
     id: 72,
@@ -912,6 +983,7 @@ export const products = [
     weight: '4 x 150ml bottles',
     deliveryTime: 8,
     stock: 12,
+    colour: 'Red',
   },
 
   // ==================== BOOKS (12 products) ====================
@@ -926,6 +998,7 @@ export const products = [
     weight: '384 pages',
     deliveryTime: 8,
     stock: 4,
+    colour: 'Red',
   },
   {
     id: 74,
@@ -938,6 +1011,7 @@ export const products = [
     weight: '256 pages, Hardcover',
     deliveryTime: 10,
     stock: 3,
+    colour: 'White',
   },
   {
     id: 75,
@@ -952,6 +1026,7 @@ export const products = [
     weight: '224 pages',
     deliveryTime: 8,
     stock: 13,
+    colour: 'Blue',
   },
   {
     id: 76,
@@ -964,6 +1039,7 @@ export const products = [
     weight: '3 x 120 pages',
     deliveryTime: 8,
     stock: 9,
+    colour: 'Beige',
   },
   {
     id: 77,
@@ -976,6 +1052,7 @@ export const products = [
     weight: '192 pages, Hardcover',
     deliveryTime: 12,
     stock: 11,
+    colour: 'Brown',
   },
   {
     id: 78,
@@ -990,6 +1067,7 @@ export const products = [
     weight: '448 pages',
     deliveryTime: 10,
     stock: 8,
+    colour: 'Brown',
   },
   {
     id: 79,
@@ -1002,6 +1080,7 @@ export const products = [
     weight: '352 pages',
     deliveryTime: 8,
     stock: 14,
+    colour: 'Blue',
   },
   {
     id: 80,
@@ -1014,6 +1093,7 @@ export const products = [
     weight: '288 pages',
     deliveryTime: 10,
     stock: 13,
+    colour: 'Orange',
   },
   {
     id: 81,
@@ -1026,6 +1106,7 @@ export const products = [
     weight: '320 pages, Hardcover',
     deliveryTime: 15,
     stock: 6,
+    colour: 'Brown',
   },
   {
     id: 82,
@@ -1040,6 +1121,7 @@ export const products = [
     weight: '176 pages',
     deliveryTime: 8,
     stock: 13,
+    colour: 'Beige',
   },
   {
     id: 83,
@@ -1052,6 +1134,7 @@ export const products = [
     weight: '512 pages',
     deliveryTime: 10,
     stock: 5,
+    colour: 'Yellow',
   },
   {
     id: 84,
@@ -1064,6 +1147,7 @@ export const products = [
     weight: '240 pages',
     deliveryTime: 8,
     stock: 5,
+    colour: 'Black',
   },
 
   // ==================== TOYS (12 products) ====================
@@ -1078,6 +1162,7 @@ export const products = [
     weight: 'Ages 3+, 150 pcs',
     deliveryTime: 10,
     stock: 11,
+    colour: 'Multicolor',
   },
   {
     id: 86,
@@ -1090,6 +1175,7 @@ export const products = [
     weight: 'All Ages, 30 cm',
     deliveryTime: 8,
     stock: 3,
+    colour: 'Brown',
   },
   {
     id: 87,
@@ -1104,6 +1190,7 @@ export const products = [
     weight: 'Ages 8+, 2-6 players',
     deliveryTime: 10,
     stock: 15,
+    colour: 'Multicolor',
   },
   {
     id: 88,
@@ -1116,6 +1203,7 @@ export const products = [
     weight: 'Ages 5+, 100 pcs',
     deliveryTime: 8,
     stock: 12,
+    colour: 'Multicolor',
   },
   {
     id: 89,
@@ -1128,6 +1216,7 @@ export const products = [
     weight: 'Ages 6+, 1:18 scale',
     deliveryTime: 12,
     stock: 8,
+    colour: 'Red',
   },
   {
     id: 90,
@@ -1142,6 +1231,7 @@ export const products = [
     weight: 'Ages 12+, 1000 pcs',
     deliveryTime: 8,
     stock: 3,
+    colour: 'Multicolor',
   },
   {
     id: 91,
@@ -1154,6 +1244,7 @@ export const products = [
     weight: 'Ages 2+, 8 colors',
     deliveryTime: 6,
     stock: 11,
+    colour: 'Multicolor',
   },
   {
     id: 92,
@@ -1166,6 +1257,7 @@ export const products = [
     weight: 'Ages 3+, 60 cm tall',
     deliveryTime: 18,
     stock: 5,
+    colour: 'Pink',
   },
   {
     id: 93,
@@ -1180,6 +1272,7 @@ export const products = [
     weight: 'Ages 8+, 20 exps',
     deliveryTime: 10,
     stock: 12,
+    colour: 'Multicolor',
   },
   {
     id: 94,
@@ -1192,6 +1285,7 @@ export const products = [
     weight: 'Ages 3+, 40 pcs',
     deliveryTime: 12,
     stock: 12,
+    colour: 'Natural Wood',
   },
   {
     id: 95,
@@ -1204,6 +1298,7 @@ export const products = [
     weight: 'Ages 5+, 25 cm',
     deliveryTime: 10,
     stock: 11,
+    colour: 'White',
   },
   {
     id: 96,
@@ -1216,6 +1311,7 @@ export const products = [
     weight: 'Ages 6+, 4 games',
     deliveryTime: 6,
     stock: 3,
+    colour: 'Red',
   },
 ];
 
