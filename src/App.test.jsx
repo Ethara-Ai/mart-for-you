@@ -46,6 +46,7 @@ vi.mock('framer-motion', async () => {
       aside: ({ children, ...props }) => <aside {...props}>{children}</aside>,
       span: ({ children, ...props }) => <span {...props}>{children}</span>,
       section: ({ children, ...props }) => <section {...props}>{children}</section>,
+      article: ({ children, ...props }) => <article {...props}>{children}</article>,
     },
   };
 });

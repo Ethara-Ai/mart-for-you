@@ -52,9 +52,11 @@ describe('CartContext', () => {
       // Suppress console.error for this test
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
+      // The error message comes from the internal useCartItems hook
+      // which is called by useCart
       expect(() => {
         renderHook(() => useCart());
-      }).toThrow('useCart must be used within a CartProvider');
+      }).toThrow(/must be used within a.*Provider/);
 
       consoleSpy.mockRestore();
     });

@@ -119,7 +119,7 @@ function OffersPage() {
             transition={{ duration: 0.3 }}
             className="text-center mb-8"
           >
-            <h1
+            <h2
               className="text-3xl font-extrabold sm:text-4xl"
               style={{
                 color: darkMode ? COLORS.dark.text : COLORS.light.text,
@@ -128,7 +128,7 @@ function OffersPage() {
               }}
             >
               🔥 Special Offers
-            </h1>
+            </h2>
             <p
               className="mt-4 text-lg max-w-2xl mx-auto"
               style={{

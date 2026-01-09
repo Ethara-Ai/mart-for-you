@@ -5,7 +5,7 @@ import { FiMoon, FiSun, FiEdit, FiShoppingCart } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 import { useProfile } from '../context/ProfileContext';
 import { useCart } from '../context/CartContext';
-import { useSearch, useFilter } from '../context';
+import { useSearch } from '../context';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import MobileSidebar from './MobileSidebar';
@@ -42,8 +42,8 @@ function Header() {
   // Search context - consumed directly instead of props
   const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
 
-  // Filter context - consumed directly instead of props
-  const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
+  // Filter context - no longer needed in Header since MobileSidebar uses it directly
+  // Keeping unused import for now as it may be needed elsewhere
 
   // Mobile sidebar state
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -85,28 +85,6 @@ function Header() {
     closeProfileCard();
     navigate(ROUTES.PROFILE);
   }, [closeProfileCard, navigate]);
-
-  // Handle category change from mobile sidebar
-  const handleCategoryChange = useCallback(
-    (category) => {
-      setActiveCategory(category);
-      closeMobileSidebar();
-      // Navigate to products page with category in URL
-      if (category === 'all') {
-        navigate(ROUTES.PRODUCTS);
-      } else {
-        navigate(`${ROUTES.PRODUCTS}?category=${category}`);
-      }
-    },
-    [setActiveCategory, navigate, closeMobileSidebar]
-  );
-
-  // Handle offers click from mobile sidebar
-  const handleOffersClick = useCallback(() => {
-    enableOffersView();
-    closeMobileSidebar();
-    navigate(ROUTES.OFFERS);
-  }, [enableOffersView, navigate, closeMobileSidebar]);
 
   // Handle cart click
   const handleCartClick = useCallback(() => {
@@ -374,15 +352,8 @@ function Header() {
         </div>
       </header>
 
-      {/* Mobile Sidebar */}
-      <MobileSidebar
-        isOpen={isMobileSidebarOpen}
-        onClose={closeMobileSidebar}
-        activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
-        viewingOffers={viewingOffers}
-        onOffersClick={handleOffersClick}
-      />
+      {/* Mobile Sidebar - now uses FilterContext directly */}
+      <MobileSidebar isOpen={isMobileSidebarOpen} onClose={closeMobileSidebar} />
     </>
   );
 }

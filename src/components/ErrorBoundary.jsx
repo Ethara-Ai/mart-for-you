@@ -3,6 +3,10 @@ import { FiAlertTriangle, FiRefreshCw, FiHome } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 import { useReducedMotion } from '../hooks';
 import { ROUTES } from '../constants';
+import { createLogger } from '../utils/logger';
+
+// Create logger for error boundary
+const log = createLogger('ErrorBoundary');
 
 /**
  * ErrorFallback - Functional component for displaying error UI
@@ -261,33 +265,6 @@ function StaticErrorFallback({ error, errorInfo, onReset, onReload, onGoHome }) 
 }
 
 /**
- * ThemedErrorFallback - Wrapper that safely attempts to use theme context
- *
- * Uses an error boundary pattern to fall back to static styles
- * if ThemeProvider is not available.
- */
-class ThemedErrorFallback extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasThemeError: false };
-  }
-
-  static getDerivedStateFromError() {
-    return { hasThemeError: true };
-  }
-
-  render() {
-    if (this.state.hasThemeError) {
-      // If ErrorFallback failed (likely due to missing ThemeProvider),
-      // fall back to static version
-      return <StaticErrorFallback {...this.props} />;
-    }
-
-    return <ErrorFallback {...this.props} />;
-  }
-}
-
-/**
  * ErrorBoundary - React error boundary component for catching JavaScript errors
  *
  * This component catches JavaScript errors anywhere in its child component tree,
@@ -353,12 +330,12 @@ class ErrorBoundary extends Component {
       errorInfo,
     });
 
-    // Log error to console in development
-    const isDevelopment = import.meta.env?.DEV ?? process.env.NODE_ENV === 'development';
-    if (isDevelopment) {
-      console.error('ErrorBoundary caught an error:', error);
-      console.error('Component stack:', errorInfo?.componentStack);
-    }
+    // Log error using the logger utility
+    log.error('Caught an error in component tree', {
+      error: error.message,
+      stack: error.stack,
+      componentStack: errorInfo?.componentStack,
+    });
 
     // Call optional onError callback prop
     if (this.props.onError) {
@@ -404,9 +381,9 @@ class ErrorBoundary extends Component {
         return fallback;
       }
 
-      // Use the themed error fallback
+      // Use the static error fallback since ErrorBoundary is outside ThemeProvider
       return (
-        <ThemedErrorFallback
+        <StaticErrorFallback
           error={error}
           errorInfo={errorInfo}
           onReset={this.handleReset}
@@ -419,5 +396,8 @@ class ErrorBoundary extends Component {
     return children;
   }
 }
+
+// Export ErrorFallback for use with ThemeProvider context
+export { ErrorFallback };
 
 export default ErrorBoundary;

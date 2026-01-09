@@ -5,6 +5,11 @@
  * Handles cases where localStorage is unavailable, quota exceeded, or data is corrupted.
  */
 
+import { createLogger } from './logger';
+
+// Create logger for storage operations
+const log = createLogger('Storage');
+
 /**
  * Check if localStorage is available
  * @returns {boolean} True if localStorage is available
@@ -33,7 +38,7 @@ export function isStorageAvailable() {
  */
 export function getFromStorage(key, defaultValue = null) {
   if (!isStorageAvailable()) {
-    console.warn('localStorage is not available');
+    log.warn('localStorage is not available');
     return defaultValue;
   }
 
@@ -46,7 +51,7 @@ export function getFromStorage(key, defaultValue = null) {
 
     return JSON.parse(item);
   } catch (error) {
-    console.error(`Error reading from localStorage key "${key}":`, error);
+    log.error(`Error reading from localStorage key "${key}"`, error);
     return defaultValue;
   }
 }
@@ -64,7 +69,7 @@ export function getFromStorage(key, defaultValue = null) {
  */
 export function setToStorage(key, value) {
   if (!isStorageAvailable()) {
-    console.warn('localStorage is not available');
+    log.warn('localStorage is not available');
     return false;
   }
 
@@ -81,9 +86,9 @@ export function setToStorage(key, value) {
         error.name === 'QuotaExceededError' || // Modern browsers
         error.name === 'NS_ERROR_DOM_QUOTA_REACHED') // Firefox
     ) {
-      console.error('localStorage quota exceeded');
+      log.error('localStorage quota exceeded', { key, error });
     } else {
-      console.error(`Error writing to localStorage key "${key}":`, error);
+      log.error(`Error writing to localStorage key "${key}"`, error);
     }
     return false;
   }
@@ -100,7 +105,7 @@ export function setToStorage(key, value) {
  */
 export function removeFromStorage(key) {
   if (!isStorageAvailable()) {
-    console.warn('localStorage is not available');
+    log.warn('localStorage is not available');
     return false;
   }
 
@@ -108,7 +113,7 @@ export function removeFromStorage(key) {
     window.localStorage.removeItem(key);
     return true;
   } catch (error) {
-    console.error(`Error removing localStorage key "${key}":`, error);
+    log.error(`Error removing localStorage key "${key}"`, error);
     return false;
   }
 }
@@ -123,7 +128,7 @@ export function removeFromStorage(key) {
  */
 export function clearStorage() {
   if (!isStorageAvailable()) {
-    console.warn('localStorage is not available');
+    log.warn('localStorage is not available');
     return false;
   }
 
@@ -131,7 +136,7 @@ export function clearStorage() {
     window.localStorage.clear();
     return true;
   } catch (error) {
-    console.error('Error clearing localStorage:', error);
+    log.error('Error clearing localStorage', error);
     return false;
   }
 }
@@ -162,7 +167,7 @@ export function getStorageKeys(prefix = '') {
     }
     return keys;
   } catch (error) {
-    console.error('Error getting localStorage keys:', error);
+    log.error('Error getting localStorage keys', error);
     return [];
   }
 }
@@ -190,7 +195,7 @@ export function getStorageSize() {
     // Multiply by 2 for UTF-16 encoding
     return total * 2;
   } catch (error) {
-    console.error('Error calculating localStorage size:', error);
+    log.error('Error calculating localStorage size', error);
     return 0;
   }
 }
@@ -264,6 +269,7 @@ export function getWithExpiry(key, defaultValue = null) {
   if (typeof item === 'object' && 'expiry' in item && 'value' in item) {
     if (Date.now() > item.expiry) {
       removeFromStorage(key);
+      log.debug(`Storage key "${key}" expired and was removed`);
       return defaultValue;
     }
     return item.value;

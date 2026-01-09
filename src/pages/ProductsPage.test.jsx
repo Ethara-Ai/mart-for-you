@@ -46,6 +46,9 @@ vi.mock('framer-motion', async () => {
       section: ({ children, ...props }) => (
         <section {...filterMotionProps(props)}>{children}</section>
       ),
+      article: ({ children, ...props }) => (
+        <article {...filterMotionProps(props)}>{children}</article>
+      ),
       span: ({ children, ...props }) => <span {...filterMotionProps(props)}>{children}</span>,
       p: ({ children, ...props }) => <p {...filterMotionProps(props)}>{children}</p>,
       h1: ({ children, ...props }) => <h1 {...filterMotionProps(props)}>{children}</h1>,

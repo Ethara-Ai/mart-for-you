@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FiPlus, FiMinus } from 'react-icons/fi';
-import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { DEFAULTS, MOTION_VARIANTS, MOTION_TRANSITIONS } from '../constants';
@@ -13,6 +12,8 @@ import ProductDetailModal from './ProductDetailModal';
  * Displays a product with image, name, weight/quantity,
  * price, and add to cart functionality in a compact card design.
  * Uses extracted animation constants for better performance.
+ *
+ * Accessibility: Fully keyboard accessible with proper ARIA attributes.
  *
  * @param {Object} props
  * @param {Object} props.product - Product data object
@@ -28,7 +29,6 @@ import ProductDetailModal from './ProductDetailModal';
  * @param {Function} props.onAddToCart - Optional custom add to cart handler
  */
 function ProductCard({ product, onAddToCart }) {
-  useTheme(); // Hook call required but values not needed - using CSS utility classes
   const { addToCart, removeFromCart, updateQuantity, isInCart, getItemQuantity } = useCart();
   const { showSuccess, showWarning } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,6 +41,14 @@ function ProductCard({ product, onAddToCart }) {
   // Handle card click to open modal
   const handleCardClick = useCallback(() => {
     setIsModalOpen(true);
+  }, []);
+
+  // Handle keyboard activation (Enter or Space)
+  const handleCardKeyDown = useCallback((e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setIsModalOpen(true);
+    }
   }, []);
 
   // Close modal
@@ -74,6 +82,18 @@ function ProductCard({ product, onAddToCart }) {
     [product, stockLimit, onAddToCart, addToCart, showSuccess, showWarning]
   );
 
+  // Handle keyboard activation for add button
+  const handleAddToCartKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
+        handleAddToCart(e);
+      }
+    },
+    [handleAddToCart]
+  );
+
   // Handle quantity increase
   const handleIncrease = useCallback(
     (e) => {
@@ -103,6 +123,18 @@ function ProductCard({ product, onAddToCart }) {
     ]
   );
 
+  // Handle keyboard activation for increase button
+  const handleIncreaseKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
+        handleIncrease(e);
+      }
+    },
+    [handleIncrease]
+  );
+
   // Handle quantity decrease
   const handleDecrease = useCallback(
     (e) => {
@@ -120,12 +152,24 @@ function ProductCard({ product, onAddToCart }) {
     [product.id, currentQuantity, updateQuantity, removeFromCart, showSuccess]
   );
 
+  // Handle keyboard activation for decrease button
+  const handleDecreaseKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
+        handleDecrease(e);
+      }
+    },
+    [handleDecrease]
+  );
+
   // Get display price
   const displayPrice = product.onSale ? product.salePrice : product.price;
 
   return (
     <>
-      <motion.div
+      <motion.article
         layout
         variants={MOTION_VARIANTS.card}
         initial="initial"
@@ -134,7 +178,12 @@ function ProductCard({ product, onAddToCart }) {
         whileHover="hover"
         transition={MOTION_TRANSITIONS.normal}
         onClick={handleCardClick}
-        className="overflow-hidden group cursor-pointer rounded-lg border card"
+        onKeyDown={handleCardKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-label={`View details for ${product.name}, ${product.onSale ? `on sale for $${displayPrice}` : `$${displayPrice}`}`}
+        className="overflow-hidden group cursor-pointer rounded-lg border card focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style={{ '--tw-ring-color': 'var(--accent-primary)' }}
       >
         {/* Product Image Container */}
         <div className="relative p-3 flex items-center justify-center bg-theme-tertiary">
@@ -148,11 +197,18 @@ function ProductCard({ product, onAddToCart }) {
           </div>
 
           {/* Sale Badge */}
-          {product.onSale && <div className="absolute top-2 left-2 badge-sale">SALE</div>}
+          {product.onSale && (
+            <div className="absolute top-2 left-2 badge-sale" aria-label="On sale">
+              SALE
+            </div>
+          )}
 
           {/* Quantity badge if in cart */}
           {isInCart(product.id) && (
-            <div className="absolute top-2 right-2 badge-quantity">
+            <div
+              className="absolute top-2 right-2 badge-quantity"
+              aria-label={`${getItemQuantity(product.id)} in cart`}
+            >
               {getItemQuantity(product.id)}
             </div>
           )}
@@ -183,6 +239,7 @@ function ProductCard({ product, onAddToCart }) {
               {/* Always reserve space for strikethrough price */}
               <span
                 className={`text-xs text-theme-muted ${product.onSale ? 'line-through' : 'invisible'}`}
+                aria-hidden={!product.onSale}
               >
                 {product.onSale ? `$${product.price.toFixed(2)}` : '$0.00'}
               </span>
@@ -193,47 +250,68 @@ function ProductCard({ product, onAddToCart }) {
               /* ADD Button - When NOT in cart */
               <button
                 onClick={handleAddToCart}
+                onKeyDown={handleAddToCartKeyDown}
                 disabled={stockLimit <= 0}
                 className="btn-outline px-3 sm:px-5 py-1.5 text-xs sm:text-sm shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label={`Add ${product.name} to cart`}
+                aria-label={
+                  stockLimit <= 0
+                    ? `${product.name} is out of stock`
+                    : `Add ${product.name} to cart`
+                }
               >
                 {stockLimit <= 0 ? 'OUT' : 'ADD'}
               </button>
             ) : (
               /* Quantity Selector - When IN cart */
-              <div className="flex items-center rounded-lg overflow-hidden shrink-0 bg-accent-primary">
+              <div
+                className="flex items-center rounded-lg overflow-hidden shrink-0 bg-accent-primary"
+                role="group"
+                aria-label={`Quantity controls for ${product.name}`}
+              >
                 {/* Decrease Button */}
                 <button
                   onClick={handleDecrease}
+                  onKeyDown={handleDecreaseKeyDown}
                   className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-all cursor-pointer hover:bg-black/10 active:scale-95 text-white"
-                  aria-label="Decrease quantity"
+                  aria-label={
+                    currentQuantity === 1
+                      ? `Remove ${product.name} from cart`
+                      : `Decrease quantity of ${product.name}`
+                  }
                 >
-                  <FiMinus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                  <FiMinus className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
                 </button>
 
                 {/* Quantity Display */}
-                <span className="min-w-5 sm:min-w-6 text-center font-semibold text-xs sm:text-sm text-white">
+                <span
+                  className="min-w-5 sm:min-w-6 text-center font-semibold text-xs sm:text-sm text-white"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   {currentQuantity}
                 </span>
 
                 {/* Increase Button */}
                 <button
                   onClick={handleIncrease}
+                  onKeyDown={handleIncreaseKeyDown}
                   disabled={isAtStockLimit}
                   className={`w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition-all text-white ${
                     isAtStockLimit
                       ? 'cursor-not-allowed opacity-50'
                       : 'cursor-pointer hover:bg-black/10 active:scale-95'
                   }`}
-                  aria-label={isAtStockLimit ? 'Stock limit reached' : 'Increase quantity'}
+                  aria-label={
+                    isAtStockLimit ? 'Stock limit reached' : `Increase quantity of ${product.name}`
+                  }
                 >
-                  <FiPlus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                  <FiPlus className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
                 </button>
               </div>
             )}
           </div>
         </div>
-      </motion.div>
+      </motion.article>
 
       {/* Product Detail Modal */}
       <ProductDetailModal isOpen={isModalOpen} onClose={handleCloseModal} product={product} />
