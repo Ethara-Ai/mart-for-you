@@ -67,6 +67,8 @@ export default defineConfig(({ command, mode }) => {
       outDir: 'dist',
       sourcemap: isProduction ? 'hidden' : true,
       minify: isProduction ? 'esbuild' : false,
+      // Inline assets smaller than 200KB as base64 to avoid server path issues
+      assetsInlineLimit: 200 * 1024,
       // Target ES2024 for Node.js 24 LTS compatibility
       // Enables modern JavaScript features like:
       // - Array grouping (Object.groupBy, Map.groupBy)
