@@ -109,20 +109,33 @@ const generateSpecifications = (product) => {
 };
 
 /**
- * SpecItem - Specification item display component
+ * SpecRow - A row of two specification items aligned horizontally
  */
-function SpecItem({ label, value, borderColor, subtextColor, textColor }) {
+function SpecRow({ leftLabel, leftValue, rightLabel, rightValue, borderColor, subtextColor, textColor }) {
   return (
-    <div className="py-3 border-b" style={{ borderColor }}>
-      <dt
-        className="text-xs font-medium uppercase tracking-wider mb-1"
-        style={{ color: subtextColor }}
-      >
-        {label}
-      </dt>
-      <dd className="text-sm whitespace-pre-line" style={{ color: textColor }}>
-        {value}
-      </dd>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+      <div className="py-3 border-b flex flex-col" style={{ borderColor }}>
+        <dt
+          className="text-xs font-medium uppercase tracking-wider mb-1"
+          style={{ color: subtextColor }}
+        >
+          {leftLabel}
+        </dt>
+        <dd className="text-sm whitespace-pre-line flex-1" style={{ color: textColor }}>
+          {leftValue}
+        </dd>
+      </div>
+      <div className="py-3 border-b flex flex-col" style={{ borderColor }}>
+        <dt
+          className="text-xs font-medium uppercase tracking-wider mb-1"
+          style={{ color: subtextColor }}
+        >
+          {rightLabel}
+        </dt>
+        <dd className="text-sm whitespace-pre-line flex-1" style={{ color: textColor }}>
+          {rightValue}
+        </dd>
+      </div>
     </div>
   );
 }
@@ -528,7 +541,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                               className="text-xs text-center mt-1"
                               style={{ color: 'rgb(239, 68, 68)' }}
                             >
-                              We only have limited units for this product
+                              Only limited stock available for this product
                             </p>
                           )}
                         </div>
@@ -631,85 +644,58 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                         className="px-4 md:px-6 pb-4 md:pb-6 pt-4"
                         style={{ borderTop: `1px solid ${borderColor}` }}
                       >
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
-                          {/* Left Column */}
-                          <dl>
-                            <SpecItem
-                              label="Description"
-                              value={specifications.description}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                            <SpecItem
-                              label="Box Contents"
-                              value={specifications.boxContent}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                            <SpecItem
-                              label="Model Number"
-                              value={specifications.model}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                            <SpecItem
-                              label="Colour"
-                              value={specifications.colour}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                            <SpecItem
-                              label="Type"
-                              value={specifications.type}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                          </dl>
-
-                          {/* Right Column */}
-                          <dl>
-                            <SpecItem
-                              label="Service Center Details"
-                              value={specifications.serviceCenterDetails}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                            <SpecItem
-                              label="Customer Care"
-                              value={specifications.customerCareDetails}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                            <SpecItem
-                              label="Warranty"
-                              value={specifications.warranty}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                            <SpecItem
-                              label="Country of Origin"
-                              value={specifications.countryOfOrigin}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                            <SpecItem
-                              label="Disclaimer"
-                              value={specifications.disclaimer}
-                              borderColor={borderColor}
-                              subtextColor={subtextColor}
-                              textColor={textColor}
-                            />
-                          </dl>
-                        </div>
+                        <dl className="space-y-0">
+                          {/* Row 1: Description | Service Center Details */}
+                          <SpecRow
+                            leftLabel="Description"
+                            leftValue={specifications.description}
+                            rightLabel="Service Center Details"
+                            rightValue={specifications.serviceCenterDetails}
+                            borderColor={borderColor}
+                            subtextColor={subtextColor}
+                            textColor={textColor}
+                          />
+                          {/* Row 2: Box Contents | Customer Care */}
+                          <SpecRow
+                            leftLabel="Box Contents"
+                            leftValue={specifications.boxContent}
+                            rightLabel="Customer Care"
+                            rightValue={specifications.customerCareDetails}
+                            borderColor={borderColor}
+                            subtextColor={subtextColor}
+                            textColor={textColor}
+                          />
+                          {/* Row 3: Model Number | Warranty */}
+                          <SpecRow
+                            leftLabel="Model Number"
+                            leftValue={specifications.model}
+                            rightLabel="Warranty"
+                            rightValue={specifications.warranty}
+                            borderColor={borderColor}
+                            subtextColor={subtextColor}
+                            textColor={textColor}
+                          />
+                          {/* Row 4: Colour | Country of Origin */}
+                          <SpecRow
+                            leftLabel="Colour"
+                            leftValue={specifications.colour}
+                            rightLabel="Country of Origin"
+                            rightValue={specifications.countryOfOrigin}
+                            borderColor={borderColor}
+                            subtextColor={subtextColor}
+                            textColor={textColor}
+                          />
+                          {/* Row 5: Type | Disclaimer */}
+                          <SpecRow
+                            leftLabel="Type"
+                            leftValue={specifications.type}
+                            rightLabel="Disclaimer"
+                            rightValue={specifications.disclaimer}
+                            borderColor={borderColor}
+                            subtextColor={subtextColor}
+                            textColor={textColor}
+                          />
+                        </dl>
                       </div>
                     </motion.div>
                   )}

@@ -2,241 +2,150 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
 /**
- * Logo - Animated brand logo component
+ * Logo - Professional shopping cart brand logo
  *
- * Displays the MART brand logo with animated shopping bag icon
- * and text animations. The logo adapts to dark/light mode.
+ * A clean, minimal logo featuring:
+ * - Modern shopping cart icon with integrated M letter
+ * - Strong wordmark with clear hierarchy
+ * - Works seamlessly on light/dark backgrounds
+ * - Scalable from favicons to banners
  *
  * @param {Object} props
- * @param {string} props.size - 'sm' | 'md' | 'lg' - Logo size variant
- * @param {boolean} props.animate - Whether to show animations (default: true)
+ * @param {string} props.size - 'xs' | 'sm' | 'md' | 'lg' | 'xl' - Logo size variant
+ * @param {boolean} props.animate - Whether to show entrance animations (default: true)
+ * @param {boolean} props.iconOnly - Show only the icon without text
  * @param {Function} props.onClick - Optional click handler
  */
-function Logo({ size = 'md', animate = true, onClick }) {
-  const { darkMode, COLORS } = useTheme();
+function Logo({ size = 'md', animate = true, iconOnly = false, onClick }) {
+  const { darkMode } = useTheme();
 
-  // Size configurations
+  // Size configurations for responsive scaling
   const sizeConfig = {
     xs: {
-      container: 'ml-7',
-      svg: { width: 24, height: 24 },
-      text: 'text-base',
-      tagline: 'text-[10px]',
+      icon: 28,
+      gap: 'gap-1.5',
+      mart: 'text-sm font-bold',
+      tagline: 'text-[8px]',
     },
     sm: {
-      container: 'ml-10',
-      svg: { width: 32, height: 32 },
-      text: 'text-lg',
-      tagline: 'text-xs',
+      icon: 34,
+      gap: 'gap-2',
+      mart: 'text-base font-bold',
+      tagline: 'text-[9px]',
     },
     md: {
-      container: 'ml-12',
-      svg: { width: 40, height: 40 },
-      text: 'text-xl',
-      tagline: 'text-xs',
+      icon: 40,
+      gap: 'gap-2.5',
+      mart: 'text-lg font-bold',
+      tagline: 'text-[10px]',
     },
     lg: {
-      container: 'ml-16',
-      svg: { width: 56, height: 56 },
-      text: 'text-2xl',
+      icon: 48,
+      gap: 'gap-3',
+      mart: 'text-xl font-bold',
+      tagline: 'text-xs',
+    },
+    xl: {
+      icon: 60,
+      gap: 'gap-4',
+      mart: 'text-2xl font-bold',
       tagline: 'text-sm',
     },
   };
 
   const config = sizeConfig[size] || sizeConfig.md;
-  const primaryColor = darkMode ? COLORS.dark.primary : COLORS.light.primary;
-  const textColor = darkMode ? COLORS.light.background : COLORS.light.primary;
 
-  // Animation variants
-  const letterVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: (delay) => ({
+  // Professional color palette
+  const textPrimary = darkMode ? '#F8FAFC' : '#0F172A';
+  const textSecondary = darkMode ? '#94A3B8' : '#64748B';
+
+  // Subtle, professional animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
       opacity: 1,
-      y: 0,
-      transition: { delay: animate ? delay : 0, duration: 0.4 },
-    }),
+      transition: { duration: 0.4, ease: 'easeOut' },
+    },
   };
 
-  const pathVariants = {
-    hidden: { pathLength: 0 },
-    visible: (delay) => ({
-      pathLength: 1,
-      transition: { duration: animate ? 1.2 : 0, ease: 'easeInOut', delay: animate ? delay : 0 },
-    }),
-  };
-
-  const itemVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: (delay) => ({
+  const iconVariants = {
+    hidden: { scale: 0.9, opacity: 0 },
+    visible: {
       scale: 1,
       opacity: 1,
-      transition: animate ? { delay, type: 'spring', stiffness: 200 } : { duration: 0 },
-    }),
+      transition: { duration: 0.3, ease: 'easeOut' },
+    },
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, x: -8 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.3, delay: animate ? 0.1 : 0, ease: 'easeOut' },
+    },
   };
 
   return (
     <motion.div
-      className="relative flex items-center cursor-pointer"
-      whileHover={{ scale: 1.05 }}
+      className={`flex items-center ${config.gap} cursor-pointer select-none`}
+      variants={containerVariants}
+      initial={animate ? 'hidden' : 'visible'}
+      animate="visible"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       onClick={onClick}
+      role="img"
+      aria-label="Mart For You logo"
     >
-      {/* Shopping bag outline that animates */}
-      <motion.div
-        className="absolute left-0"
-        initial={{ y: 0 }}
-        animate={animate ? { y: [0, -3, 0] } : { y: 0 }}
-        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <svg
-          width={config.svg.width}
-          height={config.svg.height}
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="overflow-visible"
-        >
-          <motion.path
-            d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"
-            stroke={primaryColor}
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            variants={pathVariants}
-            initial="hidden"
-            animate="visible"
-            custom={0}
-          />
-          <motion.path
-            d="M3 6h18"
-            stroke={primaryColor}
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            variants={pathVariants}
-            initial="hidden"
-            animate="visible"
-            custom={0.6}
-          />
-          <motion.path
-            d="M16 10a4 4 0 01-8 0"
-            stroke={primaryColor}
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            variants={pathVariants}
-            initial="hidden"
-            animate="visible"
-            custom={1.1}
-          />
-        </svg>
-      </motion.div>
-
-      {/* Animated items appearing in the shopping bag */}
-      <motion.div className="absolute left-3 top-5 z-10">
-        <motion.div variants={itemVariants} initial="hidden" animate="visible" custom={1.4}>
-          <svg
-            width="8"
-            height="8"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              r="8"
-              fill={darkMode ? 'rgba(96, 165, 250, 0.7)' : 'rgba(37, 99, 235, 0.7)'}
-            />
-          </svg>
-        </motion.div>
-      </motion.div>
-
-      <motion.div className="absolute left-8 top-8 z-10">
-        <motion.div variants={itemVariants} initial="hidden" animate="visible" custom={1.6}>
-          <svg
-            width="9"
-            height="9"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="6"
-              y="6"
-              width="12"
-              height="12"
-              rx="2"
-              fill={darkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(22, 57, 115, 0.7)'}
-            />
-          </svg>
-        </motion.div>
-      </motion.div>
-
-      <motion.div className="absolute left-12 top-6 z-10">
-        <motion.div variants={itemVariants} initial="hidden" animate="visible" custom={1.8}>
-          <svg
-            width="7"
-            height="7"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-              fill={darkMode ? 'rgba(191, 219, 254, 0.8)' : 'rgba(30, 58, 138, 0.8)'}
-            />
-          </svg>
-        </motion.div>
-      </motion.div>
-
-      {/* Text MART with interactive elements */}
-      <div className={`${config.container} flex flex-col`}>
-        <div className="flex items-center">
-          {['M', 'A', 'R', 'T'].map((letter, index) => (
-            <motion.span
-              key={letter + index}
-              className={`${config.text} font-extrabold tracking-tighter uppercase`}
-              variants={letterVariants}
-              initial="hidden"
-              animate="visible"
-              custom={0.4 + index * 0.1}
-              style={{ color: textColor }}
-            >
-              {letter}
-            </motion.span>
-          ))}
-        </div>
-
-        {/* Animated underline */}
-        <motion.div
-          className="h-0.5 w-full -mt-0.5"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: animate ? 1.2 : 0, duration: 0.6 }}
+      {/* Icon Mark - Shopping Cart with integrated M (PNG image) */}
+      <motion.div variants={iconVariants} className="flex-shrink-0">
+        <img
+          src="/Frame 2147227200.png"
+          alt="Mart For You"
+          width={config.icon}
+          height={config.icon}
           style={{
-            background: `linear-gradient(90deg, ${primaryColor} 0%, transparent 100%)`,
-            transformOrigin: 'left',
+            width: config.icon,
+            height: config.icon,
+            objectFit: 'contain',
           }}
+          aria-hidden="true"
         />
+      </motion.div>
 
-        {/* for you tagline */}
+      {/* Wordmark - Only shown when iconOnly is false */}
+      {!iconOnly && (
         <motion.div
-          className="relative h-4 overflow-hidden"
-          initial={{ width: 0 }}
-          animate={{ width: 'auto' }}
-          transition={{ delay: animate ? 1.8 : 0, duration: 0.5 }}
+          variants={textVariants}
+          className="flex flex-col justify-center leading-none"
         >
-          <motion.span
-            className={`${config.tagline} block whitespace-nowrap`}
-            initial={{ x: -50 }}
-            animate={{ x: 0 }}
-            transition={{ delay: animate ? 1.8 : 0, duration: 0.5, ease: 'easeOut' }}
-            style={{ color: primaryColor }}
+          {/* Primary text: MART */}
+          <span
+            className={`${config.mart} tracking-tight`}
+            style={{
+              color: textPrimary,
+              fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              letterSpacing: '-0.02em',
+            }}
+          >
+            MART
+          </span>
+
+          {/* Secondary text: For You */}
+          <span
+            className={`${config.tagline} font-medium tracking-wide uppercase`}
+            style={{
+              color: textSecondary,
+              fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              letterSpacing: '0.08em',
+              marginTop: '1px',
+            }}
           >
             For You
-          </motion.span>
+          </span>
         </motion.div>
-      </div>
+      )}
     </motion.div>
   );
 }

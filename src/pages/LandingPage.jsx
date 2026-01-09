@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
-import { FiShoppingBag, FiArrowRight, FiSun, FiMoon } from 'react-icons/fi';
+import { FiArrowRight, FiSun, FiMoon } from 'react-icons/fi';
 
 /**
  * LandingPage - Initial landing page component
@@ -87,19 +87,14 @@ function LandingPage() {
       >
         {/* Logo Icon */}
         <motion.div variants={logoVariants} className="mb-6">
-          <div
-            className="w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center"
+          <img
+            src="/Frame 2147227200.png"
+            alt="Mart For You Logo"
+            className="w-24 h-24 sm:w-32 sm:h-32 object-contain"
             style={{
-              background: darkMode
-                ? 'linear-gradient(135deg, #1E293B 0%, #0F172A 100%)'
-                : 'linear-gradient(135deg, #DBEAFE 0%, #FFFFFF 100%)',
-              boxShadow: darkMode
-                ? '0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                : '0 20px 40px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+              filter: darkMode ? 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4))' : 'drop-shadow(0 20px 40px rgba(37, 99, 235, 0.2))',
             }}
-          >
-            <FiShoppingBag className="w-12 h-12 sm:w-16 sm:h-16" style={{ color: primaryColor }} />
-          </div>
+          />
         </motion.div>
 
         {/* Brand Name */}

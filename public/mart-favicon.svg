@@ -1,39 +1,35 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle for better visibility -->
-  <circle cx="16" cy="16" r="15" fill="#2563EB"/>
-
-  <!-- Shopping bag body -->
+<svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cart handle - left side extending up -->
   <path
-    d="M8 10L6 13V25C6 25.5304 6.21071 26.0391 6.58579 26.4142C6.96086 26.7893 7.46957 27 8 27H24C24.5304 27 25.0391 26.7893 25.4142 26.4142C25.7893 26.0391 26 25.5304 26 25V13L24 10H8Z"
+    d="M5 5 C3 5 2 6 2 8 L2 18 C2 20 3 21 5 21 L12 21 L12 5 Z"
+    fill="#2563EB"
+  />
+  
+  <!-- Main cart body with M integrated at top -->
+  <path
+    d="M12 5 L12 21 L18 58 C18 62 21 65 25 65 L75 65 C79 65 82 62 82 58 L88 21 L88 5 L72 5 L72 15 L60 38 L50 18 L40 38 L28 15 L28 5 Z"
+    fill="#2563EB"
+  />
+  
+  <!-- M cutout - white negative space -->
+  <path
+    d="M28 15 L40 38 L50 18 L60 38 L72 15 L72 28 L58 52 L50 32 L42 52 L28 28 Z"
     fill="white"
-    stroke="white"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
   />
-
-  <!-- Bag top line -->
+  
+  <!-- Wheel connector bar -->
   <path
-    d="M6 13H26"
-    stroke="#2563EB"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    d="M25 70 L25 75 L75 75 L75 70 C75 68 73 66 71 66 L29 66 C27 66 25 68 25 70 Z"
+    fill="#2563EB"
   />
-
-  <!-- Bag handle -->
-  <path
-    d="M21 16C21 17.3261 20.4732 18.5979 19.5355 19.5355C18.5979 20.4732 17.3261 21 16 21C14.6739 21 13.4021 20.4732 12.4645 19.5355C11.5268 18.5979 11 17.3261 11 16"
-    stroke="#2563EB"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-
-  <!-- Small decorative elements representing items in bag -->
-  <circle cx="13" cy="23" r="1.5" fill="#60A5FA"/>
-  <rect x="16" y="22" width="3" height="3" rx="0.5" fill="#1E3A8A"/>
-
-  <!-- Letter M hint at bottom -->
-  <text x="16" y="9" font-family="Arial, sans-serif" font-size="5" font-weight="bold" fill="white" text-anchor="middle">M</text>
+  
+  <!-- Left wheel outer -->
+  <circle cx="30" cy="85" r="12" fill="#2563EB" />
+  <!-- Left wheel inner (white) -->
+  <circle cx="30" cy="85" r="5" fill="white" />
+  
+  <!-- Right wheel outer -->
+  <circle cx="70" cy="85" r="12" fill="#2563EB" />
+  <!-- Right wheel inner (white) -->
+  <circle cx="70" cy="85" r="5" fill="white" />
 </svg>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMoon, FiSun, FiEdit, FiShoppingCart } from 'react-icons/fi';
+import { FiMoon, FiSun, FiEdit, FiShoppingCart, FiArrowLeft } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 import { useProfile } from '../context/ProfileContext';
 import { useCart } from '../context/CartContext';
@@ -48,6 +48,9 @@ function Header() {
   // Mobile sidebar state
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
+  // Mobile search expanded state
+  const [isMobileSearchExpanded, setIsMobileSearchExpanded] = useState(false);
+
   // Handle click outside to close profile card
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -75,6 +78,35 @@ function Header() {
     setIsMobileSidebarOpen(false);
   }, []);
 
+  // Expand mobile search
+  const expandMobileSearch = useCallback(() => {
+    setIsMobileSearchExpanded(true);
+  }, []);
+
+  // Collapse mobile search
+  const collapseMobileSearch = useCallback(() => {
+    setIsMobileSearchExpanded(false);
+  }, []);
+
+  // Handle mobile search submit - collapse after search
+  const handleMobileSearchSubmit = useCallback(
+    (value) => {
+      if (onSearchSubmit) {
+        onSearchSubmit(value);
+      }
+      collapseMobileSearch();
+    },
+    [onSearchSubmit, collapseMobileSearch]
+  );
+
+  // Handle mobile search clear - collapse after clear
+  const handleMobileSearchClear = useCallback(() => {
+    if (clearSearch) {
+      clearSearch();
+    }
+    collapseMobileSearch();
+  }, [clearSearch, collapseMobileSearch]);
+
   // Handle logo click - navigate to home
   const handleLogoClick = useCallback(() => {
     navigate(ROUTES.HOME);
@@ -101,9 +133,56 @@ function Header() {
       >
         <div className="max-w-7xl mx-auto px-2 sm:px-4">
           {/* Mobile/Tablet Layout: [Profile + Logo] on left, [Search + Cart] on right */}
-          <div className="flex lg:hidden justify-between h-14 sm:h-16 items-center">
+          <div className="flex lg:hidden justify-between h-14 sm:h-16 items-center relative">
+            {/* Expanded Search Overlay - Shows when search is active */}
+            <AnimatePresence>
+              {isMobileSearchExpanded && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="absolute inset-0 flex items-center gap-2 sm:gap-3 z-10 px-1"
+                  style={{
+                    background: darkMode
+                      ? COLORS.dark.backgroundGradient
+                      : COLORS.light.backgroundGradient,
+                  }}
+                >
+                  {/* Back Button */}
+                  <button
+                    onClick={collapseMobileSearch}
+                    className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full transition-all cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
+                    style={{
+                      backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
+                      color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                    }}
+                    aria-label="Close search"
+                  >
+                    <FiArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </button>
+
+                  {/* Expanded Search Bar */}
+                  <div className="flex-1">
+                    <SearchBar
+                      value={searchTerm}
+                      onChange={setSearchTerm}
+                      onSubmit={handleMobileSearchSubmit}
+                      onClear={handleMobileSearchClear}
+                      placeholder="Search products..."
+                      variant="desktop"
+                      autoFocus
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Left Group: Profile + Logo */}
-            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
+            <div
+              className="flex items-center gap-1.5 sm:gap-2 md:gap-3"
+              style={{ opacity: isMobileSearchExpanded ? 0 : 1 }}
+            >
               {/* Profile Photo Button (Mobile/Tablet - Opens Sidebar) */}
               <button
                 id="mobile-profile-button"
@@ -140,18 +219,46 @@ function Header() {
             </div>
 
             {/* Right Group: Search + Cart */}
-            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
-              {/* Search Bar (Mobile/Tablet) */}
-              <div className="w-25 min-[360px]:w-30 sm:w-35 md:w-50">
-                <SearchBar
-                  value={searchTerm}
-                  onChange={setSearchTerm}
-                  onSubmit={onSearchSubmit}
-                  onClear={clearSearch}
-                  placeholder="Search..."
-                  variant="desktop"
-                />
-              </div>
+            <div
+              className="flex items-center gap-1.5 sm:gap-2 md:gap-3"
+              style={{ opacity: isMobileSearchExpanded ? 0 : 1 }}
+            >
+              {/* Mini Search Bar (Mobile/Tablet) - Expands on focus */}
+              <button
+                onClick={expandMobileSearch}
+                className="w-25 min-[360px]:w-30 sm:w-35 md:w-50 flex items-center gap-2 px-3 py-1.5 sm:py-2 rounded-full transition-all cursor-pointer text-left"
+                style={{
+                  backgroundColor: darkMode
+                    ? 'rgba(51, 65, 85, 0.8)'
+                    : 'rgba(255, 255, 255, 0.9)',
+                  color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.4)',
+                  boxShadow: darkMode
+                    ? '0 1px 3px rgba(0, 0, 0, 0.3)'
+                    : '0 1px 3px rgba(0, 0, 0, 0.1)',
+                  borderWidth: '2px',
+                  borderStyle: 'solid',
+                  borderColor: darkMode ? 'rgba(100, 116, 139, 0.5)' : 'transparent',
+                }}
+                aria-label="Open search"
+              >
+                <span className="text-sm truncate flex-1">
+                  {searchTerm || 'Search...'}
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke={darkMode ? COLORS.dark.primary : COLORS.light.primary}
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </button>
 
               {/* Cart Button (Mobile/Tablet) */}
               <button

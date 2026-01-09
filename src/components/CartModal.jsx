@@ -248,7 +248,7 @@ function CartModal() {
                       boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
                     }}
                   >
-                    Start Shopping
+                    Shop now
                     <FiArrowRight className="h-4 w-4" />
                   </button>
                 </div>
