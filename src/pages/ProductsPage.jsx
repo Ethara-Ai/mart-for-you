@@ -1,10 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { useSearch, useFilter } from '../context';
+import { useCart } from '../context/CartContext';
 import Navigation from '../components/Navigation';
 import ProductGrid from '../components/ProductGrid';
-import CartModal from '../components/CartModal';
 import { products } from '../data/products';
 import { CATEGORY_DISPLAY_NAMES, CATEGORIES } from '../constants';
 
@@ -14,12 +14,15 @@ import { CATEGORY_DISPLAY_NAMES, CATEGORIES } from '../constants';
  * Displays all products with category filtering, search functionality,
  * and optional offers filter. Uses FilterContext for state management
  * which handles URL query parameters for deep linking support.
+ *
+ * Note: CartModal is now rendered once in AppLayout (via CartContext),
+ * eliminating the need for duplicate modal instances.
  */
 function ProductsPage() {
   const { darkMode, COLORS } = useTheme();
   const { searchTerm, clearSearch } = useSearch();
   const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { openCart } = useCart();
 
   // Filter products based on category, search, and offers
   const filteredProducts = useMemo(
@@ -78,16 +81,6 @@ function ProductsPage() {
     return 'Explore our complete collection of carefully curated products.';
   };
 
-  // Handle cart open
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
-
-  // Handle cart close
-  const handleCartClose = () => {
-    setIsCartOpen(false);
-  };
-
   return (
     <div>
       {/* Navigation Section with gradient background */}
@@ -102,7 +95,7 @@ function ProductsPage() {
           onCategoryChange={handleCategoryChange}
           viewingOffers={viewingOffers}
           onOffersClick={handleOffersClick}
-          onCartClick={handleCartOpen}
+          onCartClick={openCart}
         />
       </div>
 
@@ -252,9 +245,6 @@ function ProductsPage() {
           />
         </div>
       </main>
-
-      {/* Cart Modal */}
-      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
     </div>
   );
 }

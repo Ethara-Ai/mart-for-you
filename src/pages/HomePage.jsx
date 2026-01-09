@@ -1,12 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import { useSearch, useFilter } from '../context';
+import { useCart } from '../context/CartContext';
 import Hero from '../components/Hero';
 import Navigation from '../components/Navigation';
 import ProductGrid from '../components/ProductGrid';
 import CategorySection from '../components/CategorySection';
 import { products, categories } from '../data/products';
-import CartModal from '../components/CartModal';
 import { CATEGORY_DISPLAY_NAMES, CATEGORIES } from '../constants';
 
 /**
@@ -15,12 +15,15 @@ import { CATEGORY_DISPLAY_NAMES, CATEGORIES } from '../constants';
  * Displays the hero section with video background,
  * category navigation, and category-wise product scrolling sections.
  * Uses FilterContext for category and offers state management.
+ *
+ * Note: CartModal is now rendered once in AppLayout (via CartContext),
+ * eliminating the need for duplicate modal instances.
  */
 function HomePage() {
   const { darkMode, COLORS } = useTheme();
   const { searchTerm, clearSearch } = useSearch();
   const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { openCart } = useCart();
 
   // Get unique categories (excluding 'all')
   const productCategories = useMemo(() => categories.filter((cat) => cat !== CATEGORIES.ALL), []);
@@ -67,16 +70,6 @@ function HomePage() {
     enableOffersView();
   };
 
-  // Handle cart open
-  const handleCartOpen = () => {
-    setIsCartOpen(true);
-  };
-
-  // Handle cart close
-  const handleCartClose = () => {
-    setIsCartOpen(false);
-  };
-
   // Check if we should show category sections or filtered grid
   const showCategorySections = activeCategory === CATEGORIES.ALL && !searchTerm && !viewingOffers;
 
@@ -97,7 +90,7 @@ function HomePage() {
           onCategoryChange={handleCategoryChange}
           viewingOffers={viewingOffers}
           onOffersClick={handleOffersClick}
-          onCartClick={handleCartOpen}
+          onCartClick={openCart}
         />
       </div>
 
@@ -208,9 +201,6 @@ function HomePage() {
           )}
         </div>
       </main>
-
-      {/* Cart Modal */}
-      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
     </div>
   );
 }

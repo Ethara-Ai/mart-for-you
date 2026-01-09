@@ -1,11 +1,9 @@
-import { lazy, Suspense, useEffect, useState, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
 // Context
 import AppProvider from './context/AppProvider';
 import { useTheme } from './context/ThemeContext';
-import { useProfile } from './context/ProfileContext';
-import { useSearch, useFilter } from './context';
 
 // Layout components (not lazy loaded as they're always needed)
 import Header from './components/Header';
@@ -16,7 +14,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Loading from './components/Loading';
 
 // Constants
-import { ROUTES, SECTION_IDS } from './constants';
+import { ROUTES } from './constants';
 
 // Lazy load page components for better performance
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -48,69 +46,27 @@ function PageLoader() {
 }
 
 /**
+ * SkipLink - Accessibility skip navigation link
+ */
+function SkipLink() {
+  return (
+    <a href="#main-content" className="skip-link">
+      Skip to main content
+    </a>
+  );
+}
+
+/**
  * AppLayout - Main application layout wrapper
  *
  * Wraps all pages with common layout elements like Header, Footer,
- * CartModal, and ToastContainer. Handles global click events for
- * closing modals.
+ * CartModal, and ToastContainer.
+ *
+ * Note: Header and other components now consume contexts directly
+ * instead of receiving props (removing prop drilling anti-pattern).
  */
 function AppLayout() {
-  const navigate = useNavigate();
   const { darkMode, COLORS } = useTheme();
-  const { closeProfileCard, isProfileCardOpen } = useProfile();
-  const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
-  const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
-
-  // Cart modal state
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  // Handle click outside to close profile card
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      const { target } = e;
-      if (
-        isProfileCardOpen &&
-        !target.closest(`#${SECTION_IDS.PROFILE_CARD}`) &&
-        !target.closest('#profile-photo-button')
-      ) {
-        closeProfileCard();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isProfileCardOpen, closeProfileCard]);
-
-  // Close cart modal
-  const handleCartClose = useCallback(() => {
-    setIsCartOpen(false);
-  }, []);
-
-  // Open cart modal
-  const handleCartOpen = useCallback(() => {
-    setIsCartOpen(true);
-  }, []);
-
-  // Handle category change from mobile sidebar
-  const handleCategoryChange = useCallback(
-    (category) => {
-      setActiveCategory(category);
-      // Navigate to products page with category in URL
-      if (category === 'all') {
-        navigate(ROUTES.PRODUCTS);
-      } else {
-        navigate(`${ROUTES.PRODUCTS}?category=${category}`);
-      }
-    },
-    [setActiveCategory, navigate]
-  );
-
-  // Handle offers click from mobile sidebar
-  const handleOffersClick = useCallback(() => {
-    enableOffersView();
-    // Navigate to offers page
-    navigate(ROUTES.OFFERS);
-  }, [enableOffersView, navigate]);
 
   return (
     <div
@@ -121,27 +77,20 @@ function AppLayout() {
         fontFamily: "'Metropolis', Helvetica, Arial, sans-serif",
       }}
     >
+      {/* Accessibility skip link */}
+      <SkipLink />
+
       {/* Scroll to top on route change */}
       <ScrollToTop />
 
       {/* Toast notifications */}
       <ToastContainer />
 
-      {/* Header */}
-      <Header
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        onSearchSubmit={onSearchSubmit}
-        onSearchClear={clearSearch}
-        onCartClick={handleCartOpen}
-        activeCategory={activeCategory}
-        onCategoryChange={handleCategoryChange}
-        viewingOffers={viewingOffers}
-        onOffersClick={handleOffersClick}
-      />
+      {/* Header - consumes its own contexts now */}
+      <Header />
 
       {/* Main content area - Routes */}
-      <div className="flex-1">
+      <main id="main-content" className="flex-1">
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path={ROUTES.HOME} element={<HomePage />} />
@@ -153,13 +102,13 @@ function AppLayout() {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
-      </div>
+      </main>
 
       {/* Footer */}
       <Footer />
 
-      {/* Cart Modal */}
-      <CartModal isOpen={isCartOpen} onClose={handleCartClose} />
+      {/* Cart Modal - Uses CartContext for open/close state */}
+      <CartModal />
     </div>
   );
 }

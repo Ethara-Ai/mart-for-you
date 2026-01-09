@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMoon, FiSun, FiEdit, FiShoppingCart } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 import { useProfile } from '../context/ProfileContext';
 import { useCart } from '../context/CartContext';
+import { useSearch, useFilter } from '../context';
 import Logo from './Logo';
 import SearchBar from './SearchBar';
 import MobileSidebar from './MobileSidebar';
+import { ROUTES, SECTION_IDS } from '../constants';
 
 /**
  * Header - Main application header component
@@ -16,63 +18,100 @@ import MobileSidebar from './MobileSidebar';
  * Sticky positioned at the top of the page.
  * On mobile: Profile icon → Logo → Search → Cart (no theme toggle, profile opens sidebar)
  *
- * @param {Object} props
- * @param {string} props.searchTerm - Current search term
- * @param {Function} props.onSearchChange - Callback when search changes
- * @param {Function} props.onSearchSubmit - Callback when search is submitted
- * @param {Function} props.onSearchClear - Callback when search is cleared
- * @param {Function} props.onCartClick - Callback when cart button is clicked
- * @param {string} props.activeCategory - Currently selected category (for mobile sidebar)
- * @param {Function} props.onCategoryChange - Callback when category changes (for mobile sidebar)
- * @param {boolean} props.viewingOffers - Whether offers filter is active (for mobile sidebar)
- * @param {Function} props.onOffersClick - Callback when offers is clicked (for mobile sidebar)
+ * Now consumes contexts directly instead of receiving props (removing prop drilling).
  */
-function Header({
-  searchTerm = '',
-  onSearchChange,
-  onSearchSubmit,
-  onSearchClear,
-  onCartClick,
-  activeCategory,
-  onCategoryChange,
-  viewingOffers,
-  onOffersClick,
-}) {
+function Header() {
   const navigate = useNavigate();
+
+  // Theme context
   const { darkMode, toggleDarkMode, COLORS } = useTheme();
-  const { totalItems } = useCart();
+
+  // Cart context - now includes modal state
+  const { totalItems, openCart } = useCart();
+
+  // Profile context
   const {
     userProfile,
     isProfileCardOpen,
     toggleProfileCard,
     closeProfileCard,
-    getFullName,
-    getFormattedAddress,
+    fullName,
+    formattedAddress,
   } = useProfile();
+
+  // Search context - consumed directly instead of props
+  const { searchTerm, setSearchTerm, onSearchSubmit, clearSearch } = useSearch();
+
+  // Filter context - consumed directly instead of props
+  const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
 
   // Mobile sidebar state
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
+  // Handle click outside to close profile card
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      const { target } = e;
+      if (
+        isProfileCardOpen &&
+        !target.closest(`#${SECTION_IDS.PROFILE_CARD}`) &&
+        !target.closest('#profile-photo-button')
+      ) {
+        closeProfileCard();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isProfileCardOpen, closeProfileCard]);
+
   // Handle mobile profile icon click - opens sidebar on mobile
-  const handleMobileProfileClick = () => {
+  const handleMobileProfileClick = useCallback(() => {
     setIsMobileSidebarOpen(true);
-  };
+  }, []);
 
   // Close mobile sidebar
-  const closeMobileSidebar = () => {
+  const closeMobileSidebar = useCallback(() => {
     setIsMobileSidebarOpen(false);
-  };
+  }, []);
 
   // Handle logo click - navigate to home
-  const handleLogoClick = () => {
-    navigate('/home');
-  };
+  const handleLogoClick = useCallback(() => {
+    navigate(ROUTES.HOME);
+  }, [navigate]);
 
   // Handle edit profile click
-  const handleEditProfile = () => {
+  const handleEditProfile = useCallback(() => {
     closeProfileCard();
-    navigate('/profile');
-  };
+    navigate(ROUTES.PROFILE);
+  }, [closeProfileCard, navigate]);
+
+  // Handle category change from mobile sidebar
+  const handleCategoryChange = useCallback(
+    (category) => {
+      setActiveCategory(category);
+      closeMobileSidebar();
+      // Navigate to products page with category in URL
+      if (category === 'all') {
+        navigate(ROUTES.PRODUCTS);
+      } else {
+        navigate(`${ROUTES.PRODUCTS}?category=${category}`);
+      }
+    },
+    [setActiveCategory, navigate, closeMobileSidebar]
+  );
+
+  // Handle offers click from mobile sidebar
+  const handleOffersClick = useCallback(() => {
+    enableOffersView();
+    closeMobileSidebar();
+    navigate(ROUTES.OFFERS);
+  }, [enableOffersView, navigate, closeMobileSidebar]);
+
+  // Handle cart click
+  const handleCartClick = useCallback(() => {
+    openCart();
+  }, [openCart]);
 
   return (
     <>
@@ -105,7 +144,7 @@ function Header({
                 />
               </button>
 
-              {/* Logo (Mobile/Tablet) - xs size for very small screens, sm for larger mobile, md for tablet */}
+              {/* Logo (Mobile/Tablet) */}
               <div className="flex items-center shrink-0">
                 {/* Extra small logo for screens < 360px */}
                 <div className="block min-[360px]:hidden">
@@ -124,13 +163,13 @@ function Header({
 
             {/* Right Group: Search + Cart */}
             <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
-              {/* Search Bar (Mobile/Tablet) - responsive width */}
+              {/* Search Bar (Mobile/Tablet) */}
               <div className="w-25 min-[360px]:w-30 sm:w-35 md:w-50">
                 <SearchBar
                   value={searchTerm}
-                  onChange={onSearchChange}
+                  onChange={setSearchTerm}
                   onSubmit={onSearchSubmit}
-                  onClear={onSearchClear}
+                  onClear={clearSearch}
                   placeholder="Search..."
                   variant="desktop"
                 />
@@ -139,7 +178,7 @@ function Header({
               {/* Cart Button (Mobile/Tablet) */}
               <button
                 id="mobile-cart-button"
-                onClick={onCartClick}
+                onClick={handleCartClick}
                 className="relative w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95 shrink-0"
                 style={{
                   backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
@@ -148,10 +187,10 @@ function Header({
                 }}
                 aria-label={`View shopping cart with ${totalItems} items`}
               >
-                <FiShoppingCart className="h-4 w-4 md:h-5 md:w-5" />
+                <FiShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
                 {totalItems > 0 && (
                   <span
-                    className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 md:w-5 md:h-5 text-xs font-bold rounded-full"
+                    className="absolute -top-1 -right-1 min-w-4 h-4 sm:min-w-5 sm:h-5 flex items-center justify-center text-[10px] sm:text-xs font-bold rounded-full px-1"
                     style={{
                       backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                       color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
@@ -164,34 +203,34 @@ function Header({
             </div>
           </div>
 
-          {/* Desktop Layout (1024px+) */}
-          <div className="hidden lg:flex justify-between h-16 items-center gap-4">
-            {/* Logo - More prominent on desktop */}
+          {/* Desktop Layout: Logo | Search | Theme + Cart + Profile */}
+          <div className="hidden lg:flex justify-between h-16 items-center">
+            {/* Left: Logo */}
             <div className="flex items-center shrink-0">
-              <Logo onClick={handleLogoClick} size="md" animate={false} />
+              <Logo onClick={handleLogoClick} size="lg" animate={false} />
             </div>
 
-            {/* Actions - Search, Dark Mode Toggle, Cart, Profile */}
-            <div className="flex items-center space-x-3 md:space-x-4 flex-1 justify-end">
-              {/* Search Bar */}
-              <div className="flex-1 max-w-50 md:max-w-70 lg:max-w-87.5">
-                <SearchBar
-                  value={searchTerm}
-                  onChange={onSearchChange}
-                  onSubmit={onSearchSubmit}
-                  onClear={onSearchClear}
-                  placeholder="Search..."
-                  variant="desktop"
-                />
-              </div>
+            {/* Center: Search Bar */}
+            <div className="flex-1 max-w-md mx-8">
+              <SearchBar
+                value={searchTerm}
+                onChange={setSearchTerm}
+                onSubmit={onSearchSubmit}
+                onClear={clearSearch}
+                placeholder="Search products..."
+                variant="desktop"
+              />
+            </div>
 
-              {/* Dark Mode Toggle (Desktop/Tablet only) */}
+            {/* Right: Theme + Cart + Profile */}
+            <div className="flex items-center gap-3">
+              {/* Theme Toggle */}
               <button
                 onClick={toggleDarkMode}
                 className="w-10 h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95"
                 style={{
                   backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
-                  color: darkMode ? COLORS.light.background : COLORS.light.primary,
+                  color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                   boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 }}
                 aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -201,8 +240,8 @@ function Header({
 
               {/* Cart Button */}
               <button
-                id="header-cart-button"
-                onClick={onCartClick}
+                id="desktop-cart-button"
+                onClick={handleCartClick}
                 className="relative w-10 h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer transform hover:scale-105 active:scale-95"
                 style={{
                   backgroundColor: darkMode ? COLORS.dark.secondary : COLORS.light.secondary,
@@ -214,7 +253,7 @@ function Header({
                 <FiShoppingCart className="h-5 w-5" />
                 {totalItems > 0 && (
                   <span
-                    className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full"
+                    className="absolute -top-1 -right-1 min-w-5 h-5 flex items-center justify-center text-xs font-bold rounded-full px-1"
                     style={{
                       backgroundColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                       color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
@@ -225,8 +264,8 @@ function Header({
                 )}
               </button>
 
-              {/* Profile Photo Button (Desktop/Tablet - Shows Dropdown) */}
-              <div className="relative flex items-center justify-center">
+              {/* Profile Photo Button (Desktop) */}
+              <div className="relative">
                 <button
                   id="profile-photo-button"
                   onClick={toggleProfileCard}
@@ -235,7 +274,7 @@ function Header({
                     borderColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
                     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                   }}
-                  aria-label="View profile"
+                  aria-label="Toggle profile card"
                   aria-expanded={isProfileCardOpen}
                 >
                   <img
@@ -245,133 +284,86 @@ function Header({
                   />
                 </button>
 
-                {/* Profile Card Dropdown (Desktop/Tablet only) */}
+                {/* Profile Card Dropdown */}
                 <AnimatePresence>
                   {isProfileCardOpen && (
                     <motion.div
-                      id="profile-card"
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      id={SECTION_IDS.PROFILE_CARD}
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-2 w-72 rounded-lg shadow-lg z-100"
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-2 w-72 rounded-lg shadow-xl overflow-hidden z-50"
                       style={{
                         backgroundColor: darkMode
                           ? COLORS.dark.modalBackground
                           : COLORS.light.modalBackground,
                         boxShadow: darkMode
-                          ? '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)'
-                          : '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                          ? '0 10px 40px rgba(0, 0, 0, 0.5)'
+                          : '0 10px 40px rgba(0, 0, 0, 0.15)',
                       }}
                     >
+                      {/* Profile Header */}
+                      <div
+                        className="p-4 flex items-center gap-3 border-b"
+                        style={{
+                          borderColor: darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                        }}
+                      >
+                        <img
+                          src={userProfile.avatar}
+                          alt="User profile"
+                          className="w-14 h-14 rounded-full object-cover border-2"
+                          style={{
+                            borderColor: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                          }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h3
+                            className="font-semibold truncate"
+                            style={{
+                              color: darkMode ? COLORS.dark.text : COLORS.light.text,
+                            }}
+                          >
+                            {fullName}
+                          </h3>
+                          <p
+                            className="text-sm truncate"
+                            style={{
+                              color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                            }}
+                          >
+                            {userProfile.email}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Profile Details */}
                       <div className="p-4">
-                        <div className="flex items-center space-x-3 mb-3">
-                          <div className="w-12 h-12 rounded-full overflow-hidden">
-                            <img
-                              src={userProfile.avatar}
-                              alt="User profile"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h3
-                              className="font-medium text-base truncate"
-                              style={{
-                                color: darkMode ? COLORS.dark.text : COLORS.light.text,
-                              }}
-                            >
-                              {getFullName()}
-                            </h3>
-                            <p
-                              className="text-sm truncate"
-                              style={{
-                                color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                              }}
-                            >
-                              {userProfile.email}
-                            </p>
-                          </div>
-                          <button
-                            id="edit-profile-button"
-                            onClick={handleEditProfile}
-                            className="p-2 rounded-full hover:bg-opacity-10 hover:bg-gray-500 cursor-pointer shrink-0"
-                            style={{
-                              color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                            }}
-                            aria-label="Edit profile"
-                          >
-                            <FiEdit className="h-4 w-4" />
-                          </button>
-                        </div>
-
-                        <div
-                          className="space-y-2 text-sm border-t pt-3"
+                        <p
+                          className="text-sm mb-3"
                           style={{
-                            borderColor: darkMode
-                              ? 'rgba(255, 255, 255, 0.1)'
-                              : 'rgba(0, 0, 0, 0.1)',
+                            color: darkMode ? 'rgba(224, 224, 224, 0.7)' : 'rgba(51, 51, 51, 0.7)',
                           }}
                         >
-                          <div>
-                            <span
-                              className="font-medium block"
-                              style={{
-                                color: darkMode ? COLORS.dark.text : COLORS.light.text,
-                              }}
-                            >
-                              Address:
-                            </span>
-                            <span
-                              style={{
-                                color: darkMode
-                                  ? 'rgba(224, 224, 224, 0.7)'
-                                  : 'rgba(51, 51, 51, 0.7)',
-                              }}
-                            >
-                              {getFormattedAddress()}
-                            </span>
-                          </div>
-                          <div>
-                            <span
-                              className="font-medium block"
-                              style={{
-                                color: darkMode ? COLORS.dark.text : COLORS.light.text,
-                              }}
-                            >
-                              Phone:
-                            </span>
-                            <span
-                              style={{
-                                color: darkMode
-                                  ? 'rgba(224, 224, 224, 0.7)'
-                                  : 'rgba(51, 51, 51, 0.7)',
-                              }}
-                            >
-                              {userProfile.phone}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* View Full Profile Link */}
-                        <div
-                          className="mt-3 pt-3 border-t"
+                          {formattedAddress}
+                        </p>
+                        <button
+                          onClick={handleEditProfile}
+                          className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] font-medium text-sm"
                           style={{
-                            borderColor: darkMode
-                              ? 'rgba(255, 255, 255, 0.1)'
-                              : 'rgba(0, 0, 0, 0.1)',
+                            backgroundColor: darkMode
+                              ? 'rgba(96, 165, 250, 0.1)'
+                              : 'rgba(37, 99, 235, 0.1)',
+                            color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
+                            border: `1px solid ${
+                              darkMode ? 'rgba(96, 165, 250, 0.3)' : 'rgba(37, 99, 235, 0.3)'
+                            }`,
                           }}
                         >
-                          <Link
-                            to="/profile"
-                            onClick={closeProfileCard}
-                            className="block text-center text-sm font-medium py-2 rounded-md transition-colors hover:opacity-80"
-                            style={{
-                              color: darkMode ? COLORS.dark.primary : COLORS.light.primary,
-                            }}
-                          >
-                            View Full Profile
-                          </Link>
-                        </div>
+                          <FiEdit className="h-4 w-4" />
+                          Edit Profile
+                        </button>
                       </div>
                     </motion.div>
                   )}
@@ -387,9 +379,9 @@ function Header({
         isOpen={isMobileSidebarOpen}
         onClose={closeMobileSidebar}
         activeCategory={activeCategory}
-        onCategoryChange={onCategoryChange}
+        onCategoryChange={handleCategoryChange}
         viewingOffers={viewingOffers}
-        onOffersClick={onOffersClick}
+        onOffersClick={handleOffersClick}
       />
     </>
   );

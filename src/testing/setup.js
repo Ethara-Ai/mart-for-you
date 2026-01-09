@@ -11,7 +11,7 @@ afterEach(() => {
   cleanup();
 });
 
-// Mock localStorage
+// Mock localStorage with full API support including length and key()
 const localStorageMock = {
   store: {},
   getItem: vi.fn((key) => localStorageMock.store[key] ?? null),
@@ -24,6 +24,13 @@ const localStorageMock = {
   clear: vi.fn(() => {
     localStorageMock.store = {};
   }),
+  key: vi.fn((index) => {
+    const keys = Object.keys(localStorageMock.store);
+    return keys[index] ?? null;
+  }),
+  get length() {
+    return Object.keys(localStorageMock.store).length;
+  },
 };
 
 Object.defineProperty(window, 'localStorage', {

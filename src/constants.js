@@ -25,6 +25,81 @@ export const ANIMATION = {
   NAVIGATION_SCROLL_DELAY: 100,
 };
 
+// Framer Motion animation variants (extracted to prevent re-creation on every render)
+export const MOTION_VARIANTS = {
+  // Card animations
+  card: {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -10 },
+    hover: { y: -4 },
+  },
+  // Modal/Drawer animations
+  modal: {
+    backdrop: {
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      exit: { opacity: 0 },
+    },
+    slideRight: {
+      initial: { x: '100%' },
+      animate: { x: 0 },
+      exit: { x: '100%' },
+    },
+    slideLeft: {
+      initial: { x: '-100%' },
+      animate: { x: 0 },
+      exit: { x: '-100%' },
+    },
+    scaleUp: {
+      initial: { opacity: 0, scale: 0.95 },
+      animate: { opacity: 1, scale: 1 },
+      exit: { opacity: 0, scale: 0.95 },
+    },
+  },
+  // List item animations
+  listItem: {
+    initial: { opacity: 0, x: -20 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: 20 },
+  },
+  // Fade animations
+  fade: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+  },
+  // Page transition animations
+  page: {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+  },
+  // Toast animations
+  toast: {
+    initial: { opacity: 0, y: -50, scale: 0.9 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -20, scale: 0.9 },
+  },
+  // Profile card dropdown
+  dropdown: {
+    initial: { opacity: 0, y: -10, scale: 0.95 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -10, scale: 0.95 },
+  },
+};
+
+// Framer Motion transition presets
+export const MOTION_TRANSITIONS = {
+  fast: { duration: 0.15, ease: 'easeOut' },
+  normal: { duration: 0.2, ease: 'easeInOut' },
+  slow: { duration: 0.3, ease: 'easeInOut' },
+  spring: { type: 'spring', damping: 25, stiffness: 300 },
+  springBouncy: { type: 'spring', damping: 20, stiffness: 400 },
+  springGentle: { type: 'spring', damping: 30, stiffness: 200 },
+  modal: { type: 'spring', damping: 30, stiffness: 300 },
+};
+
 // Breakpoints (should match Tailwind config)
 export const BREAKPOINTS = {
   SM: 640,
@@ -119,6 +194,8 @@ export const SHIPPING = {
 export default {
   DEFAULTS,
   ANIMATION,
+  MOTION_VARIANTS,
+  MOTION_TRANSITIONS,
   BREAKPOINTS,
   GRID,
   Z_INDEX,

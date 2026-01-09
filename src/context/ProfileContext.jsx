@@ -1,4 +1,7 @@
-import { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
+import { STORAGE_KEYS } from '../constants';
+import { getFromStorage, setToStorage } from '../utils/storage';
+import { validateProfile } from '../utils/validation';
 
 // Create the Profile Context
 const ProfileContext = createContext(null);
@@ -22,23 +25,71 @@ const defaultProfile = {
 };
 
 /**
- * ProfileProvider - User profile state management
+ * Load profile from localStorage, with validation
+ * @returns {Object} User profile
+ */
+function loadProfileFromStorage() {
+  const savedProfile = getFromStorage(STORAGE_KEYS.USER_PROFILE, null);
+
+  if (!savedProfile) {
+    return defaultProfile;
+  }
+
+  // Validate the loaded profile
+  const validation = validateProfile(savedProfile);
+
+  if (!validation.valid) {
+    console.warn('Invalid profile data in storage, using defaults:', validation.errors);
+    return defaultProfile;
+  }
+
+  // Merge with defaults to ensure all fields exist
+  return { ...defaultProfile, ...savedProfile };
+}
+
+/**
+ * Save profile to localStorage
+ * @param {Object} profile - Profile to save
+ * @returns {boolean} Success status
+ */
+function saveProfileToStorage(profile) {
+  return setToStorage(STORAGE_KEYS.USER_PROFILE, profile);
+}
+
+/**
+ * ProfileProvider - User profile state management with localStorage persistence
  *
  * Provides user profile functionality including viewing, editing,
  * and saving profile information. Includes proper async handling
  * for save operations with loading state.
  *
+ * Features:
+ * - localStorage persistence
+ * - Profile validation
+ * - Unsaved changes detection
+ * - Async save with loading state
+ *
  * @param {Object} props
  * @param {React.ReactNode} props.children - Child components
  */
 export function ProfileProvider({ children }) {
-  const [userProfile, setUserProfile] = useState(defaultProfile);
-  const [savedProfile, setSavedProfile] = useState(defaultProfile);
+  // Initialize from localStorage
+  const [userProfile, setUserProfile] = useState(() => loadProfileFromStorage());
+  const [savedProfile, setSavedProfile] = useState(() => loadProfileFromStorage());
+
+  // UI state
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isProfileCardOpen, setIsProfileCardOpen] = useState(false);
   const [isProfileEditing, setIsProfileEditing] = useState(false);
+
+  // Async operation state
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState(null);
+
+  // Persist profile to localStorage when savedProfile changes
+  useEffect(() => {
+    saveProfileToStorage(savedProfile);
+  }, [savedProfile]);
 
   /**
    * Update a single field in the profile
@@ -80,18 +131,32 @@ export function ProfileProvider({ children }) {
 
   /**
    * Save profile changes
-   * Async operation with loading state and error handling
-   * @returns {Promise<{success: boolean, error?: string}>} Save result
+   * Async operation with loading state, validation, and error handling
+   * @returns {Promise<{success: boolean, error?: string, errors?: string[]}>} Save result
    */
   const saveProfile = useCallback(async () => {
     setIsSaving(true);
     setSaveError(null);
 
     try {
+      // Validate profile before saving
+      const validation = validateProfile(userProfile);
+
+      if (!validation.valid) {
+        const errorMessage = validation.errors.join(', ');
+        setSaveError(errorMessage);
+        return {
+          success: false,
+          error: 'Validation failed',
+          errors: validation.errors,
+        };
+      }
+
       // Simulate API call - in production, replace with actual API call
       // await api.saveProfile(userProfile);
       await new Promise((resolve) => setTimeout(resolve, 300));
 
+      // Update saved profile (triggers localStorage save via useEffect)
       setSavedProfile({ ...userProfile });
       setIsProfileEditing(false);
       setIsProfileOpen(false);
@@ -118,11 +183,13 @@ export function ProfileProvider({ children }) {
 
   /**
    * Reset profile to default values
+   * Also clears localStorage
    */
   const resetProfile = useCallback(() => {
     setUserProfile(defaultProfile);
     setSavedProfile(defaultProfile);
     setSaveError(null);
+    // This will trigger localStorage update via useEffect
   }, []);
 
   /**
@@ -156,6 +223,13 @@ export function ProfileProvider({ children }) {
   }, []);
 
   /**
+   * Open profile card
+   */
+  const openProfileCard = useCallback(() => {
+    setIsProfileCardOpen(true);
+  }, []);
+
+  /**
    * Get full name - derived state using useMemo
    * More efficient than useCallback for computed values
    */
@@ -163,6 +237,15 @@ export function ProfileProvider({ children }) {
     () => `${userProfile.firstName} ${userProfile.lastName}`.trim(),
     [userProfile.firstName, userProfile.lastName]
   );
+
+  /**
+   * Get user initials
+   */
+  const initials = useMemo(() => {
+    const first = userProfile.firstName?.[0] || '';
+    const last = userProfile.lastName?.[0] || '';
+    return `${first}${last}`.toUpperCase();
+  }, [userProfile.firstName, userProfile.lastName]);
 
   /**
    * Get formatted address - derived state using useMemo
@@ -173,12 +256,32 @@ export function ProfileProvider({ children }) {
   }, [userProfile]);
 
   /**
+   * Get formatted phone number
+   */
+  const formattedPhone = useMemo(() => {
+    const phone = userProfile.phone || '';
+    // Basic formatting - adjust as needed for different regions
+    if (phone.length === 10) {
+      return `${phone.slice(0, 3)}-${phone.slice(3, 6)}-${phone.slice(6)}`;
+    }
+    return phone;
+  }, [userProfile.phone]);
+
+  /**
    * Check if profile has unsaved changes
    */
   const hasUnsavedChanges = useMemo(
     () => JSON.stringify(userProfile) !== JSON.stringify(savedProfile),
     [userProfile, savedProfile]
   );
+
+  /**
+   * Check if profile is complete (all required fields filled)
+   */
+  const isProfileComplete = useMemo(() => {
+    const validation = validateProfile(userProfile);
+    return validation.valid;
+  }, [userProfile]);
 
   // Memoize context value to prevent unnecessary re-renders of consumers
   const value = useMemo(
@@ -194,8 +297,11 @@ export function ProfileProvider({ children }) {
 
       // Derived state
       fullName,
+      initials,
       formattedAddress,
+      formattedPhone,
       hasUnsavedChanges,
+      isProfileComplete,
 
       // State setters (for edge cases)
       setUserProfile,
@@ -214,6 +320,7 @@ export function ProfileProvider({ children }) {
       openProfileModal,
       closeProfileModal,
       closeProfileCard,
+      openProfileCard,
 
       // Legacy support - deprecated, use fullName and formattedAddress instead
       getFullName: () => fullName,
@@ -228,8 +335,11 @@ export function ProfileProvider({ children }) {
       isSaving,
       saveError,
       fullName,
+      initials,
       formattedAddress,
+      formattedPhone,
       hasUnsavedChanges,
+      isProfileComplete,
       updateField,
       updateProfile,
       startEditing,
@@ -240,6 +350,7 @@ export function ProfileProvider({ children }) {
       openProfileModal,
       closeProfileModal,
       closeProfileCard,
+      openProfileCard,
     ]
   );
 
@@ -252,10 +363,14 @@ export function ProfileProvider({ children }) {
  * @returns {Object} Profile context value containing:
  *   - userProfile: Object - Current user profile data
  *   - fullName: string - Computed full name
+ *   - initials: string - User initials
  *   - formattedAddress: string - Computed formatted address
+ *   - formattedPhone: string - Formatted phone number
  *   - isProfileEditing: boolean - Whether profile is being edited
  *   - isSaving: boolean - Whether save is in progress
  *   - saveError: string|null - Error message from last save attempt
+ *   - hasUnsavedChanges: boolean - Whether there are unsaved changes
+ *   - isProfileComplete: boolean - Whether all required fields are filled
  *   - updateField: Function - Update a single profile field
  *   - saveProfile: Function - Save profile changes (async)
  *   - cancelEditing: Function - Cancel editing and revert changes

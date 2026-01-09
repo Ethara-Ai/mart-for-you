@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiShoppingCart, FiX, FiCheck, FiArrowRight } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
@@ -16,54 +15,62 @@ import ShippingOptions from './ShippingOptions';
  * with cart items, shipping options, order summary, and checkout.
  * Handles empty cart and order confirmation states.
  *
- * @param {Object} props
- * @param {boolean} props.isOpen - Whether the drawer is open
- * @param {Function} props.onClose - Callback to close the drawer
+ * Now uses CartContext for open/close state management (removing prop drilling).
  */
-function CartModal({ isOpen, onClose }) {
+function CartModal() {
   const navigateToSection = useNavigateToSection();
   const { darkMode, COLORS } = useTheme();
   const {
+    // Modal state from context
+    isCartOpen,
+    closeCart,
+    // Cart data
     cartItems,
     totalItems,
     cartTotal,
+    hasItems,
+    // Shipping
     getShippingCost,
     getTotal,
+    // Checkout
     handleCheckout,
     resetOrder,
     orderPlaced,
     orderNumber,
+    isCheckingOut,
   } = useCart();
 
   // Use the scroll lock hook to handle body scroll locking
-  useScrollLock(isOpen);
+  useScrollLock(isCartOpen);
 
   // Handle escape key to close drawer
   useEffect(() => {
     const handleEscKey = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
+      if (e.key === 'Escape' && isCartOpen) {
+        closeCart();
       }
     };
 
     document.addEventListener('keydown', handleEscKey);
     return () => document.removeEventListener('keydown', handleEscKey);
-  }, [isOpen, onClose]);
+  }, [isCartOpen, closeCart]);
 
   // Handle checkout button click
-  const onCheckout = () => {
-    handleCheckout();
+  const onCheckout = async () => {
+    const result = await handleCheckout();
+    // Could show error toast here if result.success is false
+    return result;
   };
 
   // Handle continue button click (after order confirmation)
   const handleContinue = () => {
     resetOrder();
-    onClose();
+    closeCart();
   };
 
   // Handle continue shopping - navigates to home and scrolls to hero
   const handleContinueShopping = () => {
-    onClose();
+    closeCart();
     navigateToSection(ROUTES.HOME, SECTION_IDS.HERO);
   };
 
@@ -76,7 +83,7 @@ function CartModal({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isCartOpen && (
         <>
           {/* Backdrop - clicking this closes the drawer */}
           <motion.div
@@ -86,7 +93,7 @@ function CartModal({ isOpen, onClose }) {
             transition={{ duration: 0.3 }}
             className="fixed inset-0 backdrop-blur-sm bg-black/50"
             style={{ zIndex: Z_INDEX.MODAL_BACKDROP }}
-            onClick={onClose}
+            onClick={closeCart}
             aria-hidden="true"
           />
 
@@ -140,7 +147,7 @@ function CartModal({ isOpen, onClose }) {
                 )}
               </h2>
               <button
-                onClick={onClose}
+                onClick={closeCart}
                 className="p-2 rounded-full hover:bg-opacity-10 hover:bg-gray-500 cursor-pointer transition-all hover:scale-110 active:scale-95"
                 style={{ color: textColor }}
                 aria-label="Close cart"
@@ -210,7 +217,7 @@ function CartModal({ isOpen, onClose }) {
                     <FiArrowRight className="h-4 w-4" />
                   </button>
                 </motion.div>
-              ) : cartItems.length === 0 ? (
+              ) : !hasItems ? (
                 /* Empty Cart */
                 <div className="text-center py-16">
                   <div
@@ -258,7 +265,7 @@ function CartModal({ isOpen, onClose }) {
             </div>
 
             {/* Footer - Fixed at bottom (only when cart has items) */}
-            {!orderPlaced && cartItems.length > 0 && (
+            {!orderPlaced && hasItems && (
               <div
                 className="shrink-0 border-t p-4 sm:p-5"
                 style={{
@@ -298,15 +305,44 @@ function CartModal({ isOpen, onClose }) {
                 {/* Checkout Button */}
                 <button
                   onClick={onCheckout}
-                  className="w-full py-3 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                  disabled={isCheckingOut}
+                  className="w-full py-3 px-4 text-sm font-semibold rounded-lg transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   style={{
                     backgroundColor: primaryColor,
                     color: darkMode ? COLORS.dark.modalBackground : COLORS.light.background,
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
                   }}
                 >
-                  Proceed to Checkout
-                  <FiArrowRight className="h-4 w-4" />
+                  {isCheckingOut ? (
+                    <>
+                      <svg
+                        className="animate-spin h-4 w-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      Proceed to Checkout
+                      <FiArrowRight className="h-4 w-4" />
+                    </>
+                  )}
                 </button>
 
                 {/* Continue Shopping Link */}
