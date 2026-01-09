@@ -1,5 +1,5 @@
-import { lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { lazy, Suspense, useEffect, useRef } from 'react';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 // Context
 import AppProvider from './context/AppProvider';
@@ -99,7 +99,7 @@ function AppLayout() {
             <Route path={ROUTES.CART} element={<CartPage />} />
             <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
             {/* 404 Not Found route */}
-            <Route path="*" element={<HomePage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </main>
@@ -114,21 +114,59 @@ function AppLayout() {
 }
 
 /**
+ * RedirectToLandingOnRefresh - Redirects to landing page on page refresh
+ *
+ * Uses sessionStorage to detect fresh page loads vs in-app navigation.
+ * On refresh/new tab, redirects to landing page once, then allows normal navigation.
+ */
+function RedirectToLandingOnRefresh() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const hasRedirected = useRef(false);
+
+  useEffect(() => {
+    // Check if this is a fresh page load (not in-app navigation)
+    const hasVisitedInSession = sessionStorage.getItem('mart_session_active');
+
+    // Only redirect if:
+    // 1. Not already on landing page
+    // 2. Haven't redirected yet in this component lifecycle
+    // 3. This is a fresh page load (no session flag)
+    if (!hasVisitedInSession && !hasRedirected.current && location.pathname !== ROUTES.LANDING) {
+      hasRedirected.current = true;
+      // Set session flag before navigating
+      sessionStorage.setItem('mart_session_active', 'true');
+      navigate(ROUTES.LANDING, { replace: true });
+    } else if (!hasVisitedInSession) {
+      // Set session flag for landing page visits too
+      sessionStorage.setItem('mart_session_active', 'true');
+    }
+  }, [navigate, location.pathname]);
+
+  return null;
+}
+
+/**
  * AppRoutes - Handles routing between Landing page and Main app
  */
 function AppRoutes() {
   const location = useLocation();
   const isLandingPage = location.pathname === ROUTES.LANDING;
 
-  if (isLandingPage) {
-    return (
-      <Suspense fallback={<PageLoader />}>
-        <LandingPage />
-      </Suspense>
-    );
-  }
+  return (
+    <>
+      {/* Handle redirect to landing on page refresh */}
+      <RedirectToLandingOnRefresh />
 
-  return <AppLayout />;
+      {isLandingPage ? (
+        <Suspense fallback={<PageLoader />}>
+          <LandingPage />
+        </Suspense>
+      ) : (
+        <AppLayout />
+      )}
+    </>
+  );
 }
 
 /**

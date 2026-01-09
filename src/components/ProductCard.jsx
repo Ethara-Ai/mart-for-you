@@ -182,8 +182,8 @@ function ProductCard({ product, onAddToCart }) {
         role="button"
         tabIndex={0}
         aria-label={`View details for ${product.name}, ${product.onSale ? `on sale for $${displayPrice}` : `$${displayPrice}`}`}
-        className="overflow-hidden group cursor-pointer rounded-lg border card focus:outline-none focus:ring-2 focus:ring-offset-2"
-        style={{ '--tw-ring-color': 'var(--accent-primary)' }}
+        className="overflow-hidden group cursor-pointer rounded-lg card focus:outline-none focus:ring-2 focus:ring-accent-primary"
+        style={{ '--tw-ring-offset-color': 'var(--bg-primary)' }}
       >
         {/* Product Image Container */}
         <div className="relative p-3 flex items-center justify-center bg-theme-tertiary">
@@ -230,7 +230,10 @@ function ProductCard({ product, onAddToCart }) {
           </div>
 
           {/* Price and Add Button Row */}
-          <div className="flex items-center justify-between mt-1 gap-1" style={{ minHeight: '2.75rem' }}>
+          <div
+            className="flex items-center justify-between mt-1 gap-1"
+            style={{ minHeight: '2.75rem' }}
+          >
             {/* Price Display */}
             <div className="flex flex-col justify-center shrink-0">
               <span className="font-semibold text-sm sm:text-base text-theme-primary">

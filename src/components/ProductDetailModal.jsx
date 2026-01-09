@@ -202,11 +202,25 @@ function ProductDetailModal({ isOpen, onClose, product }) {
     if (showSpecifications && specificationsRef.current && modalContentRef.current) {
       // Small delay to allow the animation to start
       setTimeout(() => {
-        specificationsRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      }, 100);
+        const modalContainer = modalContentRef.current;
+        const specElement = specificationsRef.current;
+
+        if (modalContainer && specElement) {
+          // Calculate the scroll position relative to the modal container
+          const containerRect = modalContainer.getBoundingClientRect();
+          const elementRect = specElement.getBoundingClientRect();
+          const scrollOffset = elementRect.top - containerRect.top + modalContainer.scrollTop;
+
+          // Add some padding (e.g., 20px from top)
+          const targetScroll = Math.max(0, scrollOffset - 20);
+
+          // Use scrollTo on the modal container for reliable scrolling on all devices
+          modalContainer.scrollTo({
+            top: targetScroll,
+            behavior: 'smooth',
+          });
+        }
+      }, 150);
     }
   }, [showSpecifications]);
 
@@ -323,10 +337,10 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                 style={{ backgroundColor: bgColor, overscrollBehavior: 'contain' }}
               >
                 {/* Content */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 md:p-6">
                   {/* Left Column - Image */}
                   <div className="relative">
-                    <div className="aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                    <div className="aspect-[4/5] md:aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <img
                         src={product.image}
                         alt={product.name}
@@ -334,7 +348,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                       />
                     </div>
 
-                    {/* Badges on Image */}
+                    {/* Badges - Top Left: Category on mobile, Category + Sale on desktop */}
                     <div className="absolute top-3 left-3 flex gap-2">
                       <span
                         className="px-3 py-1 text-xs font-medium rounded-full capitalize"
@@ -345,9 +359,10 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                       >
                         {product.category}
                       </span>
+                      {/* Sale badge - shown here only on desktop (md+) */}
                       {product.onSale && (
                         <span
-                          className="px-3 py-1 text-xs font-bold rounded-full"
+                          className="hidden md:inline-block px-3 py-1 text-xs font-bold rounded-full"
                           style={{
                             backgroundColor: 'rgba(239, 68, 68, 0.9)',
                             color: '#ffffff',
@@ -358,7 +373,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                       )}
                     </div>
 
-                    {/* In Cart Badge */}
+                    {/* In Cart Badge - Top Right */}
                     {isInCart(product.id) && (
                       <div
                         className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold"
@@ -368,6 +383,21 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                         }}
                       >
                         {getItemQuantity(product.id)} in cart
+                      </div>
+                    )}
+
+                    {/* Sale Badge - Bottom Left on mobile only */}
+                    {product.onSale && (
+                      <div className="absolute bottom-3 left-3 md:hidden">
+                        <span
+                          className="px-3 py-1 text-xs font-bold rounded-full"
+                          style={{
+                            backgroundColor: 'rgba(239, 68, 68, 0.9)',
+                            color: '#ffffff',
+                          }}
+                        >
+                          SALE {savingsPercent}% OFF
+                        </span>
                       </div>
                     )}
                   </div>
@@ -498,86 +528,92 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                               className="text-xs text-center mt-1"
                               style={{ color: 'rgb(239, 68, 68)' }}
                             >
-                              We only have limited units for this product.
+                              We only have limited units for this product
                             </p>
                           )}
                         </div>
                       )}
                     </div>
 
-                    {/* Specifications Toggle Button */}
-                    <button
-                      onClick={handleSpecificationsToggle}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-lg mb-4 transition-all hover:opacity-90"
-                      style={{
-                        backgroundColor: secondaryBg,
-                        color: textColor,
-                        border: `1px solid ${borderColor}`,
-                      }}
-                    >
-                      <span className="flex items-center gap-2 font-medium">
-                        <FiInfo className="h-5 w-5" style={{ color: primaryColor }} />
-                        Product Specifications
-                      </span>
-                      {showSpecifications ? (
-                        <FiChevronUp className="h-5 w-5 cursor-pointer" />
-                      ) : (
-                        <FiChevronDown className="h-5 w-5 cursor-pointer" />
-                      )}
-                    </button>
-
-                    {/* Features */}
-                    <div className="space-y-3 pt-4 border-t" style={{ borderColor }}>
+                    {/* Product Benefits - Fills remaining space */}
+                    <div className="flex-1 pt-3 border-t" style={{ borderColor }}>
                       <h3
-                        className="text-sm font-semibold uppercase tracking-wider mb-3"
-                        style={{ color: textColor }}
+                        className="text-xs font-semibold uppercase tracking-wider mb-3"
+                        style={{ color: subtextColor }}
                       >
                         Product Benefits
                       </h3>
-                      <div className="flex items-start gap-3">
-                        <FiPackage
-                          className="h-5 w-5 mt-0.5 shrink-0"
-                          style={{ color: primaryColor }}
-                        />
-                        <div>
-                          <p className="font-medium text-sm" style={{ color: textColor }}>
-                            Free Returns
-                          </p>
-                          <p className="text-xs" style={{ color: subtextColor }}>
-                            30-day return policy
-                          </p>
+                      <div className="grid grid-cols-2 gap-3">
+                        {/* Row 1: Free Returns | Secure Checkout */}
+                        <div className="flex items-start gap-3">
+                          <FiPackage
+                            className="h-5 w-5 mt-0.5 shrink-0"
+                            style={{ color: primaryColor }}
+                          />
+                          <div>
+                            <p className="font-medium text-sm" style={{ color: textColor }}>
+                              Free Returns
+                            </p>
+                            <p className="text-xs" style={{ color: subtextColor }}>
+                              30-day return policy
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <FiTruck
-                          className="h-5 w-5 mt-0.5 shrink-0"
-                          style={{ color: primaryColor }}
-                        />
-                        <div>
-                          <p className="font-medium text-sm" style={{ color: textColor }}>
-                            Fast Shipping
-                          </p>
-                          <p className="text-xs" style={{ color: subtextColor }}>
-                            Multiple delivery options available
-                          </p>
+                        <div className="flex items-start gap-3">
+                          <FiShield
+                            className="h-5 w-5 mt-0.5 shrink-0"
+                            style={{ color: primaryColor }}
+                          />
+                          <div>
+                            <p className="font-medium text-sm" style={{ color: textColor }}>
+                              Secure Checkout
+                            </p>
+                            <p className="text-xs" style={{ color: subtextColor }}>
+                              Your data is protected
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <FiShield
-                          className="h-5 w-5 mt-0.5 shrink-0"
-                          style={{ color: primaryColor }}
-                        />
-                        <div>
-                          <p className="font-medium text-sm" style={{ color: textColor }}>
-                            Secure Checkout
-                          </p>
-                          <p className="text-xs" style={{ color: subtextColor }}>
-                            Your data is protected
-                          </p>
+                        {/* Row 2: Fast Shipping */}
+                        <div className="flex items-start gap-3 col-span-2">
+                          <FiTruck
+                            className="h-5 w-5 mt-0.5 shrink-0"
+                            style={{ color: primaryColor }}
+                          />
+                          <div>
+                            <p className="font-medium text-sm" style={{ color: textColor }}>
+                              Fast Shipping
+                            </p>
+                            <p className="text-xs" style={{ color: subtextColor }}>
+                              Multiple delivery options available
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Specifications Toggle Button - Full Width */}
+                <div className="px-4 md:px-6 pb-2">
+                  <button
+                    onClick={handleSpecificationsToggle}
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all hover:opacity-90"
+                    style={{
+                      backgroundColor: secondaryBg,
+                      color: textColor,
+                      border: `1px solid ${borderColor}`,
+                    }}
+                  >
+                    <span className="flex items-center gap-2 font-medium">
+                      <FiInfo className="h-5 w-5" style={{ color: primaryColor }} />
+                      Product Specifications
+                    </span>
+                    {showSpecifications ? (
+                      <FiChevronUp className="h-5 w-5 cursor-pointer" />
+                    ) : (
+                      <FiChevronDown className="h-5 w-5 cursor-pointer" />
+                    )}
+                  </button>
                 </div>
 
                 {/* Specifications Panel - Full Width Below */}
@@ -592,17 +628,9 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                       className="overflow-hidden"
                     >
                       <div
-                        className="px-6 md:px-8 pb-6 md:pb-8 pt-4"
+                        className="px-4 md:px-6 pb-4 md:pb-6 pt-4"
                         style={{ borderTop: `1px solid ${borderColor}` }}
                       >
-                        <h3
-                          className="text-lg font-bold mb-4 flex items-center gap-2"
-                          style={{ color: textColor }}
-                        >
-                          <FiInfo className="h-5 w-5" style={{ color: primaryColor }} />
-                          Product Specifications & Details
-                        </h3>
-
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
                           {/* Left Column */}
                           <dl>

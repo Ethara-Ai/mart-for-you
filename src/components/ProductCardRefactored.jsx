@@ -122,8 +122,8 @@ function ProductCard({ product, onAddToCart }) {
         role="button"
         tabIndex={0}
         aria-label={`View details for ${product.name}, ${product.onSale ? `on sale for $${displayPrice}` : `$${displayPrice}`}`}
-        className="overflow-hidden group cursor-pointer rounded-lg border card focus:outline-none focus:ring-2 focus:ring-offset-2"
-        style={{ '--tw-ring-color': 'var(--accent-primary)' }}
+        className="overflow-hidden group cursor-pointer rounded-lg card focus:outline-none focus:ring-2 focus:ring-accent-primary"
+        style={{ '--tw-ring-offset-color': 'var(--bg-primary)' }}
       >
         {/* Product Image Container */}
         <div className="relative p-3 flex items-center justify-center bg-theme-tertiary">

@@ -137,7 +137,7 @@ function LandingPage() {
             fontFamily: "'Metropolis', sans-serif",
           }}
         >
-          Your one-stop shopping destination for everything you need
+          Shop electronics, fashion, beauty, home essentials, and more
         </motion.p>
 
         {/* CTA Button */}

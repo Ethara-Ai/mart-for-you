@@ -154,6 +154,24 @@
   ::-webkit-scrollbar-thumb:hover {
     background: var(--accent-primary);
   }
+
+  /**
+   * Prevent iOS Safari auto-zoom on input focus
+   * iOS zooms in when input font-size is less than 16px
+   * This ensures all inputs have at least 16px font on mobile
+   */
+  @media screen and (max-width: 768px) {
+    input[type='text'],
+    input[type='email'],
+    input[type='tel'],
+    input[type='password'],
+    input[type='number'],
+    input[type='search'],
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
 }
 
 /* Utility classes using CSS variables */
@@ -254,6 +272,14 @@
     border-color: var(--accent-primary);
   }
 
+  .ring-accent-primary {
+    --tw-ring-color: var(--accent-primary);
+  }
+
+  .focus\:ring-accent-primary:focus {
+    --tw-ring-color: var(--accent-primary);
+  }
+
   .shadow-theme-sm {
     box-shadow: var(--shadow-sm);
   }
@@ -321,9 +347,14 @@
   /* Card styles */
   .card {
     background-color: var(--bg-primary);
-    border: 1px solid var(--border-primary);
+    border: 1px solid transparent;
     box-shadow: var(--shadow-card);
-    @apply rounded-lg overflow-hidden;
+    @apply rounded-lg overflow-hidden transition-all duration-200;
+  }
+
+  .card:hover,
+  .card:focus {
+    box-shadow: var(--shadow-md);
   }
 
   .card-elevated {

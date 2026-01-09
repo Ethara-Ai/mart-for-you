@@ -3,31 +3,6 @@ import { FiX, FiSearch } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 
 /**
- * Reset viewport zoom on mobile devices
- * This fixes the issue where iOS Safari stays zoomed in after keyboard closes
- */
-const resetViewportZoom = () => {
-  // Only run on mobile devices
-  if (typeof window === 'undefined' || window.innerWidth > 768) return;
-
-  // Get the viewport meta tag
-  const viewportMeta = document.querySelector('meta[name="viewport"]');
-  if (!viewportMeta) return;
-
-  // Temporarily set maximum-scale to 1 to reset zoom, then restore it
-  const originalContent = viewportMeta.getAttribute('content');
-  viewportMeta.setAttribute(
-    'content',
-    'width=device-width, initial-scale=1.0, maximum-scale=1.0'
-  );
-
-  // Restore original viewport settings after a brief delay
-  setTimeout(() => {
-    viewportMeta.setAttribute('content', originalContent);
-  }, 100);
-};
-
-/**
  * SearchBar - Reusable search input component
  *
  * A search bar with clear functionality and customizable styling.
@@ -64,11 +39,27 @@ function SearchBar({
     }
   }, [autoFocus]);
 
-  // Handle blur with viewport reset for mobile
-  const handleBlur = useCallback(() => {
-    setIsFocused(false);
-    // Reset viewport zoom when input loses focus (keyboard closes)
-    resetViewportZoom();
+  /**
+   * Reset viewport zoom on mobile when input loses focus
+   * This fixes iOS Safari zoom issue where the page stays zoomed after keyboard closes
+   */
+  const resetViewportZoom = useCallback(() => {
+    // Only run on mobile devices
+    if (window.innerWidth <= 768) {
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      if (viewportMeta) {
+        // Temporarily set maximum-scale to 1 to reset zoom, then restore
+        const originalContent = viewportMeta.getAttribute('content');
+        viewportMeta.setAttribute(
+          'content',
+          'width=device-width, initial-scale=1.0, maximum-scale=1.0'
+        );
+        // Restore original viewport after a brief delay
+        setTimeout(() => {
+          viewportMeta.setAttribute('content', originalContent);
+        }, 100);
+      }
+    }
   }, []);
 
   // Handle form submission
@@ -99,6 +90,13 @@ function SearchBar({
     }
   };
 
+  // Handle blur - reset viewport zoom on mobile
+  const handleBlur = useCallback(() => {
+    setIsFocused(false);
+    // Small delay to let the keyboard close first
+    setTimeout(resetViewportZoom, 50);
+  }, [resetViewportZoom]);
+
   // Determine styling based on variant
   const isMobile = variant === 'mobile';
   const inputPadding = isMobile ? 'px-3 py-1.5 pr-8' : 'px-4 py-2 pr-10';
@@ -106,8 +104,8 @@ function SearchBar({
   const iconSize = isMobile ? 'h-3 w-3' : 'h-4 w-4';
   const searchIconSize = isMobile ? 14 : 16;
   const clearButtonPosition = isMobile ? 'right-8' : 'right-10';
-  // Use 16px font on mobile to prevent iOS auto-zoom, 14px (text-sm) on desktop
-  const fontSizeClass = 'text-base sm:text-sm';
+  // Use 16px font on mobile to prevent iOS auto-zoom on focus
+  const fontSize = isMobile ? 'text-base' : 'text-sm';
 
   // Input styles
   const inputStyles = {
@@ -137,7 +135,7 @@ function SearchBar({
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}
         onBlur={handleBlur}
-        className={`${inputWidth} ${inputPadding} rounded-full ${fontSizeClass} transition-all duration-200 outline-hidden border-2 placeholder:text-gray-400 dark:placeholder:text-gray-300`}
+        className={`${inputWidth} ${inputPadding} rounded-full ${fontSize} transition-all duration-200 outline-hidden border-2 placeholder:text-gray-400 dark:placeholder:text-gray-300`}
         style={inputStyles}
         aria-label="Search"
       />
