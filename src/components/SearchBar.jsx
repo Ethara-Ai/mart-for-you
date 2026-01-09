@@ -99,11 +99,14 @@ function SearchBar({
 
   // Determine styling based on variant
   const isMobile = variant === 'mobile';
-  const inputPadding = isMobile ? 'px-3 py-1.5 pr-8' : 'px-4 py-2 pr-10';
+  // Use static classes for base padding, dynamic right padding handled via inline style
+  const inputPadding = isMobile ? 'px-3 py-1.5' : 'px-4 py-2';
+  // Increase right padding when clear button is visible to prevent text overlap
+  const inputPaddingRight = value ? (isMobile ? '4rem' : '5rem') : isMobile ? '2rem' : '2.5rem';
   const inputWidth = isMobile ? 'w-full' : 'w-full';
   const iconSize = isMobile ? 'h-3 w-3' : 'h-4 w-4';
   const searchIconSize = isMobile ? 14 : 16;
-  const clearButtonPosition = isMobile ? 'right-8' : 'right-10';
+  const clearButtonPosition = isMobile ? 'right-7' : 'right-9';
   // Use 16px font on mobile to prevent iOS auto-zoom on focus
   const fontSize = isMobile ? 'text-base' : 'text-sm';
 
@@ -111,6 +114,7 @@ function SearchBar({
   const inputStyles = {
     backgroundColor: darkMode ? 'rgba(51, 65, 85, 0.8)' : 'rgba(255, 255, 255, 0.9)',
     color: darkMode ? COLORS.dark.text : COLORS.light.text,
+    paddingRight: inputPaddingRight,
     borderColor: isFocused
       ? darkMode
         ? COLORS.dark.primary

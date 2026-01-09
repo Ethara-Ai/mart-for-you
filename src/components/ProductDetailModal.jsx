@@ -111,7 +111,15 @@ const generateSpecifications = (product) => {
 /**
  * SpecRow - A row of two specification items aligned horizontally
  */
-function SpecRow({ leftLabel, leftValue, rightLabel, rightValue, borderColor, subtextColor, textColor }) {
+function SpecRow({
+  leftLabel,
+  leftValue,
+  rightLabel,
+  rightValue,
+  borderColor,
+  subtextColor,
+  textColor,
+}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
       <div className="py-3 border-b flex flex-col" style={{ borderColor }}>
@@ -353,7 +361,7 @@ function ProductDetailModal({ isOpen, onClose, product }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 md:p-6">
                   {/* Left Column - Image */}
                   <div className="relative">
-                    <div className="aspect-[4/5] md:aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+                    <div className="aspect-4/5 md:aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <img
                         src={product.image}
                         alt={product.name}

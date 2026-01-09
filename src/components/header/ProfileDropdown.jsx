@@ -29,19 +29,12 @@ function ProfileDropdown({
       transition={{ duration: 0.15 }}
       className="absolute right-0 mt-2 w-72 rounded-lg shadow-xl overflow-hidden z-50"
       style={{
-        backgroundColor: darkMode
-          ? colors.dark.modalBackground
-          : colors.light.modalBackground,
-        boxShadow: darkMode
-          ? '0 10px 40px rgba(0, 0, 0, 0.5)'
-          : '0 10px 40px rgba(0, 0, 0, 0.15)',
+        backgroundColor: darkMode ? colors.dark.modalBackground : colors.light.modalBackground,
+        boxShadow: darkMode ? '0 10px 40px rgba(0, 0, 0, 0.5)' : '0 10px 40px rgba(0, 0, 0, 0.15)',
       }}
     >
       {/* Profile Header */}
-      <div
-        className="p-4 flex items-center gap-3 border-b"
-        style={{ borderColor }}
-      >
+      <div className="p-4 flex items-center gap-3 border-b" style={{ borderColor }}>
         <img
           src={userProfile.avatar}
           alt="User profile"
@@ -51,16 +44,10 @@ function ProfileDropdown({
           }}
         />
         <div className="flex-1 min-w-0">
-          <h3
-            className="font-semibold truncate"
-            style={{ color: textColor }}
-          >
+          <h3 className="font-semibold truncate" style={{ color: textColor }}>
             {fullName}
           </h3>
-          <p
-            className="text-sm truncate"
-            style={{ color: primaryColor }}
-          >
+          <p className="text-sm truncate" style={{ color: primaryColor }}>
             {userProfile.email}
           </p>
         </div>
@@ -80,13 +67,9 @@ function ProfileDropdown({
           onClick={onEditProfile}
           className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg transition-all cursor-pointer transform hover:scale-[1.02] active:scale-[0.98] font-medium text-sm"
           style={{
-            backgroundColor: darkMode
-              ? 'rgba(96, 165, 250, 0.1)'
-              : 'rgba(37, 99, 235, 0.1)',
+            backgroundColor: darkMode ? 'rgba(96, 165, 250, 0.1)' : 'rgba(37, 99, 235, 0.1)',
             color: primaryColor,
-            border: `1px solid ${
-              darkMode ? 'rgba(96, 165, 250, 0.3)' : 'rgba(37, 99, 235, 0.3)'
-            }`,
+            border: `1px solid ${darkMode ? 'rgba(96, 165, 250, 0.3)' : 'rgba(37, 99, 235, 0.3)'}`,
           }}
         >
           <FiEdit className="h-4 w-4" />

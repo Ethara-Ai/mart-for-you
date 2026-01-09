@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- Intentional: backwards compatibility module that re-exports components and constants */
 /**
  * CartContext - Backwards Compatibility Module
  *
@@ -33,7 +34,7 @@
  * @deprecated Import from './cart' for better performance
  */
 
-// Re-export everything from the new cart module
+// Re-export components and hooks from the new cart module
 export {
   // Main provider and combined hook
   CartProvider,
@@ -50,10 +51,10 @@ export {
   useCartTotals,
   useCartUI,
   useCheckout,
-
-  // Constants
-  CHECKOUT_STAGES,
 } from './cart';
+
+// Re-export constants from dedicated constants file
+export { CHECKOUT_STAGES } from './cart/constants';
 
 // Default export for backwards compatibility
 export { default } from './cart';

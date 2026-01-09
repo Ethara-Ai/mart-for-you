@@ -57,7 +57,7 @@ export { useCartUI } from './CartUIContext';
 export { useCheckout } from './CheckoutContext';
 
 // Constants
-export { CHECKOUT_STAGES } from './CheckoutContext';
+export { CHECKOUT_STAGES } from './constants';
 
 // Default export is the combined provider
 export { default } from './CartProvider';

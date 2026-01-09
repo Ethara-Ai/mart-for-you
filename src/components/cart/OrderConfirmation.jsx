@@ -21,9 +21,7 @@ function OrderConfirmation({ orderNumber, onContinue, darkMode, colors }) {
       <div
         className="mx-auto h-20 w-20 flex items-center justify-center rounded-full mb-6"
         style={{
-          backgroundColor: darkMode
-            ? 'rgba(34, 197, 94, 0.2)'
-            : 'rgba(34, 197, 94, 0.1)',
+          backgroundColor: darkMode ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)',
         }}
       >
         <FiCheck className="h-10 w-10" style={{ color: '#22c55e' }} />

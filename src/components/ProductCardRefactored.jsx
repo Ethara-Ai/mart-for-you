@@ -18,7 +18,7 @@ import { QuantitySelector, PriceDisplay } from './common';
  * - Cleaner, more focused code
  */
 function ProductCard({ product, onAddToCart }) {
-  const { cart, toast, theme } = useAppState();
+  const { cart, toast } = useAppState();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Get stock limit

@@ -42,7 +42,7 @@ export function FilterProvider({ children }) {
       }
       setSearchParams(newParams, { replace: true });
     },
-    [searchParams, setSearchParams],
+    [searchParams, setSearchParams]
   );
 
   /**
@@ -75,7 +75,7 @@ export function FilterProvider({ children }) {
    */
   const hasActiveFilters = useMemo(
     () => activeCategory !== CATEGORIES.ALL || viewingOffers,
-    [activeCategory, viewingOffers],
+    [activeCategory, viewingOffers]
   );
 
   // Memoize context value to prevent unnecessary re-renders
@@ -88,7 +88,14 @@ export function FilterProvider({ children }) {
       resetFilters,
       hasActiveFilters,
     }),
-    [activeCategory, viewingOffers, setActiveCategory, enableOffersView, resetFilters, hasActiveFilters],
+    [
+      activeCategory,
+      viewingOffers,
+      setActiveCategory,
+      enableOffersView,
+      resetFilters,
+      hasActiveFilters,
+    ]
   );
 
   return <FilterContext.Provider value={value}>{children}</FilterContext.Provider>;

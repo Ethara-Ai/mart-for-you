@@ -217,10 +217,7 @@ export function validateCartItem(cartItem) {
   }
 
   // Check quantity against stock if available
-  if (
-    cartItem.stock !== undefined &&
-    cartItem.quantity > cartItem.stock
-  ) {
+  if (cartItem.stock !== undefined && cartItem.quantity > cartItem.stock) {
     errors.push('Cart item quantity cannot exceed available stock');
   }
 
@@ -278,7 +275,9 @@ export function validateProfile(profile, options = {}) {
         errors.push(`${field.charAt(0).toUpperCase() + field.slice(1)} is required`);
       }
     } else if (profile[field] !== undefined && !isNonEmptyString(profile[field])) {
-      errors.push(`${field.charAt(0).toUpperCase() + field.slice(1)} must be a non-empty string if provided`);
+      errors.push(
+        `${field.charAt(0).toUpperCase() + field.slice(1)} must be a non-empty string if provided`
+      );
     }
   }
 
@@ -360,9 +359,7 @@ export function validateCart(cart) {
 
   // Check for duplicate product IDs
   const productIds = cart.map((item) => item.id);
-  const duplicates = productIds.filter(
-    (id, index) => productIds.indexOf(id) !== index
-  );
+  const duplicates = productIds.filter((id, index) => productIds.indexOf(id) !== index);
 
   if (duplicates.length > 0) {
     errors.push(`Cart contains duplicate products: ${[...new Set(duplicates)].join(', ')}`);

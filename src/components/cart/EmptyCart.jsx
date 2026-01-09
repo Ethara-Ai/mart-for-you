@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { FiShoppingCart, FiArrowRight } from 'react-icons/fi';
 
 /**

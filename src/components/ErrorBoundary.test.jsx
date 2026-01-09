@@ -34,7 +34,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <div>Child content</div>
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Child content')).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe('ErrorBoundary', () => {
         <ErrorBoundary>
           <div>First child</div>
           <div>Second child</div>
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('First child')).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <NestedComponent />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Nested content')).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError shouldThrow={false} />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('No error')).toBeInTheDocument();
@@ -84,7 +84,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Oops! Something went wrong')).toBeInTheDocument();
@@ -94,17 +94,19 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
-      expect(screen.getByText(/We're sorry, but something unexpected happened/)).toBeInTheDocument();
+      expect(
+        screen.getByText(/We're sorry, but something unexpected happened/)
+      ).toBeInTheDocument();
     });
 
     it('displays Try Again button', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
@@ -114,7 +116,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByRole('button', { name: /go home/i })).toBeInTheDocument();
@@ -124,7 +126,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByRole('button', { name: /reload page/i })).toBeInTheDocument();
@@ -138,7 +140,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary fallback={CustomFallback}>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Custom error page')).toBeInTheDocument();
@@ -150,7 +152,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary fallback={CustomFallback}>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.queryByText('Oops! Something went wrong')).not.toBeInTheDocument();
@@ -162,7 +164,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary fallback={<CustomFallbackComponent />}>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Custom component fallback')).toBeInTheDocument();
@@ -176,7 +178,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary onError={onError}>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(onError).toHaveBeenCalled();
@@ -188,13 +190,10 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary onError={onError}>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
-      expect(onError).toHaveBeenCalledWith(
-        expect.any(Error),
-        expect.anything(),
-      );
+      expect(onError).toHaveBeenCalledWith(expect.any(Error), expect.anything());
     });
 
     it('calls onError with errorInfo containing componentStack', () => {
@@ -203,14 +202,14 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary onError={onError}>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(onError).toHaveBeenCalledWith(
         expect.any(Error),
         expect.objectContaining({
           componentStack: expect.any(String),
-        }),
+        })
       );
     });
 
@@ -220,7 +219,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary onError={onError}>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(onError).toHaveBeenCalledTimes(1);
@@ -242,7 +241,7 @@ describe('ErrorBoundary', () => {
       const { rerender } = render(
         <ErrorBoundary>
           <ConditionalError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Oops! Something went wrong')).toBeInTheDocument();
@@ -257,7 +256,7 @@ describe('ErrorBoundary', () => {
       rerender(
         <ErrorBoundary>
           <ConditionalError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
     });
 
@@ -265,7 +264,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const button = screen.getByRole('button', { name: /try again/i });
@@ -277,7 +276,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const button = screen.getByRole('button', { name: /try again/i });
@@ -298,7 +297,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const goHomeButton = screen.getByRole('button', { name: /go home/i });
@@ -314,7 +313,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const button = screen.getByRole('button', { name: /go home/i });
@@ -326,7 +325,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const button = screen.getByRole('button', { name: /go home/i });
@@ -348,7 +347,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const reloadButton = screen.getByRole('button', { name: /reload page/i });
@@ -364,7 +363,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const button = screen.getByRole('button', { name: /reload page/i });
@@ -377,7 +376,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       // Should have an alert triangle icon
@@ -390,7 +389,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const wrapper = container.querySelector('.flex.items-center.justify-center');
@@ -401,7 +400,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const wrapper = container.querySelector('.min-h-screen');
@@ -412,7 +411,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const card = container.querySelector('.rounded-lg');
@@ -423,7 +422,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const card = container.querySelector('.shadow-xl');
@@ -436,7 +435,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const buttons = screen.getAllByRole('button');
@@ -449,7 +448,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const title = screen.getByText('Oops! Something went wrong');
@@ -460,7 +459,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByRole('button', { name: /try again/i })).toHaveAccessibleName();
@@ -474,7 +473,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Oops! Something went wrong')).toBeInTheDocument();
@@ -484,7 +483,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText(/please try again or return to the home page/i)).toBeInTheDocument();
@@ -496,7 +495,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const wrapper = container.firstChild;
@@ -507,7 +506,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const buttonContainer = container.querySelector('.gap-3');
@@ -518,7 +517,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const card = container.querySelector('.text-center');
@@ -535,7 +534,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowTypeError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Oops! Something went wrong')).toBeInTheDocument();
@@ -549,7 +548,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowReferenceError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Oops! Something went wrong')).toBeInTheDocument();
@@ -559,7 +558,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowCustomError message="Custom error message" />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Oops! Something went wrong')).toBeInTheDocument();
@@ -571,10 +570,12 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
-      const iconContainer = container.querySelector('.rounded-full.flex.items-center.justify-center');
+      const iconContainer = container.querySelector(
+        '.rounded-full.flex.items-center.justify-center'
+      );
       expect(iconContainer).toBeInTheDocument();
     });
   });
@@ -582,19 +583,19 @@ describe('ErrorBoundary', () => {
   describe('edge cases', () => {
     it('handles error in deeply nested component', () => {
       const DeepNested = () => (
+        <div>
           <div>
             <div>
-              <div>
-                <ThrowError />
-              </div>
+              <ThrowError />
             </div>
           </div>
-        );
+        </div>
+      );
 
       render(
         <ErrorBoundary>
           <DeepNested />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Oops! Something went wrong')).toBeInTheDocument();
@@ -607,7 +608,7 @@ describe('ErrorBoundary', () => {
           <ErrorBoundary>
             <ThrowError />
           </ErrorBoundary>
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       // Inner ErrorBoundary should catch the error
@@ -623,7 +624,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowEmptyError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       expect(screen.getByText('Oops! Something went wrong')).toBeInTheDocument();
@@ -635,7 +636,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const card = container.querySelector('.max-w-lg');
@@ -646,7 +647,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const wrapper = container.querySelector('.p-4');
@@ -657,7 +658,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const buttonContainer = container.querySelector('.flex-col');
@@ -668,7 +669,7 @@ describe('ErrorBoundary', () => {
       const { container } = render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const buttonContainer = container.querySelector('.sm\\:flex-row');
@@ -681,7 +682,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const button = screen.getByRole('button', { name: /try again/i });
@@ -692,7 +693,7 @@ describe('ErrorBoundary', () => {
       render(
         <ErrorBoundary>
           <ThrowError />
-        </ErrorBoundary>,
+        </ErrorBoundary>
       );
 
       const button = screen.getByRole('button', { name: /go home/i });

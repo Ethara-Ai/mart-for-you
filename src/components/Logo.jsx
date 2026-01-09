@@ -99,9 +99,9 @@ function Logo({ size = 'md', animate = true, iconOnly = false, onClick }) {
       aria-label="Mart For You logo"
     >
       {/* Icon Mark - Shopping Cart with integrated M (PNG image) */}
-      <motion.div variants={iconVariants} className="flex-shrink-0">
+      <motion.div variants={iconVariants} className="shrink-0">
         <img
-          src="/Frame 2147227200.png"
+          src="/logo.png"
           alt="Mart For You"
           width={config.icon}
           height={config.icon}
@@ -116,16 +116,14 @@ function Logo({ size = 'md', animate = true, iconOnly = false, onClick }) {
 
       {/* Wordmark - Only shown when iconOnly is false */}
       {!iconOnly && (
-        <motion.div
-          variants={textVariants}
-          className="flex flex-col justify-center leading-none"
-        >
+        <motion.div variants={textVariants} className="flex flex-col justify-center leading-none">
           {/* Primary text: MART */}
           <span
             className={`${config.mart} tracking-tight`}
             style={{
               color: textPrimary,
-              fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              fontFamily:
+                "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
               letterSpacing: '-0.02em',
             }}
           >
@@ -137,7 +135,8 @@ function Logo({ size = 'md', animate = true, iconOnly = false, onClick }) {
             className={`${config.tagline} font-medium tracking-wide uppercase`}
             style={{
               color: textSecondary,
-              fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+              fontFamily:
+                "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
               letterSpacing: '0.08em',
               marginTop: '1px',
             }}

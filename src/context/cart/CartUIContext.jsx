@@ -57,13 +57,16 @@ export function CartUIProvider({ children, initialOpen = false }) {
    * Set cart open state directly
    * @param {boolean} open - Whether cart should be open
    */
-  const setCartOpen = useCallback((open) => {
-    if (open) {
-      openCart();
-    } else {
-      closeCart();
-    }
-  }, [openCart, closeCart]);
+  const setCartOpen = useCallback(
+    (open) => {
+      if (open) {
+        openCart();
+      } else {
+        closeCart();
+      }
+    },
+    [openCart, closeCart]
+  );
 
   // Memoize context value
   const value = useMemo(
