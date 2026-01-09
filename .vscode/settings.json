@@ -73,6 +73,10 @@
   "prettier.requireConfig": true,
   "prettier.singleQuote": true,
 
+  // CSS Settings - Disable built-in validation for Tailwind CSS v4
+  "css.validate": false,
+  "css.lint.unknownAtRules": "ignore",
+
   // Tailwind CSS Settings
   "tailwindCSS.includeLanguages": {
     "javascript": "javascript",

@@ -19,9 +19,10 @@ export {
   CartTotalsProvider,
   CartUIProvider,
   CheckoutProvider,
-  // Constants
-  CHECKOUT_STAGES,
 } from './cart';
+
+// NOTE: For constants like CHECKOUT_STAGES, import directly from:
+// import { CHECKOUT_STAGES } from '@context/cart/constants';
 
 // Toast exports
 export { ToastProvider, useToast } from './ToastContext';

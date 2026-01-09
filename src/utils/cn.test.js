@@ -81,12 +81,9 @@ describe('cn utility', () => {
       const isActive = true;
       const isDisabled = false;
       const hasError = true;
-      expect(cn(
-        'base',
-        isActive && 'active',
-        isDisabled && 'disabled',
-        hasError && 'error'
-      )).toBe('base active error');
+      expect(cn('base', isActive && 'active', isDisabled && 'disabled', hasError && 'error')).toBe(
+        'base active error'
+      );
     });
   });
 
@@ -141,12 +138,9 @@ describe('cn utility', () => {
   describe('complex combinations', () => {
     it('handles mixed types', () => {
       const isActive = true;
-      expect(cn(
-        'base',
-        ['class1', 'class2'],
-        { active: isActive },
-        isActive && 'highlight'
-      )).toBe('base class1 class2 active highlight');
+      expect(cn('base', ['class1', 'class2'], { active: isActive }, isActive && 'highlight')).toBe(
+        'base class1 class2 active highlight'
+      );
     });
 
     it('handles deeply nested structures', () => {
@@ -159,23 +153,27 @@ describe('cn utility', () => {
       const isDisabled = false;
       const isLoading = true;
 
-      expect(cn(
-        'btn',
-        variant === 'primary' && 'btn-primary',
-        variant === 'secondary' && 'btn-secondary',
-        size === 'sm' && 'btn-sm',
-        size === 'lg' && 'btn-lg',
-        { disabled: isDisabled, loading: isLoading }
-      )).toBe('btn btn-primary btn-lg loading');
+      expect(
+        cn(
+          'btn',
+          variant === 'primary' && 'btn-primary',
+          variant === 'secondary' && 'btn-secondary',
+          size === 'sm' && 'btn-sm',
+          size === 'lg' && 'btn-lg',
+          { disabled: isDisabled, loading: isLoading }
+        )
+      ).toBe('btn btn-primary btn-lg loading');
     });
 
     it('handles Tailwind-like class composition', () => {
       const darkMode = true;
-      expect(cn(
-        'px-4 py-2 rounded',
-        darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900',
-        'hover:opacity-80'
-      )).toBe('px-4 py-2 rounded bg-gray-800 text-white hover:opacity-80');
+      expect(
+        cn(
+          'px-4 py-2 rounded',
+          darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900',
+          'hover:opacity-80'
+        )
+      ).toBe('px-4 py-2 rounded bg-gray-800 text-white hover:opacity-80');
     });
   });
 

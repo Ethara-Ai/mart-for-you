@@ -49,7 +49,7 @@ export function useNavigateToSection() {
         window.scrollTo({ top: 0, behavior });
       }, ANIMATION.NAVIGATION_SCROLL_DELAY);
     },
-    [navigate],
+    [navigate]
   );
 
   return navigateToSection;

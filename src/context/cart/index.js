@@ -56,8 +56,8 @@ export { useCartTotals } from './CartTotalsContext';
 export { useCartUI } from './CartUIContext';
 export { useCheckout } from './CheckoutContext';
 
-// Constants
-export { CHECKOUT_STAGES } from './CheckoutContext';
+// NOTE: For constants like CHECKOUT_STAGES, import directly from:
+// import { CHECKOUT_STAGES } from '@context/cart/constants';
 
 // Default export is the combined provider
 export { default } from './CartProvider';

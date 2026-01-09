@@ -185,7 +185,7 @@ export function useCart() {
 export { useCartItems } from './CartItemsContext';
 export { useCartTotals } from './CartTotalsContext';
 export { useCartUI } from './CartUIContext';
-export { useCheckout, CHECKOUT_STAGES } from './CheckoutContext';
+export { useCheckout } from './CheckoutContext';
 
 // Re-export providers for custom composition
 export { CartItemsProvider } from './CartItemsContext';
