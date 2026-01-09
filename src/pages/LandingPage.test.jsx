@@ -35,7 +35,9 @@ describe('LandingPage', () => {
     it('renders the subtitle/description', () => {
       renderWithMemoryRouter(<LandingPage />);
 
-      expect(screen.getByText(/Your one-stop shopping destination/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Shop electronics, fashion, beauty, home essentials, and more/i)
+      ).toBeInTheDocument();
     });
 
     it('renders the "Start Shopping" CTA button', () => {

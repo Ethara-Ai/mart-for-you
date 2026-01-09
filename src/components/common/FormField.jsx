@@ -79,11 +79,7 @@ function FormField({
   return (
     <div className={`mb-4 ${className}`}>
       {/* Label */}
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium mb-2"
-        style={{ color: textColor }}
-      >
+      <label htmlFor={name} className="block text-sm font-medium mb-2" style={{ color: textColor }}>
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
@@ -108,7 +104,7 @@ function FormField({
           color: textColor,
           borderWidth: '1px',
           borderStyle: 'solid',
-          borderColor: borderColor,
+          borderColor,
           '--tw-ring-color': primaryColor,
         }}
       />

@@ -1,6 +1,7 @@
 // Logo component tests
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Logo from './Logo';
 import { render, renderWithTheme } from '../testing/test-utils';
 
@@ -15,10 +16,7 @@ describe('Logo', () => {
     it('renders MART text', () => {
       render(<Logo />);
 
-      expect(screen.getByText('M')).toBeInTheDocument();
-      expect(screen.getByText('A')).toBeInTheDocument();
-      expect(screen.getByText('R')).toBeInTheDocument();
-      expect(screen.getByText('T')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
     });
 
     it('renders For You tagline', () => {
@@ -27,18 +25,18 @@ describe('Logo', () => {
       expect(screen.getByText('For You')).toBeInTheDocument();
     });
 
-    it('renders shopping bag SVG', () => {
+    it('renders logo image', () => {
       const { container } = render(<Logo />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toBeInTheDocument();
+      const img = container.querySelector('img[src="/logo.png"]');
+      expect(img).toBeInTheDocument();
     });
 
-    it('renders multiple SVG paths for shopping bag', () => {
+    it('renders logo image with alt text', () => {
       const { container } = render(<Logo />);
 
-      const paths = container.querySelectorAll('svg path');
-      expect(paths.length).toBeGreaterThan(0);
+      const img = container.querySelector('img[alt="Mart For You"]');
+      expect(img).toBeInTheDocument();
     });
   });
 
@@ -46,82 +44,82 @@ describe('Logo', () => {
     it('renders medium size by default', () => {
       const { container: _container } = render(<Logo />);
 
-      const textElement = screen.getByText('M');
-      expect(textElement).toHaveClass('text-xl');
+      const textElement = screen.getByText('MART');
+      expect(textElement).toHaveClass('text-lg');
     });
 
     it('renders small size when size is sm', () => {
       const { container: _container } = render(<Logo size="sm" />);
 
-      const textElement = screen.getByText('M');
-      expect(textElement).toHaveClass('text-lg');
+      const textElement = screen.getByText('MART');
+      expect(textElement).toHaveClass('text-base');
     });
 
     it('renders medium size when size is md', () => {
       const { container: _container } = render(<Logo size="md" />);
 
-      const textElement = screen.getByText('M');
-      expect(textElement).toHaveClass('text-xl');
+      const textElement = screen.getByText('MART');
+      expect(textElement).toHaveClass('text-lg');
     });
 
     it('renders large size when size is lg', () => {
       const { container: _container } = render(<Logo size="lg" />);
 
-      const textElement = screen.getByText('M');
-      expect(textElement).toHaveClass('text-2xl');
+      const textElement = screen.getByText('MART');
+      expect(textElement).toHaveClass('text-xl');
     });
 
-    it('uses different SVG sizes for different size props', () => {
+    it('uses different image sizes for different size props', () => {
       const { container: smContainer } = render(<Logo size="sm" />);
       const { container: lgContainer } = render(<Logo size="lg" />);
 
-      const smSvg = smContainer.querySelector('svg');
-      const lgSvg = lgContainer.querySelector('svg');
+      const smImg = smContainer.querySelector('img');
+      const lgImg = lgContainer.querySelector('img');
 
-      expect(smSvg).toHaveAttribute('width', '32');
-      expect(lgSvg).toHaveAttribute('width', '56');
+      expect(smImg).toHaveAttribute('width', '34');
+      expect(lgImg).toHaveAttribute('width', '48');
     });
 
-    it('small size has smaller container margin', () => {
+    it('small size has smaller container gap', () => {
       const { container } = render(<Logo size="sm" />);
 
-      const textContainer = container.querySelector('.ml-10');
-      expect(textContainer).toBeInTheDocument();
+      const logoContainer = container.querySelector('.gap-2');
+      expect(logoContainer).toBeInTheDocument();
     });
 
-    it('medium size has medium container margin', () => {
+    it('medium size has medium container gap', () => {
       const { container } = render(<Logo size="md" />);
 
-      const textContainer = container.querySelector('.ml-12');
-      expect(textContainer).toBeInTheDocument();
+      const logoContainer = container.querySelector('.gap-2\\.5');
+      expect(logoContainer).toBeInTheDocument();
     });
 
-    it('large size has larger container margin', () => {
+    it('large size has larger container gap', () => {
       const { container } = render(<Logo size="lg" />);
 
-      const textContainer = container.querySelector('.ml-16');
-      expect(textContainer).toBeInTheDocument();
+      const logoContainer = container.querySelector('.gap-3');
+      expect(logoContainer).toBeInTheDocument();
     });
 
     it('tagline has correct size for small variant', () => {
       render(<Logo size="sm" />);
 
       const tagline = screen.getByText('For You');
-      expect(tagline).toHaveClass('text-xs');
+      expect(tagline.className).toContain('text-[9px]');
     });
 
     it('tagline has correct size for large variant', () => {
       render(<Logo size="lg" />);
 
       const tagline = screen.getByText('For You');
-      expect(tagline).toHaveClass('text-sm');
+      expect(tagline).toHaveClass('text-xs');
     });
 
     it('falls back to medium size for invalid size prop', () => {
       const { container: _container } = render(<Logo size="invalid" />);
 
-      const textElement = screen.getByText('M');
-      expect(textElement).toHaveClass('text-xl');
+      const textElement = screen.getByText('MART');
+      expect(textElement).toHaveClass('text-lg');
     });
   });
 
@@ -129,68 +127,65 @@ describe('Logo', () => {
     it('animations are enabled by default', () => {
       const { container } = render(<Logo />);
 
-      // Animation elements should be present
-      expect(container.querySelector('svg')).toBeInTheDocument();
+      expect(container.firstChild).toBeInTheDocument();
     });
 
     it('renders correctly when animate is true', () => {
       render(<Logo animate={true} />);
 
-      expect(screen.getByText('M')).toBeInTheDocument();
-      expect(screen.getByText('For You')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
     });
 
     it('renders correctly when animate is false', () => {
       render(<Logo animate={false} />);
 
-      expect(screen.getByText('M')).toBeInTheDocument();
-      expect(screen.getByText('For You')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
     });
 
     it('still renders all text elements when animate is false', () => {
       render(<Logo animate={false} />);
 
-      expect(screen.getByText('M')).toBeInTheDocument();
-      expect(screen.getByText('A')).toBeInTheDocument();
-      expect(screen.getByText('R')).toBeInTheDocument();
-      expect(screen.getByText('T')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
       expect(screen.getByText('For You')).toBeInTheDocument();
     });
 
-    it('renders shopping bag elements when animate is false', () => {
+    it('renders logo image when animate is false', () => {
       const { container } = render(<Logo animate={false} />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toBeInTheDocument();
+      const img = container.querySelector('img[src="/logo.png"]');
+      expect(img).toBeInTheDocument();
     });
   });
 
   describe('onClick handler', () => {
     it('calls onClick when logo is clicked', async () => {
       const mockOnClick = vi.fn();
-      const { user } = render(<Logo onClick={mockOnClick} />);
+      const user = userEvent.setup();
+      render(<Logo onClick={mockOnClick} />);
 
-      const logoContainer = screen.getByText('M').closest('div[class*="cursor-pointer"]');
+      const logoContainer = screen.getByRole('img', { name: 'Mart For You logo' });
       await user.click(logoContainer);
 
       expect(mockOnClick).toHaveBeenCalledTimes(1);
     });
 
     it('does not throw when onClick is not provided', async () => {
-      const { user } = render(<Logo />);
+      const user = userEvent.setup();
+      render(<Logo />);
 
-      const logoContainer = screen.getByText('M').closest('div[class*="cursor-pointer"]');
+      const logoContainer = screen.getByRole('img', { name: 'Mart For You logo' });
       await user.click(logoContainer);
 
       // Should not throw error
-      expect(screen.getByText('M')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
     });
 
     it('calls onClick only once per click', async () => {
       const mockOnClick = vi.fn();
-      const { user } = render(<Logo onClick={mockOnClick} />);
+      const user = userEvent.setup();
+      render(<Logo onClick={mockOnClick} />);
 
-      const logoContainer = screen.getByText('M').closest('div[class*="cursor-pointer"]');
+      const logoContainer = screen.getByRole('img', { name: 'Mart For You logo' });
       await user.click(logoContainer);
 
       expect(mockOnClick).toHaveBeenCalledTimes(1);
@@ -198,9 +193,10 @@ describe('Logo', () => {
 
     it('can be clicked multiple times', async () => {
       const mockOnClick = vi.fn();
-      const { user } = render(<Logo onClick={mockOnClick} />);
+      const user = userEvent.setup();
+      render(<Logo onClick={mockOnClick} />);
 
-      const logoContainer = screen.getByText('M').closest('div[class*="cursor-pointer"]');
+      const logoContainer = screen.getByRole('img', { name: 'Mart For You logo' });
       await user.click(logoContainer);
       await user.click(logoContainer);
       await user.click(logoContainer);
@@ -210,143 +206,136 @@ describe('Logo', () => {
   });
 
   describe('text styling', () => {
-    it('letters have font-extrabold class', () => {
+    it('MART text has font-bold class', () => {
       render(<Logo />);
 
-      const letter = screen.getByText('M');
-      expect(letter).toHaveClass('font-extrabold');
+      const text = screen.getByText('MART');
+      expect(text).toHaveClass('font-bold');
     });
 
-    it('letters have tracking-tighter class', () => {
+    it('MART text has tracking-tight class', () => {
       render(<Logo />);
 
-      const letter = screen.getByText('M');
-      expect(letter).toHaveClass('tracking-tighter');
+      const text = screen.getByText('MART');
+      expect(text).toHaveClass('tracking-tight');
     });
 
-    it('letters have uppercase class', () => {
+    it('MART text is uppercase', () => {
       render(<Logo />);
 
-      const letter = screen.getByText('M');
-      expect(letter).toHaveClass('uppercase');
+      const text = screen.getByText('MART');
+      expect(text.textContent).toBe('MART');
     });
 
-    it('letters have inline style for color', () => {
+    it('MART text has inline style for color', () => {
       render(<Logo />);
 
-      const letter = screen.getByText('M');
-      expect(letter).toHaveAttribute('style');
+      const text = screen.getByText('MART');
+      expect(text).toHaveAttribute('style', expect.stringContaining('color'));
     });
   });
 
-  describe('shopping bag icon', () => {
-    it('renders SVG with viewBox', () => {
+  describe('logo icon', () => {
+    it('renders logo image with src', () => {
       const { container } = render(<Logo />);
 
-      const svg = container.querySelector('svg[viewBox]');
-      expect(svg).toBeInTheDocument();
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('src', '/logo.png');
     });
 
-    it('renders bag outline path', () => {
+    it('renders logo image with width', () => {
       const { container } = render(<Logo />);
 
-      const paths = container.querySelectorAll('svg path');
-      expect(paths.length).toBeGreaterThan(0);
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('width');
     });
 
-    it('SVG has no fill (outline style)', () => {
+    it('renders logo image with height', () => {
       const { container } = render(<Logo />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toHaveAttribute('fill', 'none');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('height');
     });
 
-    it('paths have stroke styling', () => {
+    it('logo image has object-fit contain style', () => {
       const { container } = render(<Logo />);
 
-      const path = container.querySelector('svg path');
-      expect(path).toHaveAttribute('stroke');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('style', expect.stringContaining('object-fit: contain'));
     });
 
-    it('paths have strokeWidth', () => {
+    it('logo image is aria-hidden', () => {
       const { container } = render(<Logo />);
 
-      const path = container.querySelector('svg path');
-      expect(path).toHaveAttribute('stroke-width');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('aria-hidden', 'true');
     });
 
-    it('paths have rounded caps', () => {
+    it('logo image has alt text', () => {
       const { container } = render(<Logo />);
 
-      const path = container.querySelector('svg path');
-      expect(path).toHaveAttribute('stroke-linecap', 'round');
-    });
-
-    it('paths have rounded joins', () => {
-      const { container } = render(<Logo />);
-
-      const path = container.querySelector('svg path');
-      expect(path).toHaveAttribute('stroke-linejoin', 'round');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('alt', 'Mart For You');
     });
   });
 
-  describe('animated items', () => {
-    it('renders circle item', () => {
-      const { container } = render(<Logo />);
+  describe('iconOnly mode', () => {
+    it('renders only icon when iconOnly is true', () => {
+      const { container } = render(<Logo iconOnly={true} />);
 
-      const circle = container.querySelector('circle');
-      expect(circle).toBeInTheDocument();
+      const img = container.querySelector('img');
+      expect(img).toBeInTheDocument();
+      expect(screen.queryByText('MART')).not.toBeInTheDocument();
     });
 
-    it('renders rectangle item', () => {
-      const { container } = render(<Logo />);
+    it('does not render tagline when iconOnly is true', () => {
+      render(<Logo iconOnly={true} />);
 
-      const rect = container.querySelector('rect');
-      expect(rect).toBeInTheDocument();
+      expect(screen.queryByText('For You')).not.toBeInTheDocument();
     });
 
-    it('renders star/polygon item', () => {
-      const { container } = render(<Logo />);
+    it('renders text when iconOnly is false', () => {
+      render(<Logo iconOnly={false} />);
 
-      const polygon = container.querySelector('polygon');
-      expect(polygon).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
+      expect(screen.getByText('For You')).toBeInTheDocument();
     });
 
-    it('items have fill colors', () => {
-      const { container } = render(<Logo />);
+    it('renders text by default', () => {
+      render(<Logo />);
 
-      const circle = container.querySelector('circle');
-      expect(circle).toHaveAttribute('fill');
+      expect(screen.getByText('MART')).toBeInTheDocument();
+      expect(screen.getByText('For You')).toBeInTheDocument();
     });
   });
 
-  describe('underline element', () => {
-    it('renders animated underline', () => {
+  describe('layout structure', () => {
+    it('renders flex container', () => {
       const { container } = render(<Logo />);
 
-      const underline = container.querySelector('.h-0\\.5');
-      expect(underline).toBeInTheDocument();
+      const flexContainer = container.querySelector('.flex');
+      expect(flexContainer).toBeInTheDocument();
     });
 
-    it('underline has full width', () => {
+    it('has items-center alignment', () => {
       const { container } = render(<Logo />);
 
-      const underline = container.querySelector('.h-0\\.5.w-full');
-      expect(underline).toBeInTheDocument();
+      const alignedContainer = container.querySelector('.items-center');
+      expect(alignedContainer).toBeInTheDocument();
     });
 
-    it('underline has gradient style', () => {
+    it('has cursor-pointer for clickability', () => {
       const { container } = render(<Logo />);
 
-      const underline = container.querySelector('.h-0\\.5');
-      expect(underline).toHaveAttribute('style');
+      const clickable = container.querySelector('.cursor-pointer');
+      expect(clickable).toBeInTheDocument();
     });
 
-    it('underline has negative margin top', () => {
+    it('has select-none to prevent text selection', () => {
       const { container } = render(<Logo />);
 
-      const underline = container.querySelector('.-mt-0\\.5');
-      expect(underline).toBeInTheDocument();
+      const noSelect = container.querySelector('.select-none');
+      expect(noSelect).toBeInTheDocument();
     });
   });
 
@@ -357,54 +346,47 @@ describe('Logo', () => {
       expect(screen.getByText('For You')).toBeInTheDocument();
     });
 
-    it('tagline is in a container with height', () => {
-      const { container } = render(<Logo />);
-
-      const taglineContainer = container.querySelector('.h-4');
-      expect(taglineContainer).toBeInTheDocument();
-    });
-
-    it('tagline container has overflow hidden', () => {
-      const { container } = render(<Logo />);
-
-      const taglineContainer = container.querySelector('.overflow-hidden');
-      expect(taglineContainer).toBeInTheDocument();
-    });
-
-    it('tagline text is nowrap', () => {
+    it('tagline has uppercase class', () => {
       render(<Logo />);
 
       const tagline = screen.getByText('For You');
-      expect(tagline).toHaveClass('whitespace-nowrap');
+      expect(tagline).toHaveClass('uppercase');
     });
 
-    it('tagline text is block display', () => {
+    it('tagline has tracking-wide class', () => {
       render(<Logo />);
 
       const tagline = screen.getByText('For You');
-      expect(tagline).toHaveClass('block');
+      expect(tagline).toHaveClass('tracking-wide');
+    });
+
+    it('tagline has font-medium class', () => {
+      render(<Logo />);
+
+      const tagline = screen.getByText('For You');
+      expect(tagline).toHaveClass('font-medium');
     });
 
     it('tagline has color style', () => {
       render(<Logo />);
 
       const tagline = screen.getByText('For You');
-      expect(tagline).toHaveAttribute('style');
+      expect(tagline).toHaveAttribute('style', expect.stringContaining('color'));
+    });
+
+    it('tagline has letter-spacing style', () => {
+      render(<Logo />);
+
+      const tagline = screen.getByText('For You');
+      expect(tagline).toHaveAttribute('style', expect.stringContaining('letter-spacing'));
     });
   });
 
   describe('container styling', () => {
-    it('has relative positioning', () => {
-      const { container } = render(<Logo />);
-
-      const logoContainer = container.querySelector('.relative');
-      expect(logoContainer).toBeInTheDocument();
-    });
-
     it('uses flexbox layout', () => {
       const { container } = render(<Logo />);
 
-      const logoContainer = container.querySelector('.flex.items-center');
+      const logoContainer = container.querySelector('.flex');
       expect(logoContainer).toBeInTheDocument();
     });
 
@@ -412,6 +394,13 @@ describe('Logo', () => {
       const { container } = render(<Logo />);
 
       const logoContainer = container.querySelector('.cursor-pointer');
+      expect(logoContainer).toBeInTheDocument();
+    });
+
+    it('has items-center for vertical alignment', () => {
+      const { container } = render(<Logo />);
+
+      const logoContainer = container.querySelector('.items-center');
       expect(logoContainer).toBeInTheDocument();
     });
   });
@@ -424,34 +413,35 @@ describe('Logo', () => {
       expect(textContainer).toBeInTheDocument();
     });
 
-    it('letters container uses flex', () => {
-      const { container: _container } = render(<Logo />);
+    it('text container has justify-center', () => {
+      const { container } = render(<Logo />);
 
-      const lettersContainer = screen.getByText('M').closest('.flex');
-      expect(lettersContainer).toBeInTheDocument();
+      const textContainer = container.querySelector('.justify-center');
+      expect(textContainer).toBeInTheDocument();
     });
 
-    it('letters container aligns items center', () => {
-      const { container: _container } = render(<Logo />);
+    it('text container has leading-none', () => {
+      const { container } = render(<Logo />);
 
-      const lettersContainer = screen.getByText('M').closest('.items-center');
-      expect(lettersContainer).toBeInTheDocument();
+      const textContainer = container.querySelector('.leading-none');
+      expect(textContainer).toBeInTheDocument();
     });
   });
 
-  describe('shopping bag positioning', () => {
-    it('shopping bag is absolutely positioned', () => {
+  describe('logo image positioning', () => {
+    it('logo image container has shrink-0', () => {
       const { container } = render(<Logo />);
 
-      const bagContainer = container.querySelector('.absolute.left-0');
-      expect(bagContainer).toBeInTheDocument();
+      const imgContainer = container.querySelector('.shrink-0');
+      expect(imgContainer).toBeInTheDocument();
     });
 
-    it('animated items are positioned absolutely', () => {
+    it('logo image is inside the shrink-0 container', () => {
       const { container } = render(<Logo />);
 
-      const itemContainers = container.querySelectorAll('.absolute.z-10');
-      expect(itemContainers.length).toBeGreaterThan(0);
+      const imgContainer = container.querySelector('.shrink-0');
+      const img = imgContainer?.querySelector('img');
+      expect(img).toBeInTheDocument();
     });
   });
 
@@ -459,25 +449,22 @@ describe('Logo', () => {
     it('renders correctly with theme provider', () => {
       renderWithTheme(<Logo />);
 
-      // Check individual letters are rendered
-      expect(screen.getByText('M')).toBeInTheDocument();
-      expect(screen.getByText('A')).toBeInTheDocument();
-      expect(screen.getByText('R')).toBeInTheDocument();
-      expect(screen.getByText('T')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
+      expect(screen.getByText('For You')).toBeInTheDocument();
     });
 
-    it('paths have theme-based stroke color', () => {
-      const { container } = render(<Logo />);
+    it('MART text has theme-based color style', () => {
+      renderWithTheme(<Logo />);
 
-      const path = container.querySelector('svg path');
-      expect(path).toHaveAttribute('stroke');
+      const text = screen.getByText('MART');
+      expect(text).toHaveAttribute('style', expect.stringContaining('color'));
     });
 
-    it('items have theme-based fill colors', () => {
-      const { container } = render(<Logo />);
+    it('tagline has theme-based color style', () => {
+      renderWithTheme(<Logo />);
 
-      const circle = container.querySelector('circle');
-      expect(circle).toHaveAttribute('fill');
+      const tagline = screen.getByText('For You');
+      expect(tagline).toHaveAttribute('style', expect.stringContaining('color'));
     });
   });
 
@@ -486,69 +473,67 @@ describe('Logo', () => {
       const mockOnClick = vi.fn();
       render(<Logo onClick={mockOnClick} />);
 
-      const logoContainer = screen.getByText('M').closest('div[class*="cursor-pointer"]');
+      const logoContainer = screen.getByRole('img', { name: 'Mart For You logo' });
       expect(logoContainer).not.toHaveAttribute('tabindex', '-1');
     });
 
     it('text is visible and readable', () => {
       render(<Logo />);
 
-      expect(screen.getByText('M')).toBeInTheDocument();
-      expect(screen.getByText('A')).toBeInTheDocument();
-      expect(screen.getByText('R')).toBeInTheDocument();
-      expect(screen.getByText('T')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
       expect(screen.getByText('For You')).toBeInTheDocument();
     });
 
-    it('SVG elements are part of the document', () => {
+    it('logo image is part of the document', () => {
       const { container } = render(<Logo />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toBeInTheDocument();
+      const img = container.querySelector('img[src="/logo.png"]');
+      expect(img).toBeInTheDocument();
     });
   });
 
   describe('motion hover behavior', () => {
-    it('container has hover scale effect via framer-motion', () => {
+    it('container is a motion element', () => {
       const { container } = render(<Logo />);
 
-      // Framer motion wraps the logo
+      // Check that the container is present and has expected structure
       const motionDiv = container.firstChild;
       expect(motionDiv).toBeInTheDocument();
+      expect(motionDiv).toHaveClass('flex');
     });
   });
 
   describe('edge cases', () => {
     it('renders with all props specified', () => {
       const mockOnClick = vi.fn();
-      render(<Logo size="lg" animate={false} onClick={mockOnClick} />);
+      render(<Logo size="lg" animate={true} onClick={mockOnClick} />);
 
-      expect(screen.getByText('M')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
       expect(screen.getByText('For You')).toBeInTheDocument();
     });
 
     it('renders with undefined size gracefully', () => {
       render(<Logo size={undefined} />);
 
-      // Should use default medium size
-      const textElement = screen.getByText('M');
-      expect(textElement).toHaveClass('text-xl');
+      // Should fall back to medium size
+      const textElement = screen.getByText('MART');
+      expect(textElement).toHaveClass('text-lg');
     });
 
     it('renders with undefined animate gracefully', () => {
       render(<Logo animate={undefined} />);
 
-      expect(screen.getByText('M')).toBeInTheDocument();
+      expect(screen.getByText('MART')).toBeInTheDocument();
     });
 
     it('handles re-renders correctly', () => {
       const { rerender } = render(<Logo size="sm" />);
 
-      expect(screen.getByText('M')).toHaveClass('text-lg');
+      expect(screen.getByText('MART')).toHaveClass('text-base');
 
       rerender(<Logo size="lg" />);
 
-      expect(screen.getByText('M')).toHaveClass('text-2xl');
+      expect(screen.getByText('MART')).toHaveClass('text-xl');
     });
   });
 
@@ -556,95 +541,88 @@ describe('Logo', () => {
     it('small size with no animation', () => {
       render(<Logo size="sm" animate={false} />);
 
-      const letter = screen.getByText('M');
-      expect(letter).toHaveClass('text-lg');
-      expect(screen.getByText('For You')).toBeInTheDocument();
+      const text = screen.getByText('MART');
+      expect(text).toHaveClass('text-base');
     });
 
     it('large size with animation', () => {
       render(<Logo size="lg" animate={true} />);
 
-      const letter = screen.getByText('M');
-      expect(letter).toHaveClass('text-2xl');
-      expect(screen.getByText('For You')).toBeInTheDocument();
+      const text = screen.getByText('MART');
+      expect(text).toHaveClass('text-xl');
     });
 
     it('medium size with onClick', async () => {
       const mockOnClick = vi.fn();
-      const { user } = render(<Logo size="md" onClick={mockOnClick} />);
+      const user = userEvent.setup();
+      render(<Logo size="md" onClick={mockOnClick} />);
 
-      const logoContainer = screen.getByText('M').closest('div[class*="cursor-pointer"]');
+      const logoContainer = screen.getByRole('img', { name: 'Mart For You logo' });
       await user.click(logoContainer);
 
       expect(mockOnClick).toHaveBeenCalled();
-      expect(screen.getByText('M')).toHaveClass('text-xl');
     });
   });
 
-  describe('SVG dimensions', () => {
-    it('small size has correct SVG width', () => {
+  describe('image dimensions', () => {
+    it('small size has correct image width', () => {
       const { container } = render(<Logo size="sm" />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toHaveAttribute('width', '32');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('width', '34');
     });
 
-    it('small size has correct SVG height', () => {
+    it('small size has correct image height', () => {
       const { container } = render(<Logo size="sm" />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toHaveAttribute('height', '32');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('height', '34');
     });
 
-    it('medium size has correct SVG width', () => {
+    it('medium size has correct image width', () => {
       const { container } = render(<Logo size="md" />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toHaveAttribute('width', '40');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('width', '40');
     });
 
-    it('medium size has correct SVG height', () => {
+    it('medium size has correct image height', () => {
       const { container } = render(<Logo size="md" />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toHaveAttribute('height', '40');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('height', '40');
     });
 
-    it('large size has correct SVG width', () => {
+    it('large size has correct image width', () => {
       const { container } = render(<Logo size="lg" />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toHaveAttribute('width', '56');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('width', '48');
     });
 
-    it('large size has correct SVG height', () => {
+    it('large size has correct image height', () => {
       const { container } = render(<Logo size="lg" />);
 
-      const svg = container.querySelector('svg');
-      expect(svg).toHaveAttribute('height', '56');
+      const img = container.querySelector('img');
+      expect(img).toHaveAttribute('height', '48');
     });
   });
 
-  describe('letter rendering order', () => {
-    it('renders letters in correct order M-A-R-T', () => {
-      const { container: _container } = render(<Logo />);
+  describe('text rendering', () => {
+    it('renders MART as a single text element', () => {
+      render(<Logo />);
 
-      const letterContainer = screen.getByText('M').closest('.flex');
-      const letters = letterContainer.querySelectorAll('span');
-
-      expect(letters[0].textContent).toBe('M');
-      expect(letters[1].textContent).toBe('A');
-      expect(letters[2].textContent).toBe('R');
-      expect(letters[3].textContent).toBe('T');
+      const martText = screen.getByText('MART');
+      expect(martText.textContent).toBe('MART');
     });
   });
 
-  describe('overflow handling', () => {
-    it('SVG has overflow visible class', () => {
+  describe('logo container', () => {
+    it('logo container has flex layout', () => {
       const { container } = render(<Logo />);
 
-      const svg = container.querySelector('svg.overflow-visible');
-      expect(svg).toBeInTheDocument();
+      const flexContainer = container.querySelector('.flex.items-center');
+      expect(flexContainer).toBeInTheDocument();
     });
   });
 });

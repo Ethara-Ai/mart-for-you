@@ -41,9 +41,7 @@ describe('useDebouncedSearch', () => {
     });
 
     it('initializes with custom initial value', () => {
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ initialValue: 'test' })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ initialValue: 'test' }));
 
       expect(result.current.searchTerm).toBe('test');
       expect(result.current.debouncedTerm).toBe('test');
@@ -160,9 +158,7 @@ describe('useDebouncedSearch', () => {
   describe('onSearch callback', () => {
     it('calls onSearch when debounced term is set', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -180,9 +176,7 @@ describe('useDebouncedSearch', () => {
 
     it('calls onSearch with trimmed value', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('  test  ');
@@ -230,9 +224,7 @@ describe('useDebouncedSearch', () => {
     });
 
     it('sets hasSearched to true after first search', () => {
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch: vi.fn() })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch: vi.fn() }));
 
       expect(result.current.hasSearched).toBe(false);
 
@@ -323,9 +315,7 @@ describe('useDebouncedSearch', () => {
     });
 
     it('sets hasSearched to false', () => {
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch: vi.fn() })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch: vi.fn() }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -346,9 +336,7 @@ describe('useDebouncedSearch', () => {
 
     it('cancels pending debounce', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -369,9 +357,7 @@ describe('useDebouncedSearch', () => {
   describe('searchNow', () => {
     it('immediately triggers search', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -416,9 +402,7 @@ describe('useDebouncedSearch', () => {
 
     it('cancels pending debounce timer', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -500,9 +484,7 @@ describe('useDebouncedSearch', () => {
 
     it('calls searchNow', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -517,9 +499,7 @@ describe('useDebouncedSearch', () => {
 
     it('works without event argument', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -536,9 +516,7 @@ describe('useDebouncedSearch', () => {
   describe('handleKeyDown', () => {
     it('triggers searchNow on Enter key', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -575,9 +553,7 @@ describe('useDebouncedSearch', () => {
 
     it('does nothing for other keys', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -614,9 +590,7 @@ describe('useDebouncedSearch', () => {
 
     it('provides onKeyDown handler', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -660,17 +634,13 @@ describe('useDebouncedSearch', () => {
 
   describe('meetsMinLength', () => {
     it('is true when minLength is 0', () => {
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ minLength: 0 })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ minLength: 0 }));
 
       expect(result.current.meetsMinLength).toBe(true);
     });
 
     it('is false when term length is below minLength', () => {
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ minLength: 3 })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ minLength: 3 }));
 
       act(() => {
         result.current.setSearchTerm('ab');
@@ -680,9 +650,7 @@ describe('useDebouncedSearch', () => {
     });
 
     it('is true when term length equals minLength', () => {
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ minLength: 3 })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ minLength: 3 }));
 
       act(() => {
         result.current.setSearchTerm('abc');
@@ -692,9 +660,7 @@ describe('useDebouncedSearch', () => {
     });
 
     it('is true when term length exceeds minLength', () => {
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ minLength: 3 })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ minLength: 3 }));
 
       act(() => {
         result.current.setSearchTerm('abcdef');
@@ -704,9 +670,7 @@ describe('useDebouncedSearch', () => {
     });
 
     it('trims whitespace when checking minLength', () => {
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ minLength: 3 })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ minLength: 3 }));
 
       act(() => {
         result.current.setSearchTerm('  ab  ');
@@ -719,9 +683,7 @@ describe('useDebouncedSearch', () => {
   describe('default delay', () => {
     it('uses default delay when not specified', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -745,9 +707,7 @@ describe('useDebouncedSearch', () => {
   describe('cleanup', () => {
     it('clears timer on unmount', () => {
       const onSearch = vi.fn();
-      const { result, unmount } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result, unmount } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       act(() => {
         result.current.setSearchTerm('test');
@@ -823,9 +783,7 @@ describe('useDebouncedSearch', () => {
 
     it('handles form submission flow', () => {
       const onSearch = vi.fn();
-      const { result } = renderHook(() =>
-        useDebouncedSearch({ delay: 300, onSearch })
-      );
+      const { result } = renderHook(() => useDebouncedSearch({ delay: 300, onSearch }));
 
       // User types and immediately submits
       act(() => {

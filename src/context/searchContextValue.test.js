@@ -34,7 +34,9 @@ describe('searchContextValue', () => {
     it('SearchContext has displayName property available for setting', () => {
       // React contexts support displayName for DevTools
       // By default it's undefined, but can be set
-      expect(SearchContext.displayName === undefined || typeof SearchContext.displayName === 'string').toBe(true);
+      expect(
+        SearchContext.displayName === undefined || typeof SearchContext.displayName === 'string'
+      ).toBe(true);
     });
   });
 

@@ -228,9 +228,7 @@ function Header() {
                 onClick={expandMobileSearch}
                 className="w-25 min-[360px]:w-30 sm:w-35 md:w-50 flex items-center gap-2 px-3 py-1.5 sm:py-2 rounded-full transition-all cursor-pointer text-left"
                 style={{
-                  backgroundColor: darkMode
-                    ? 'rgba(51, 65, 85, 0.8)'
-                    : 'rgba(255, 255, 255, 0.9)',
+                  backgroundColor: darkMode ? 'rgba(51, 65, 85, 0.8)' : 'rgba(255, 255, 255, 0.9)',
                   color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.4)',
                   boxShadow: darkMode
                     ? '0 1px 3px rgba(0, 0, 0, 0.3)'
@@ -241,9 +239,7 @@ function Header() {
                 }}
                 aria-label="Open search"
               >
-                <span className="text-sm truncate flex-1">
-                  {searchTerm || 'Search...'}
-                </span>
+                <span className="text-sm truncate flex-1">{searchTerm || 'Search...'}</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4 shrink-0"

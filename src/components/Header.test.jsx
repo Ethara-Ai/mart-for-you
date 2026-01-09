@@ -25,10 +25,7 @@ describe('Header', () => {
       render(<Header onCartClick={mockOnCartClick} />);
 
       // MART logo text should be present (multiple instances for responsive layouts)
-      expect(screen.getAllByText('M').length).toBeGreaterThan(0);
-      expect(screen.getAllByText('A').length).toBeGreaterThan(0);
-      expect(screen.getAllByText('R').length).toBeGreaterThan(0);
-      expect(screen.getAllByText('T').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('MART').length).toBeGreaterThan(0);
     });
 
     it('renders dark mode toggle button', () => {
@@ -321,9 +318,10 @@ describe('Header', () => {
       render(<Header onCartClick={mockOnCartClick} />);
 
       // Find the logo container which should be clickable (multiple for responsive layouts)
-      const mElements = screen.getAllByText('M');
-      const logoContainer = mElements[0].closest('div[class*="cursor-pointer"]');
+      const logoElements = screen.getAllByRole('img', { name: 'Mart For You logo' });
+      const logoContainer = logoElements[0];
       expect(logoContainer).toBeInTheDocument();
+      expect(logoContainer).toHaveClass('cursor-pointer');
     });
   });
 

@@ -88,11 +88,13 @@ function LandingPage() {
         {/* Logo Icon */}
         <motion.div variants={logoVariants} className="mb-6">
           <img
-            src="/Frame 2147227200.png"
+            src="/logo.png"
             alt="Mart For You Logo"
             className="w-24 h-24 sm:w-32 sm:h-32 object-contain"
             style={{
-              filter: darkMode ? 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4))' : 'drop-shadow(0 20px 40px rgba(37, 99, 235, 0.2))',
+              filter: darkMode
+                ? 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4))'
+                : 'drop-shadow(0 20px 40px rgba(37, 99, 235, 0.2))',
             }}
           />
         </motion.div>

@@ -280,8 +280,10 @@ describe('ProductDetailModal', () => {
     it('shows SALE badge for items on sale', () => {
       render(<ProductDetailModal isOpen={true} onClose={mockOnClose} product={mockSaleProduct} />);
 
-      // The badge shows "SALE X% OFF" format
-      expect(screen.getByText(/SALE.*% OFF/)).toBeInTheDocument();
+      // The badge shows "SALE X% OFF" format - there are two (mobile and desktop versions)
+      const saleBadges = screen.getAllByText(/SALE.*% OFF/);
+      expect(saleBadges.length).toBeGreaterThan(0);
+      expect(saleBadges[0]).toBeInTheDocument();
     });
 
     it('does not show SALE badge for regular items', () => {

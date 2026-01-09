@@ -143,12 +143,14 @@ describe('ToastContext', () => {
     it('handles empty message', () => {
       const { result } = renderHook(() => useToast(), { wrapper });
 
+      let returnValue;
       act(() => {
-        result.current.addToast('');
+        returnValue = result.current.addToast('');
       });
 
-      expect(result.current.toasts).toHaveLength(1);
-      expect(result.current.toasts[0].message).toBe('');
+      // Empty messages should NOT be added - this is intentional behavior
+      expect(result.current.toasts).toHaveLength(0);
+      expect(returnValue).toBeNull();
     });
 
     it('handles special characters in message', () => {

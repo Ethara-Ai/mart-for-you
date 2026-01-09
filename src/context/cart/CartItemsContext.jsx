@@ -155,12 +155,12 @@ export function CartItemsProvider({ children, onCartChange }) {
       }
 
       let result = { success: true, message: '' };
-      let itemName = '';
+      let _itemName = '';
 
       setCartItems((prevItems) =>
         prevItems.map((item) => {
           if (item.id === id) {
-            itemName = item.name;
+            _itemName = item.name;
             const stockLimit = item.stock || DEFAULTS.STOCK_LIMIT;
 
             // Don't exceed stock limit

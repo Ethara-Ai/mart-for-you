@@ -6,14 +6,7 @@ import { FiShoppingCart } from 'react-icons/fi';
  * Displays a cart icon with item count badge.
  * Reusable across mobile and desktop layouts.
  */
-function CartButton({
-  totalItems,
-  onClick,
-  darkMode,
-  colors,
-  size = 'md',
-  id = 'cart-button',
-}) {
+function CartButton({ totalItems, onClick, darkMode, colors, size = 'md', id = 'cart-button' }) {
   const sizeClasses = {
     sm: 'w-8 h-8 sm:w-9 sm:h-9',
     md: 'w-9 h-9 sm:w-10 sm:h-10',

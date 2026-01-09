@@ -17,7 +17,7 @@ const rootElement = document.getElementById('root');
 // Ensure root element exists
 if (!rootElement) {
   throw new Error(
-    'Failed to find the root element. Make sure there is a <div id="root"></div> in your HTML.',
+    'Failed to find the root element. Make sure there is a <div id="root"></div> in your HTML.'
   );
 }
 
@@ -33,7 +33,7 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 // Performance measurement (optional - uncomment to enable)

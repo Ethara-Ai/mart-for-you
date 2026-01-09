@@ -255,7 +255,7 @@ describe('CartModal', () => {
       renderWithProviders(<TestComponent />);
 
       await waitFor(() => {
-        expect(screen.getByRole('button', { name: /start shopping/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /shop now/i })).toBeInTheDocument();
       });
     });
 
