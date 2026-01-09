@@ -5,8 +5,23 @@ import { SearchProvider } from './SearchContext';
 // Theme exports
 export { ThemeProvider, useTheme } from './ThemeContext';
 
-// Cart exports
-export { CartProvider, useCart } from './CartContext';
+// Cart exports - using split cart contexts for better performance
+export {
+  CartProvider,
+  useCart,
+  // Individual cart hooks for granular access (recommended for performance)
+  useCartItems,
+  useCartTotals,
+  useCartUI,
+  useCheckout,
+  // Individual providers for custom composition
+  CartItemsProvider,
+  CartTotalsProvider,
+  CartUIProvider,
+  CheckoutProvider,
+  // Constants
+  CHECKOUT_STAGES,
+} from './cart';
 
 // Toast exports
 export { ToastProvider, useToast } from './ToastContext';

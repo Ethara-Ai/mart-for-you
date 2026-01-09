@@ -312,8 +312,9 @@ describe('ProductCard', () => {
     it('has accessible button', () => {
       render(<ProductCard product={mockProduct} />);
 
-      const button = screen.getByRole('button');
-      expect(button).toHaveAccessibleName();
+      // The card itself is now a button, plus the add to cart button
+      const addButton = screen.getByRole('button', { name: /add.*cart/i });
+      expect(addButton).toHaveAccessibleName();
     });
 
     it('image has alt text', () => {

@@ -1,5 +1,5 @@
 import { ThemeProvider } from './ThemeContext';
-import { CartProvider } from './CartContext';
+import { CartProvider } from './cart';
 import { ToastProvider } from './ToastContext';
 import { ProfileProvider } from './ProfileContext';
 import { SearchProvider } from './SearchContext';
@@ -15,9 +15,20 @@ import { FilterProvider } from './FilterContext';
  * 1. ThemeProvider - Theme/dark mode state (no dependencies)
  * 2. ToastProvider - Toast notifications (no dependencies)
  * 3. ProfileProvider - User profile state (no dependencies)
- * 4. CartProvider - Shopping cart state (may use toasts)
+ * 4. CartProvider - Shopping cart state (combines CartItems, CartTotals, CartUI, Checkout)
  * 5. SearchProvider - Search state (requires Router context - must be inside BrowserRouter)
  * 6. FilterProvider - Filter state (requires Router context - must be inside BrowserRouter)
+ *
+ * Cart Context Architecture:
+ * The CartProvider now uses split contexts internally for better performance:
+ * - CartItemsContext: Cart items CRUD operations
+ * - CartTotalsContext: Cart totals and shipping calculations
+ * - CartUIContext: Cart modal UI state
+ * - CheckoutContext: Checkout flow management
+ *
+ * Components can use the combined `useCart()` hook for convenience,
+ * or individual hooks (`useCartItems`, `useCartTotals`, `useCartUI`, `useCheckout`)
+ * for better performance when they only need specific data.
  *
  * IMPORTANT: AppProvider must be used inside a Router context (e.g., BrowserRouter)
  * because SearchProvider and FilterProvider use router hooks.
@@ -36,6 +47,15 @@ import { FilterProvider } from './FilterContext';
  *     </BrowserRouter>
  *   );
  * }
+ *
+ * @example
+ * // Using combined cart hook
+ * const { cartItems, addToCart, isCartOpen, handleCheckout } = useCart();
+ *
+ * @example
+ * // Using individual hooks for better performance
+ * const { addToCart, isInCart } = useCartItems();
+ * const { isCartOpen, openCart } = useCartUI();
  */
 function AppProvider({ children }) {
   return (

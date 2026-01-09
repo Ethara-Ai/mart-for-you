@@ -45,3 +45,31 @@ export {
   validateSearchTerm,
   sanitizeString,
 } from './validation';
+
+// Logger utilities
+export {
+  default as logger,
+  Logger,
+  LOG_LEVELS,
+  debug,
+  info,
+  warn,
+  error,
+  createLogger,
+} from './logger';
+
+// Sanitization utilities
+export {
+  encodeHTML,
+  decodeHTML,
+  removeDangerousPatterns,
+  sanitizeString as sanitize,
+  sanitizeForURL,
+  sanitizeSearchTerm,
+  sanitizeEmail,
+  sanitizePhone,
+  sanitizeURL,
+  sanitizeObject,
+  sanitizeProfile,
+  createSanitizer,
+} from './sanitize';

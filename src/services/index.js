@@ -6,21 +6,24 @@
  * making it easier to swap implementations (e.g., mock vs API).
  */
 
-// Product service
+// Products API Service - main data fetching layer
 export {
-  productService,
-  getProducts,
-  getProductById,
-  getProductsByCategory,
-  getProductsOnSale,
-  searchProducts,
-} from './productService';
+  fetchProducts,
+  fetchProductById,
+  fetchProductsByIds,
+  fetchProductsInfinite,
+  fetchCategories,
+  fetchCategoryCounts,
+  searchProductsSuggestions,
+  fetchFeaturedProducts,
+  fetchRelatedProducts,
+  clearProductsCache,
+  invalidateProductsCache,
+  prefetchCategory,
+  productsCache,
+  SORT_OPTIONS,
+  default as productsApi,
+} from './productsApi';
 
-// Cart service
-export { cartService, calculateCartTotal, validateCartItems } from './cartService';
-
-// Order service
-export { orderService, createOrder, getOrderById } from './orderService';
-
-// Storage service (for persistence)
-export { storageService } from './storageService';
+// Legacy API exports (for backwards compatibility)
+export { default as api } from './api';

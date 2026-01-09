@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiEdit, FiMoon, FiSun, FiChevronDown, FiChevronRight } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 import { useProfile } from '../context/ProfileContext';
+import { useFilter } from '../context/FilterContext';
 import { categories } from '../data/products';
+import { ROUTES } from '../constants';
 
 /**
  * MobileSidebar - Left-side mobile navigation sidebar
@@ -13,25 +15,20 @@ import { categories } from '../data/products';
  * Opens from the left side with 70% viewport width.
  * Only visible on mobile screens.
  *
+ * Now uses FilterContext directly instead of receiving filter props,
+ * eliminating prop drilling for better maintainability.
+ *
  * @param {Object} props
  * @param {boolean} props.isOpen - Whether the sidebar is open
  * @param {Function} props.onClose - Callback when sidebar should close
- * @param {string} props.activeCategory - Currently selected category
- * @param {Function} props.onCategoryChange - Callback when category changes
- * @param {boolean} props.viewingOffers - Whether offers filter is active
- * @param {Function} props.onOffersClick - Callback when offers is clicked
  */
-function MobileSidebar({
-  isOpen,
-  onClose,
-  activeCategory = 'all',
-  onCategoryChange,
-  viewingOffers = false,
-  onOffersClick,
-}) {
+function MobileSidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
   const { darkMode, toggleDarkMode, COLORS } = useTheme();
-  const { userProfile, closeProfileCard, getFullName, getFormattedAddress } = useProfile();
+  const { userProfile, closeProfileCard, fullName, formattedAddress } = useProfile();
+
+  // Use FilterContext directly instead of props
+  const { activeCategory, viewingOffers, setActiveCategory, enableOffersView } = useFilter();
 
   const [categoriesExpanded, setCategoriesExpanded] = useState(false);
 
@@ -47,39 +44,57 @@ function MobileSidebar({
     };
   }, [isOpen]);
 
+  // Handle escape key to close sidebar
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
+  }, [isOpen, onClose]);
+
   // Handle edit profile click
-  const handleEditProfile = () => {
+  const handleEditProfile = useCallback(() => {
     closeProfileCard();
     onClose();
-    navigate('/profile');
-  };
+    navigate(ROUTES.PROFILE);
+  }, [closeProfileCard, onClose, navigate]);
 
   // Handle view full profile click
-  const handleViewProfile = () => {
+  const handleViewProfile = useCallback(() => {
     onClose();
-    navigate('/profile');
-  };
+    navigate(ROUTES.PROFILE);
+  }, [onClose, navigate]);
 
-  // Handle category click
-  const handleCategoryClick = (category) => {
-    if (onCategoryChange) {
-      onCategoryChange(category);
-    }
-    onClose();
-  };
+  // Handle category click - uses context directly
+  const handleCategoryClick = useCallback(
+    (category) => {
+      setActiveCategory(category);
+      onClose();
+      // Navigate to products page with category in URL
+      if (category === 'all') {
+        navigate(ROUTES.PRODUCTS);
+      } else {
+        navigate(`${ROUTES.PRODUCTS}?category=${category}`);
+      }
+    },
+    [setActiveCategory, navigate, onClose]
+  );
 
-  // Handle offers click
-  const handleOffersClick = () => {
-    if (onOffersClick) {
-      onOffersClick();
-    }
+  // Handle offers click - uses context directly
+  const handleOffersClick = useCallback(() => {
+    enableOffersView();
     onClose();
-  };
+    navigate(ROUTES.OFFERS);
+  }, [enableOffersView, navigate, onClose]);
 
   // Toggle categories dropdown
-  const toggleCategories = () => {
+  const toggleCategories = useCallback(() => {
     setCategoriesExpanded((prev) => !prev);
-  };
+  }, []);
 
   // Grey color for inactive items
   const inactiveColor = darkMode ? 'rgba(156, 163, 175, 1)' : 'rgba(107, 114, 128, 1)';
@@ -128,7 +143,7 @@ function MobileSidebar({
         <>
           {/* Overlay Background */}
           <motion.div
-            className="fixed inset-0 z-100 md:hidden"
+            className="fixed inset-0 z-100 lg:hidden"
             style={{
               backgroundColor: 'rgba(0, 0, 0, 0.5)',
             }}
@@ -142,7 +157,7 @@ function MobileSidebar({
 
           {/* Sidebar */}
           <motion.aside
-            className="fixed top-0 left-0 h-full z-101 md:hidden mobile-sidebar-scroll"
+            className="fixed top-0 left-0 h-full z-101 lg:hidden mobile-sidebar-scroll"
             style={{
               width: '70%',
               maxWidth: '320px',
@@ -184,7 +199,7 @@ function MobileSidebar({
                   }}
                   aria-label="Close menu"
                 >
-                  <FiX className="w-5 h-5" />
+                  <FiX className="w-5 h-5" aria-hidden="true" />
                 </button>
               </div>
 
@@ -217,7 +232,7 @@ function MobileSidebar({
                           color: darkMode ? COLORS.dark.text : COLORS.light.text,
                         }}
                       >
-                        {getFullName()}
+                        {fullName}
                       </h3>
                       <p
                         className="text-sm truncate"
@@ -236,7 +251,7 @@ function MobileSidebar({
                       }}
                       aria-label="Edit profile"
                     >
-                      <FiEdit className="h-4 w-4" />
+                      <FiEdit className="h-4 w-4" aria-hidden="true" />
                     </button>
                   </div>
 
@@ -261,7 +276,7 @@ function MobileSidebar({
                           color: darkMode ? 'rgba(224, 224, 224, 0.7)' : 'rgba(51, 51, 51, 0.7)',
                         }}
                       >
-                        {getFormattedAddress()}
+                        {formattedAddress}
                       </span>
                     </div>
                     <div>
@@ -313,6 +328,7 @@ function MobileSidebar({
                         ? 'rgba(255, 255, 255, 0.05)'
                         : 'rgba(0, 0, 0, 0.03)',
                     }}
+                    aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
                   >
                     <div className="flex items-center space-x-3">
                       <div
@@ -324,7 +340,11 @@ function MobileSidebar({
                           color: darkMode ? COLORS.light.background : COLORS.light.primary,
                         }}
                       >
-                        {darkMode ? <FiSun className="h-5 w-5" /> : <FiMoon className="h-5 w-5" />}
+                        {darkMode ? (
+                          <FiSun className="h-5 w-5" aria-hidden="true" />
+                        ) : (
+                          <FiMoon className="h-5 w-5" aria-hidden="true" />
+                        )}
                       </div>
                       <span
                         className="font-medium"
@@ -342,6 +362,8 @@ function MobileSidebar({
                           ? COLORS.dark.primary
                           : 'rgba(156, 163, 175, 0.5)',
                       }}
+                      role="switch"
+                      aria-checked={darkMode}
                     >
                       <motion.div
                         className="w-4 h-4 rounded-full bg-white"
@@ -369,6 +391,8 @@ function MobileSidebar({
                         ? 'rgba(255, 255, 255, 0.05)'
                         : 'rgba(0, 0, 0, 0.03)',
                     }}
+                    aria-expanded={categoriesExpanded}
+                    aria-controls="categories-list"
                   >
                     <span
                       className="font-semibold"
@@ -387,6 +411,7 @@ function MobileSidebar({
                         style={{
                           color: darkMode ? COLORS.dark.text : COLORS.light.text,
                         }}
+                        aria-hidden="true"
                       />
                     </motion.div>
                   </button>
@@ -395,11 +420,13 @@ function MobileSidebar({
                   <AnimatePresence>
                     {categoriesExpanded && (
                       <motion.div
+                        id="categories-list"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.2, ease: 'easeInOut' }}
                         className="overflow-hidden"
+                        role="menu"
                       >
                         <div className="space-y-1 pl-2">
                           {categories.map((category) => {
@@ -418,12 +445,15 @@ function MobileSidebar({
                                   color: isActive ? activeColor : inactiveColor,
                                   fontFamily: "'Metropolis', sans-serif",
                                 }}
+                                role="menuitem"
+                                aria-current={isActive ? 'page' : undefined}
                               >
                                 <FiChevronRight
                                   className="w-4 h-4"
                                   style={{
                                     opacity: isActive ? 1 : 0.5,
                                   }}
+                                  aria-hidden="true"
                                 />
                                 <span>{category}</span>
                               </button>
@@ -443,8 +473,12 @@ function MobileSidebar({
                               color: viewingOffers ? activeColor : inactiveColor,
                               fontFamily: "'Metropolis', sans-serif",
                             }}
+                            role="menuitem"
+                            aria-current={viewingOffers ? 'page' : undefined}
                           >
-                            <span className="text-base">🔥</span>
+                            <span className="text-base" aria-hidden="true">
+                              🔥
+                            </span>
                             <span>Offers</span>
                           </button>
                         </div>

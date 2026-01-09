@@ -45,6 +45,9 @@ vi.mock('framer-motion', async () => {
       button: ({ children, ...props }) => <button {...filterMotionProps(props)}>{children}</button>,
       aside: ({ children, ...props }) => <aside {...filterMotionProps(props)}>{children}</aside>,
       span: ({ children, ...props }) => <span {...filterMotionProps(props)}>{children}</span>,
+      article: ({ children, ...props }) => (
+        <article {...filterMotionProps(props)}>{children}</article>
+      ),
     },
   };
 });
@@ -133,11 +136,11 @@ describe('MobileSidebar', () => {
   });
 
   describe('category navigation', () => {
-    it('calls onCategoryChange when a category is selected', async () => {
-      const onCategoryChange = vi.fn();
-      const { user } = render(
-        <MobileSidebar {...defaultProps} onCategoryChange={onCategoryChange} />
-      );
+    it('closes sidebar when a category is selected', async () => {
+      // MobileSidebar now uses FilterContext internally for category state
+      // We can only test that clicking a category closes the sidebar
+      const onClose = vi.fn();
+      const { user } = render(<MobileSidebar isOpen={true} onClose={onClose} />);
 
       // First expand categories
       const categoriesToggle = screen.getByText(/categories/i);
@@ -158,7 +161,8 @@ describe('MobileSidebar', () => {
       const electronicsOption = screen.queryByText(/electronics/i);
       if (electronicsOption) {
         await user.click(electronicsOption);
-        expect(onCategoryChange).toHaveBeenCalled();
+        // Sidebar should close after selecting a category
+        expect(onClose).toHaveBeenCalled();
       }
     });
 
@@ -178,9 +182,21 @@ describe('MobileSidebar', () => {
   });
 
   describe('offers functionality', () => {
-    it('calls onOffersClick when offers is clicked', async () => {
-      const onOffersClick = vi.fn();
-      const { user } = render(<MobileSidebar {...defaultProps} onOffersClick={onOffersClick} />);
+    it('renders offers option when categories are expanded', async () => {
+      // MobileSidebar now uses FilterContext internally for offers state
+      const { user } = render(<MobileSidebar {...defaultProps} />);
+
+      // Expand categories to reveal offers option
+      const categoriesToggle = screen.getByText(/categories/i);
+      await user.click(categoriesToggle);
+
+      const offersButton = screen.getByText(/offers/i);
+      expect(offersButton).toBeInTheDocument();
+    });
+
+    it('closes sidebar when offers is clicked', async () => {
+      const onClose = vi.fn();
+      const { user } = render(<MobileSidebar isOpen={true} onClose={onClose} />);
 
       // Expand categories to reveal offers option
       const categoriesToggle = screen.getByText(/categories/i);
@@ -189,19 +205,8 @@ describe('MobileSidebar', () => {
       const offersButton = screen.getByText(/offers/i);
       await user.click(offersButton);
 
-      expect(onOffersClick).toHaveBeenCalled();
-    });
-
-    it('highlights offers when viewingOffers is true', async () => {
-      const { user } = render(<MobileSidebar {...defaultProps} viewingOffers={true} />);
-
-      // Expand categories to reveal offers option
-      const categoriesToggle = screen.getByText(/categories/i);
-      await user.click(categoriesToggle);
-
-      // Offers button should be styled differently when active
-      const offersButton = screen.getByText(/offers/i);
-      expect(offersButton).toBeInTheDocument();
+      // Sidebar should close after clicking offers (via onClose callback)
+      expect(onClose).toHaveBeenCalled();
     });
   });
 

@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import { CartProvider } from '../context/CartContext';
+import { CartProvider } from '../context/cart';
 import { ProfileProvider } from '../context/ProfileContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import { ToastProvider } from '../context/ToastContext';
