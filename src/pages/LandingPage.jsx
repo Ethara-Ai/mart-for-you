@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { FiArrowRight, FiSun, FiMoon } from 'react-icons/fi';
+import logoImage from '../assets/logo.png';
 
 /**
  * LandingPage - Initial landing page component
@@ -88,7 +89,7 @@ function LandingPage() {
         {/* Logo Icon */}
         <motion.div variants={logoVariants} className="mb-6">
           <img
-            src="/logo.png"
+            src={logoImage}
             alt="Mart For You Logo"
             className="w-24 h-24 sm:w-32 sm:h-32 object-contain"
             style={{
