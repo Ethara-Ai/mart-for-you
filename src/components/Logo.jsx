@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
+import logoImage from '/logo.png';
 
 /**
  * Logo - Professional shopping cart brand logo
@@ -101,7 +102,7 @@ function Logo({ size = 'md', animate = true, iconOnly = false, onClick }) {
       {/* Icon Mark - Shopping Cart with integrated M (PNG image) */}
       <motion.div variants={iconVariants} className="shrink-0">
         <img
-          src="/logo.png"
+          src={logoImage}
           alt="Mart For You"
           width={config.icon}
           height={config.icon}
