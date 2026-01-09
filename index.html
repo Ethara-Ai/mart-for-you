@@ -129,6 +129,38 @@
     </script>
 
     <!--
+      GitHub Pages SPA URL Decoder
+      Decodes URLs that were encoded by 404.html for client-side routing.
+      This must run before React Router initializes to restore the correct URL.
+    -->
+    <script>
+      (function() {
+        'use strict';
+
+        var l = window.location;
+
+        // Check if this is a redirect from 404.html (has 'p' query param)
+        if (l.search && l.search.indexOf('p=') !== -1) {
+          var params = {};
+          var queryString = l.search.slice(1);
+
+          queryString.split('&').forEach(function(param) {
+            var pair = param.split('=');
+            params[pair[0]] = pair.slice(1).join('=');
+          });
+
+          // Reconstruct the original path
+          var path = params.p ? '/' + params.p.replace(/~and~/g, '&') : '/';
+          var search = params.q ? '?' + params.q.replace(/~and~/g, '&') : '';
+          var hash = l.hash || '';
+
+          // Replace the current history entry with the decoded URL
+          window.history.replaceState(null, null, path + search + hash);
+        }
+      }());
+    </script>
+
+    <!--
       Theme Initialization Script - Prevents Flash of Wrong Theme (FOWT)
       This script runs synchronously before the page renders to set the correct
       theme class on the document element, preventing a flash of the wrong theme.

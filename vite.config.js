@@ -45,6 +45,9 @@ export default defineConfig(({ command, mode }) => {
       open: true,
       cors: true,
       strictPort: true,
+      // Enable history API fallback for SPA routing
+      // This ensures page refresh works correctly on any route
+      historyApiFallback: true,
     },
 
     // Preview server (for production build testing)
@@ -52,7 +55,12 @@ export default defineConfig(({ command, mode }) => {
       port: 5173,
       open: true,
       cors: true,
+      // Enable history API fallback for SPA routing
+      historyApiFallback: true,
     },
+
+    // App type - SPA enables history fallback by default
+    appType: 'spa',
 
     // Build configuration
     build: {

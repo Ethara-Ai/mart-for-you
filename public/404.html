@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Primary Meta Tags -->
+    <title>Mart - For You | Your One-Stop Shopping Destination</title>
+    <meta name="title" content="Mart - For You | Your One-Stop Shopping Destination" />
+    <meta
+      name="description"
+      content="Discover a wide range of products at MART - from electronics and fashion to home goods and beauty products. Shop now and enjoy great deals with fast shipping!"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/mart-favicon.svg" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)" />
+
+    <!--
+      GitHub Pages SPA Redirect
+      This 404.html redirects all unknown routes to index.html
+      while preserving the path for client-side routing.
+    -->
+    <script>
+      // Single Page App redirect for GitHub Pages
+      // Redirects from 404.html to index.html preserving the path
+      (function() {
+        var pathSegmentsToKeep = 0; // Change to 1 if hosted in subdirectory like /repo-name/
+
+        var l = window.location;
+        var path = l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') || '/';
+        var url = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + path + '?' +
+          'p=' + l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+          (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+          l.hash;
+
+        l.replace(url);
+      }());
+    </script>
+  </head>
+  <body>
+    <!-- This page redirects to index.html for SPA routing -->
+  </body>
+</html>
