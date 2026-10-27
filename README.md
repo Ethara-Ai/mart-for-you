@@ -560,3 +560,9 @@ If you encounter any issues or have questions:
 ---
 
 Built with React, Vite, and Tailwind CSS | Developed by the Mart - For You Team
+
+---
+
+## Copyright
+
+Copyright (c) 2026 Green Rider Technology LLP (Ethara AI). All rights reserved.
