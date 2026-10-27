@@ -5,7 +5,6 @@ A modern, full-featured e-commerce web application built with React and Tailwind
 ![React](https://img.shields.io/badge/React-19.2.3-61DAFB?style=flat-square&logo=react)
 ![Vite](https://img.shields.io/badge/Vite-7.3.1-646CFF?style=flat-square&logo=vite)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.18-38B2AC?style=flat-square&logo=tailwind-css)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ## Table of Contents
 
@@ -24,7 +23,6 @@ A modern, full-featured e-commerce web application built with React and Tailwind
 - [Deployment](#deployment)
 - [Testing](#testing)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
@@ -197,7 +195,6 @@ mart-for-you/
 ├── vitest.config.js     # Vitest test configuration
 ├── CHANGELOG.md         # Version history and release notes
 ├── CONTRIBUTING.md      # Contribution guidelines
-├── LICENSE              # MIT License
 ├── PROMPT.md            # Original project requirements
 ├── SECURITY.md          # Security policy
 └── README.md            # This file
@@ -537,10 +534,6 @@ Contributions are welcome! Please follow these guidelines:
 7. **Open a Pull Request**
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
